@@ -1,3 +1,11 @@
 docs:
-- title: Libraries Overview
-  url: libraries.html
+- title: Getting Started
+  children:
+    - title: "Libraries Overview"
+      url: /libraries.html
+    - title: "Installation"
+      url: /installation.html
+    - title: "Example: Implementing ElGamal Encryption"
+      url: /implement-elgamal.html
+    - title: "Benchmarking"
+      url: /benchmarking.html

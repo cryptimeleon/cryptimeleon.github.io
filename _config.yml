@@ -1,9 +1,23 @@
 plugins:
     - jekyll-relative-links
+    - jekyll-include-cache
+    - jekyll-remote-theme
 relative_links:
     enabled: true
     collections: true
 include:
     - LICENSE.md
-
-title: upb.crypto Cryptographic Libraries
+remote_theme: "mmistakes/minimal-mistakes@4.19.1"
+title: upb.crypto Documentation
+repository: upbcuk/upb.crypto.docs
+locale: en
+description: Documentation page for the upb.crypto libraries.
+defaults:
+    # _pages
+    - scope:
+        path: ""
+        type: pages
+      values:
+        layout: single
+        sidebar:
+          nav: "docs"
