@@ -87,11 +87,10 @@
 
 
 
-    <!-- start custom head snippets -->
-
-<!-- insert favicons. use https://realfavicongenerator.net/ -->
-
-<!-- end custom head snippets -->
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
   </head>
 
@@ -220,31 +219,31 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>In this document, we show to to use the <strong>upb.crypto.craco</strong> and <strong>upb.crypto.math</strong> library to implement an example scheme, the Elgamal encryption scheme [1].</p>
+        <p>In this document, we show to to use the <strong>upb.crypto.craco</strong> and <strong>upb.crypto.math</strong> library to implement an example scheme, the Elgamal encryption scheme [Elg85].</p>
 
 <p>First, lets review how it works:</p>
 
-<p>Let G be a cyclic group of prime order q.</p>
+<p>Let \(G\) be a cyclic group of prime order \(q\).</p>
 
-<p><strong>KeyGen</strong>:</p>
+<p><strong>\(\operatorname{KeyGen}\)</strong>:</p>
 
 <ol>
-  <li>Choose integer a from {0, 1, …, q-1} uniformly at random.</li>
-  <li>Choose generator g of G uniformly at random.</li>
-  <li>The secret key is sk = (G, g, a, h=g<sup>a</sup>) and the public key is pk = (G, g, h)</li>
+  <li>Choose integer \(a\) from \(\{0, 1, \dots, q-1\}\) uniformly at random.</li>
+  <li>Choose generator \(g \leftarrow G\) uniformly at random.</li>
+  <li>The secret key is \(sk = (G, g, a, h=g^a)\) and the public key is \(pk = (G, g, h)\).</li>
 </ol>
 
-<p><strong>Encryption(pk, m)</strong>:</p>
+<p><strong>\(\operatorname{Encryption}(pk, m)\)</strong>:</p>
 
 <ol>
-  <li>Choose r from {0, 1, …, q-1} uniformly at random.</li>
-  <li>The ciphertext is c = (c<sub>1</sub>, c<sub>2</sub>) = (g<sup>r</sup>, m · h<sup>r</sup>).</li>
+  <li>Choose \(r\) from \(\{0, 1, \dots, q-1\}\) uniformly at random.</li>
+  <li>The ciphertext is \(c = (c_1, c_2) = (g_r, m \cdot h_r)\).</li>
 </ol>
 
-<p><strong>Decryption(sk, c=(c<sub>1</sub>, c<sub>2</sub>))</strong>:</p>
+<p><strong>\(\operatorname{Decryption}(sk, c=(c_1, c_2))\)</strong>:</p>
 
 <ol>
-  <li>The message is m = c<sub>2</sub> · c<sub>1</sub><sup>-a</sup>.</li>
+  <li>The message is \(m = c_2 \cdot c_1^{-1}\).</li>
 </ol>
 
 <h2 id="implementing-the-scheme">Implementing the Scheme</h2>
@@ -296,7 +295,7 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>The ciphertext consists of two group elements, c<sub>1</sub> and c<sub>2</sub>:</p>
+<p>The ciphertext consists of two group elements, \(c_1\) and \(c_2\):</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalCipherText.java</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalCipherText</span> <span class="kd">implements</span> <span class="nc">CipherText</span> <span class="o">{</span>
@@ -313,7 +312,7 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>Next, the public key, which consists of the group G, the public group element h = g<sup>a</sup>, and the generator g:</p>
+<p>Next, the public key, which consists of the group \(G\), the public group element \(h = g^a\), and the generator \(g\):</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalPublicKey</span> <span class="kd">implements</span> <span class="nc">EncryptionKey</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="nc">Group</span> <span class="n">groupG</span><span class="o">;</span>
@@ -325,7 +324,7 @@
 </code></pre></div></div>
 <p>(We leave out constructor and getters for succinctness.)</p>
 
-<p>The secret key consists of the public key and the secret exponent a:</p>
+<p>The secret key consists of the public key and the secret exponent \(a\):</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalSecretKey</span> <span class="kd">implements</span> <span class="nc">DecryptionKey</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="nc">ZnElement</span> <span class="n">a</span><span class="o">;</span>
@@ -418,7 +417,7 @@ These methods, e.g. <code class="language-plaintext highlighter-rouge">getPlainT
 
 <p>The <code class="language-plaintext highlighter-rouge">getPlainText()</code> takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.</p>
 
-<p>We don’t give a detailed walkthrough for that here, the <a href="https://github.com/upbcuk/upb.crypto.math/wiki/Representations">the representation wikipage</a> should allow you to it on your own for the four classes that require it: <code class="language-plaintext highlighter-rouge">ElgamalPublicKey</code>, <code class="language-plaintext highlighter-rouge">ElgamalSecretKey</code>, <code class="language-plaintext highlighter-rouge">ElgamalPlainText</code>, and <code class="language-plaintext highlighter-rouge">ElgamalCipherText</code>.</p>
+<p>We don’t give a detailed walkthrough for that here, the <a href="/docs/representations.html">the representations documentation</a>) should allow you to implement it on your own for the four classes that require it: <code class="language-plaintext highlighter-rouge">ElgamalPublicKey</code>, <code class="language-plaintext highlighter-rouge">ElgamalSecretKey</code>, <code class="language-plaintext highlighter-rouge">ElgamalPlainText</code>, and <code class="language-plaintext highlighter-rouge">ElgamalCipherText</code>.</p>
 
 <p>For <code class="language-plaintext highlighter-rouge">ElgamalCipherText</code>, it may look as follows:</p>
 
@@ -451,7 +450,7 @@ These methods, e.g. <code class="language-plaintext highlighter-rouge">getPlainT
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>Now, only one thing is missing: The <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> class implements <code class="language-plaintext highlighter-rouge">AsymmetricEncryptionScheme</code> which indirectly extends the <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> interface. So we need to add a constructor taking a <code class="language-plaintext highlighter-rouge">Representation</code> object and instantiates a <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> object with the correct group (more on <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> on <a href="https://github.com/upbcuk/upb.crypto.math/wiki/Representations">the representation wikipage</a>.</p>
+<p>Now, only one thing is missing: The <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> class implements <code class="language-plaintext highlighter-rouge">AsymmetricEncryptionScheme</code> which indirectly extends the <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> interface. So we need to add a constructor taking a <code class="language-plaintext highlighter-rouge">Representation</code> object and instantiates a <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> object with the correct group (more on <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> in <a href="/docs/representations.html">the representations documentation</a>).</p>
 
 <p>Thankfully, this is easy:</p>
 
@@ -475,7 +474,7 @@ These methods, e.g. <code class="language-plaintext highlighter-rouge">getPlainT
 
 <p>The only thing that could be done now, is implementing <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">hashCode()</code> methods, but we leave that to you.</p>
 
-<p>[1] T. Elgamal, “A public key cryptosystem and a signature scheme based on discrete logarithms,” in <em>IEEE Transactions on Information Theory</em>, vol. 31, no. 4, pp. 469-472, July 1985.</p>
+<p>[Elg85] T. Elgamal, “A public key cryptosystem and a signature scheme based on discrete logarithms,” in <em>IEEE Transactions on Information Theory</em>, vol. 31, no. 4, pp. 469-472, July 1985.</p>
 
         
       </section>

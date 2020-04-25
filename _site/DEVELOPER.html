@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="upb.crypto Documentation">
 <meta property="og:title" content="upb.crypto Documentation">
-<meta property="og:url" content="http://localhost:4000/getting-started/benchmarking.html">
+<meta property="og:url" content="http://localhost:4000/DEVELOPER.html">
 
 
   <meta property="og:description" content="Documentation page for the upb.crypto libraries. ">
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="http://localhost:4000/getting-started/benchmarking.html">
+<link rel="canonical" href="http://localhost:4000/DEVELOPER.html">
 
 
 
@@ -167,7 +167,7 @@
           
             <li><a href="/getting-started/implement-elgamal.html">Example: Implementing ElGamal Encryption</a></li>
           
-            <li><a href="/getting-started/benchmarking.html" class="active">Benchmarking</a></li>
+            <li><a href="/getting-started/benchmarking.html">Benchmarking</a></li>
           
         </ul>
         
@@ -214,7 +214,22 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>WIP</p>
+        <p>This page uses jekyll with the <a href="https://github.com/mmistakes/minimal-mistakes">minimal mistakes theme</a>.</p>
+
+<p>You can test the deployment locally by setting up jekyll and the plugins as follows:</p>
+
+<ol>
+  <li>Make sure you have Ruby 2.1.0 or higher installed by running <code class="language-plaintext highlighter-rouge">ruby --version</code>.</li>
+  <li>Install the bundler gem via <code class="language-plaintext highlighter-rouge">gem install bundler</code>.</li>
+  <li>Make sure you are in the root folder of the repository (where the Gemfile is) and install the dependencies via <code class="language-plaintext highlighter-rouge">bundle install</code>.</li>
+  <li>Run the site locally via <code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>.</li>
+  <li>Preview the local site at <code class="language-plaintext highlighter-rouge">http://localhost:4000</code>.</li>
+</ol>
+
+<p>For more information, view <a href="https://help.github.com/en/github/working-with-github-pages/testing-your-github-pages-site-locally-with-jekyll">the github help page on this topic</a>.</p>
+
+<p>To render the LaTex, we use MathJax Version 2 (there seemed to be some issues with MathJax Version 3 but that has not been tested yet by us).
+To enable MathJax rendenring for a site, add <code class="language-plaintext highlighter-rouge">mathjax: true</code> to the YAML Front Matter of the corresponding markdown page.</p>
 
         
       </section>

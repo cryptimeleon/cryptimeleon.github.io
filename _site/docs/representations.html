@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>upb.crypto Documentation</title>
+<!-- begin _includes/seo.html --><title>Representations - upb.crypto Documentation</title>
 <meta name="description" content="Documentation page for the upb.crypto libraries. ">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="upb.crypto Documentation">
-<meta property="og:title" content="upb.crypto Documentation">
+<meta property="og:title" content="Representations">
 <meta property="og:url" content="http://localhost:4000/docs/representations.html">
 
 
@@ -87,11 +87,10 @@
 
 
 
-    <!-- start custom head snippets -->
-
-<!-- insert favicons. use https://realfavicongenerator.net/ -->
-
-<!-- end custom head snippets -->
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
   </head>
 
@@ -204,7 +203,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    
+    <meta itemprop="headline" content="Representations">
     
     
     
@@ -212,14 +211,82 @@
     <div class="page__inner-wrap">
       
         <header>
-          
+          <h1 id="page-title" class="page__title" itemprop="headline">Representations
+</h1>
           
         </header>
       
 
       <section class="page__content" itemprop="text">
         
-        <p>sdf</p>
+        <p>Representations offer a way to convert objects to a representation which can then be converted into some kind of serialization, for example into a JSON object or binary data for transmission over a network.</p>
+
+<p>This is useful if you want to, for example, transmit a public key over the internet. You can use the representation framework to convert your public key object into a representation, and then convert it to JSON using the <code class="language-plaintext highlighter-rouge">JSONConverter</code> class. Currently, this converter class is the only one that is supported, but you can add new ones using the <code class="language-plaintext highlighter-rouge">Converter</code> abstract class.</p>
+
+<p><em>Note: In this document we will refer to creating a representation of an object as serialization, not to be confused with java’s inbuilt serialization.</em></p>
+
+<h1 id="making-a-class-representable">Making a Class Representable</h1>
+<p>If you want a classes instances to be representable, you have to implement the <code class="language-plaintext highlighter-rouge">Representable</code> interface. Many interfaces in the <strong>upb.de.craco</strong> library already extend this interface, e.g. <code class="language-plaintext highlighter-rouge">SigningKey</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Representable</code> interface requires the implementation of a <code class="language-plaintext highlighter-rouge">getRepresentation()</code> method. This method should return a representation of your object. This could be potentially quite cumbersome and require knowledge of the representation framework, but the <code class="language-plaintext highlighter-rouge">ReprUtil</code> class has some utility methods that make serializing to representation and deserializing back to the object easy.</p>
+
+<p>To create a representation of your object, you can use the following code:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now, there is some additional configuration required. Namely, you need to indicate to the serializer which attributes of your class you want to be serialized. This is done by adding the <code class="language-plaintext highlighter-rouge">@Represented</code> annotation to each attribute. This annotation takes a single string argument: the <code class="language-plaintext highlighter-rouge">restorer</code>. The restorer indicates to the <code class="language-plaintext highlighter-rouge">ReprUtil</code> class how to deserialize this attribute. The string is matched to some object implementing the <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> interface which can then recreate the object from its representation.</p>
+
+<p>Let’s look at an example, a signing key consisting of one exponent \(x\) and an array of exponents \(y_i\):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PS18SigningKey</span> <span class="kd">implements</span> <span class="nc">SigningKey</span> <span class="o">{</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"zp"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"[zp]"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">ZpElement</span><span class="o">[]</span> <span class="n">exponentsYi</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">PS18SigningKey</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">,</span> <span class="nc">Zp</span> <span class="n">zp</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">zp</span><span class="o">,</span> <span class="s">"zp"</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>We already talked about the <code class="language-plaintext highlighter-rouge">getRepresentation()</code> method and <code class="language-plaintext highlighter-rouge">@Represented</code> annotation. 
+Additionally, we have a constructor taking in a representation and the Zp ring in which the exponents are contained. 
+A <code class="language-plaintext highlighter-rouge">Zp</code> object can itself not be represented, so it must be given explicitly. 
+The <code class="language-plaintext highlighter-rouge">Zp</code> class implements the <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> object, it can therefore restore the <code class="language-plaintext highlighter-rouge">ZpElement</code> attributes from the representation.</p>
+
+<p>To perform the deserialization, we instantiate the <code class="language-plaintext highlighter-rouge">ReprUtil</code> object with <code class="language-plaintext highlighter-rouge">this</code> and then register the class as a representation restorer corresponding to the string <code class="language-plaintext highlighter-rouge">"zp"</code>. 
+If you look towards the <code class="language-plaintext highlighter-rouge">@Represented</code> annotation, you can see that we used the <code class="language-plaintext highlighter-rouge">"zp"</code> restorer for the single Zp element and the <code class="language-plaintext highlighter-rouge">"[zp]"</code> restorer for the array of Zp elements. 
+When we call <code class="language-plaintext highlighter-rouge">deserialize(repr)</code> on the <code class="language-plaintext highlighter-rouge">ReprUtil</code> object, it will use the registered <code class="language-plaintext highlighter-rouge">"zp"</code> restorer–the <code class="language-plaintext highlighter-rouge">Zp</code> object–and use it to restore the attributes.</p>
+
+<p>Alternatively to giving the object responsible for restoring in the constructor, you can also add it as a class attribute which can for example be useful for public parameters. 
+In that case the <code class="language-plaintext highlighter-rouge">Zp</code> object would be an attribute of the class, and you will need to use a restorer string with the same value as the name of the attribute. 
+For example, your class might have the attribute <code class="language-plaintext highlighter-rouge">groupG1</code> and a <code class="language-plaintext highlighter-rouge">GroupElement</code> called <code class="language-plaintext highlighter-rouge">g</code> from that group. 
+<code class="language-plaintext highlighter-rouge">g</code> will then use the restorer <code class="language-plaintext highlighter-rouge">groupG1</code> and <code class="language-plaintext highlighter-rouge">ReprUtil</code> will automatically match the two. 
+Keep in mind that <code class="language-plaintext highlighter-rouge">groupG1</code> must have access identifier public; otherwise, <code class="language-plaintext highlighter-rouge">ReprUtil</code> cannot access it to deserialize <code class="language-plaintext highlighter-rouge">g</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">"[zp]"</code> notation is build into the <code class="language-plaintext highlighter-rouge">ReprUtil</code> class, it will automatically create a restorer for an array of Zp elements. 
+The same notation works for lists and sets as well.
+For maps, you can use the arrow notation <code class="language-plaintext highlighter-rouge">"-&gt;"</code>. 
+For example, <code class="language-plaintext highlighter-rouge">"zp -&gt; g"</code> for a map from Zp elements to group elements (given that you registered the <code class="language-plaintext highlighter-rouge">RepresentationRestorers</code> for <code class="language-plaintext highlighter-rouge">"zp"</code> and <code class="language-plaintext highlighter-rouge">"g"</code> before calling <code class="language-plaintext highlighter-rouge">deserialize()</code>). 
+You can combine these, e.g. <code class="language-plaintext highlighter-rouge">"G1 -&gt; [[G2]]"</code> for a map from elements of \(G_1)\) to list of list of elements of \(G_2\). 
+Precedence is given by parentheses, for example, <code class="language-plaintext highlighter-rouge">"(G1 -&gt; G2) -&gt; G3"</code> is a map whose keys are themselves maps, while <code class="language-plaintext highlighter-rouge">"G1 -&gt; (G2 -&gt; G3)"</code> has maps as values.</p>
+
+<p>If the type of the attribute is one of <code class="language-plaintext highlighter-rouge">BigInteger</code>, <code class="language-plaintext highlighter-rouge">Integer</code>, <code class="language-plaintext highlighter-rouge">String</code>, <code class="language-plaintext highlighter-rouge">Boolean</code>, or <code class="language-plaintext highlighter-rouge">byte[]</code>, giving a specific restorer is not necessary as the framework knows how to deserialize these automatically (keep in mind primitives such as <code class="language-plaintext highlighter-rouge">int</code> don’t work). If you want to mix such “simple” types with, for example, a map, you can use any non-empty string for the “simple” type. To represent a map from integers to group elements from \(G_2\), you might use the restorer string <code class="language-plaintext highlighter-rouge">"foo -&gt; G2"</code>; the <code class="language-plaintext highlighter-rouge">foo</code> will then be ignored.</p>
+
+<p>The same holds for classes that implement the <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> interface. These <em>must</em> have a constructor with just a single argument of type <code class="language-plaintext highlighter-rouge">Representation</code> and the constructor should be able to deserialize the representation just from itself. <code class="language-plaintext highlighter-rouge">ReprUtil</code> will be able to reconstruct these without giving an explicit restorer.</p>
+
+<p>TODO: talk about using a standalone representable group to restorer other group elements.</p>
 
         
       </section>

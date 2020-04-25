@@ -1,27 +1,28 @@
 ---
 title: Implementing ElGamal Encryption
+mathjax: true
 ---
 
-In this document, we show to to use the **upb.crypto.craco** and **upb.crypto.math** library to implement an example scheme, the Elgamal encryption scheme [1].
+In this document, we show to to use the **upb.crypto.craco** and **upb.crypto.math** library to implement an example scheme, the Elgamal encryption scheme [Elg85].
 
 First, lets review how it works:
 
-Let G be a cyclic group of prime order q.
+Let \\(G\\) be a cyclic group of prime order \\(q\\).
 
-**KeyGen**: 
+**\\(\operatorname{KeyGen}\\)**: 
 
-1. Choose integer a from {0, 1, ..., q-1} uniformly at random.
-2. Choose generator g of G uniformly at random.
-3. The secret key is sk = (G, g, a, h=g<sup>a</sup>) and the public key is pk = (G, g, h)
+1. Choose integer \\(a\\) from \\(\\{0, 1, \dots, q-1\\}\\) uniformly at random.
+2. Choose generator \\(g \\leftarrow G\\) uniformly at random.
+3. The secret key is \\(sk = (G, g, a, h=g^a)\\) and the public key is \\(pk = (G, g, h)\\).
 
-**Encryption(pk, m)**: 
+**\\(\operatorname{Encryption}(pk, m)\\)**: 
 
-1. Choose r from {0, 1, ..., q-1} uniformly at random.
-2. The ciphertext is c = (c<sub>1</sub>, c<sub>2</sub>) = (g<sup>r</sup>, m &middot; h<sup>r</sup>).
+1. Choose \\(r\\) from \\(\\{0, 1, \dots, q-1\\}\\) uniformly at random.
+2. The ciphertext is \\(c = (c_1, c_2) = (g_r, m \cdot h_r)\\).
 
-**Decryption(sk, c=(c<sub>1</sub>, c<sub>2</sub>))**:
+**\\(\operatorname{Decryption}(sk, c=(c_1, c_2))\\)**:
 
-1. The message is m = c<sub>2</sub> &middot; c<sub>1</sub><sup>-a</sup>.
+1. The message is \\(m = c_2 \cdot c_1^{-1}\\).
 
 ## Implementing the Scheme
 
@@ -76,7 +77,7 @@ public class ElgamalPlainText implements PlainText {
 }
 ```
 
-The ciphertext consists of two group elements, c<sub>1</sub> and c<sub>2</sub>:
+The ciphertext consists of two group elements, \\(c_1\\) and \\(c_2\\):
 
 ```java
 // ElgamalCipherText.java
@@ -94,7 +95,7 @@ public class ElgamalCipherText implements CipherText {
 }
 ```
 
-Next, the public key, which consists of the group G, the public group element h = g<sup>a</sup>, and the generator g:
+Next, the public key, which consists of the group \\(G\\), the public group element \\(h = g^a\\), and the generator \\(g\\):
 
 ```java
 public class ElgamalPublicKey implements EncryptionKey {
@@ -107,7 +108,7 @@ public class ElgamalPublicKey implements EncryptionKey {
 ```
 (We leave out constructor and getters for succinctness.)
 
-The secret key consists of the public key and the secret exponent a:
+The secret key consists of the public key and the secret exponent \\(a\\):
 
 ```java
 public class ElgamalSecretKey implements DecryptionKey {
@@ -206,7 +207,7 @@ These methods, e.g. `getPlainText()` all take a Representation as argument. In s
 
 The `getPlainText()` takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.
 
-We don't give a detailed walkthrough for that here, the [the representation wikipage](https://github.com/upbcuk/upb.crypto.math/wiki/Representations) should allow you to it on your own for the four classes that require it: `ElgamalPublicKey`, `ElgamalSecretKey`, `ElgamalPlainText`, and `ElgamalCipherText`.
+We don't give a detailed walkthrough for that here, the [the representations documentation]({% link docs/representations.md %})) should allow you to implement it on your own for the four classes that require it: `ElgamalPublicKey`, `ElgamalSecretKey`, `ElgamalPlainText`, and `ElgamalCipherText`.
 
 For `ElgamalCipherText`, it may look as follows:
 
@@ -241,7 +242,7 @@ public ElgamalCipherText getCipherText(Representation repr) {
 }
 ```
 
-Now, only one thing is missing: The `ElgamalEncryptionScheme` class implements `AsymmetricEncryptionScheme` which indirectly extends the `StandaloneRepresentable` interface. So we need to add a constructor taking a `Representation` object and instantiates a `ElgamalEncryptionScheme` object with the correct group (more on `StandaloneRepresentable` on [the representation wikipage](https://github.com/upbcuk/upb.crypto.math/wiki/Representations).
+Now, only one thing is missing: The `ElgamalEncryptionScheme` class implements `AsymmetricEncryptionScheme` which indirectly extends the `StandaloneRepresentable` interface. So we need to add a constructor taking a `Representation` object and instantiates a `ElgamalEncryptionScheme` object with the correct group (more on `StandaloneRepresentable` in [the representations documentation]({% link docs/representations.md %})).
 
 Thankfully, this is easy:
 
@@ -266,4 +267,4 @@ The `Group` class is itself a `StandaloneRepresentable`, so we just delegate the
 
 The only thing that could be done now, is implementing `equals()` and `hashCode()` methods, but we leave that to you.
 
-[1] T. Elgamal, "A public key cryptosystem and a signature scheme based on discrete logarithms," in *IEEE Transactions on Information Theory*, vol. 31, no. 4, pp. 469-472, July 1985.
+[Elg85] T. Elgamal, "A public key cryptosystem and a signature scheme based on discrete logarithms," in *IEEE Transactions on Information Theory*, vol. 31, no. 4, pp. 469-472, July 1985.
