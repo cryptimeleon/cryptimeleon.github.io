@@ -1,2 +1,2 @@
-# upb-crypto.github.io
+# upb.crypto.docs
 Documentation for the upb.crypto cryptography libraries.
