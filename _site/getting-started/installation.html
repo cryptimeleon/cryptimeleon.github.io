@@ -1,0 +1,397 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.1 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Installation - upb.crypto Documentation</title>
+<meta name="description" content="Documentation page for the upb.crypto libraries. ">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="upb.crypto Documentation">
+<meta property="og:title" content="Installation">
+<meta property="og:url" content="http://localhost:4000/getting-started/installation.html">
+
+
+  <meta property="og:description" content="Documentation page for the upb.crypto libraries. ">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/getting-started/installation.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="upb.crypto Documentation Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          upb.crypto Documentation
+          
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/libraries.html">Libraries Overview</a></li>
+          
+            <li><a href="/getting-started/installation.html" class="active">Installation</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">Example: Implementing ElGamal Encryption</a></li>
+          
+            <li><a href="/getting-started/benchmarking.html">Benchmarking</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/expressions.html">Expressions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Installation">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Installation
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#general-library-installation">General Library Installation</a></li>
+  <li><a href="#mclwrap-installation">Mclwrap Installation</a></li>
+  <li><a href="#installation-for-contributors">Installation for Contributors</a>
+    <ul>
+      <li><a href="#cloning-the-repo">Cloning the Repo</a></li>
+      <li><a href="#setting-up-a-project-in-intellij-idea">Setting up a project in IntelliJ IDEA</a></li>
+      <li><a href="#setting-up-a-project-in-eclipse">Setting up a project in Eclipse</a></li>
+      <li><a href="#testing-changes">Testing Changes</a>
+        <ul>
+          <li><a href="#local-installation">Local Installation</a></li>
+          <li><a href="#composite-builds">Composite Builds</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>To make use of any of the <strong>upb.crypto</strong> libraries, you need at least Java SDK version 8.</p>
+
+<h1 id="general-library-installation">General Library Installation</h1>
+
+<p>WIP</p>
+
+<h1 id="mclwrap-installation">Mclwrap Installation</h1>
+
+<p>For benchmarking you will probably want to use an efficient cryptographic pairing implementation. 
+The <strong>upb.crypto.math</strong> library does provide a selection of pairings but these are orders of magnitude less efficient than other, more optimized implementations.</p>
+
+<p>An efficient pairing implementation is provided by our wrapper around the <a href="https://github.com/herumi/mcl">MCL library’s</a> implementation of the BN254 curve. 
+This wrapper is provided by the <strong>upb.crypto.mclwrap</strong> library.</p>
+
+<p>To use the MCL wrapper library in your project, you need to install the Java bindings for MCL.
+To simplify this process, we have provided a <a href="https://github.com/upbcuk/upb.crypto.mclwrap/blob/master/install_mcl.sh">script in the <strong>upb.crypto.mclwrap</strong> repository</a>. 
+Aside from Java, you need to have installed <code class="language-plaintext highlighter-rouge">libgmp-dev</code> via your package manager to execute it. 
+It clones MCL, builds it and its Java bindings, and copies the resulting library to where the Java loader can find it.</p>
+
+<h1 id="installation-for-contributors">Installation for Contributors</h1>
+
+<p>All the <strong>upb.crypo</strong> libraries use the <a href="https://gradle.org/">Gradle</a> build tool version 4.9. 
+In this guide, we show you how to set up a project in your integrated development environment of choice. 
+This guide is intended for development of the library itself.</p>
+
+<h2 id="cloning-the-repo">Cloning the Repo</h2>
+
+<p>Naturally, the first thing to do is to clone the repository containing the library you need. 
+If you are reading this, you probably know how to do this.</p>
+
+<p>After this is done, we continue by creating a new project in your favorite IDE.</p>
+
+<h2 id="setting-up-a-project-in-intellij-idea">Setting up a project in IntelliJ IDEA</h2>
+
+<p><em>Note: This was written for IntelliJ IDEA Version 2019.2.4</em></p>
+
+<p>Start up IntelliJ IDEA such that the “Welcome to IntelliJ IDEA” appears. 
+In case you already have another project open, clicking <strong>File → Close Project</strong> will take you to it.</p>
+
+<p>Next, click <strong>Import Project</strong>. 
+Now browse to the path where you cloned the library repository. 
+The repository contains a <code class="language-plaintext highlighter-rouge">build.gradle</code> file. 
+Select it and click <strong>OK</strong>. Once the import process is done, the project is ready for use.</p>
+
+<h2 id="setting-up-a-project-in-eclipse">Setting up a project in Eclipse</h2>
+
+<p><em>Note: This was written for Eclipse 2020-03 (4.15.0).</em></p>
+
+<p>Open up Eclipse. Select <strong>File → Import…</strong>. 
+As import wizard select <strong>Gradle → Existing Gradle Project</strong>.
+Click <strong>Next</strong> on the introductory information page that pops up.
+A window will open up asking you to select the project root directory.
+Browse to the location where you cloned the repository to and select the repository folder.
+For example, <code class="language-plaintext highlighter-rouge">/home/username/code/upb.crypto.craco</code>. 
+Click <strong>Finish</strong> to finish setup. You can also click <strong>Next</strong> if you want to, for example, select a specific Java SDK.</p>
+
+<h2 id="testing-changes">Testing Changes</h2>
+
+<p>Once you have done some changes to a library, you might want to test the effect of these changes on the other libraries.
+For example, as <strong>upb.crypto.craco</strong> relies on <strong>upb.crypto.math</strong>, changes to the math library should be followed by testing the craco library with the new changes.</p>
+
+<p>To do this, there are two options: Local installation and composite builds.</p>
+
+<h3 id="local-installation">Local Installation</h3>
+
+<p>For any of the libraries you can use the command <code class="language-plaintext highlighter-rouge">gradle install</code> in the project root directory to build and install the library to the local repository. 
+If the version numbers match, other libraries will preferentally use this local version when resolving dependencies.</p>
+
+<p>The process then goes as follows:</p>
+
+<ol>
+  <li>
+    <p>Update the version number in the <code class="language-plaintext highlighter-rouge">build.gradle</code> file of the changed library.</p>
+  </li>
+  <li>
+    <p>Execute <code class="language-plaintext highlighter-rouge">gradle install</code> to install the new library in the local repository.</p>
+  </li>
+  <li>
+    <p>Update the version number of the dependency in the <code class="language-plaintext highlighter-rouge">build.gradle</code> file of the library you want to test the new changes on.</p>
+  </li>
+</ol>
+
+<h3 id="composite-builds">Composite Builds</h3>
+
+<p>Composite builds have the advantage of not requiring you to manually install the project each time you want to test its changes. 
+Instead, the dependencies will automatically be newly built when required.
+To enable composite builds, execute <code class="language-plaintext highlighter-rouge">gradle enableCompositeBuild</code> in the root folder of the project you would like to test. 
+To disable, execute <code class="language-plaintext highlighter-rouge">gradle disableCompositeBuild</code>.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 upb.crypto Documentation. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

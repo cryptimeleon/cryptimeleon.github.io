@@ -2,10 +2,16 @@ docs:
 - title: Getting Started
   children:
     - title: "Libraries Overview"
-      url: /libraries.html
+      url: /getting-started/libraries.html
     - title: "Installation"
-      url: /installation.html
+      url: /getting-started/installation.html
     - title: "Example: Implementing ElGamal Encryption"
-      url: /implement-elgamal.html
+      url: /getting-started/implement-elgamal.html
     - title: "Benchmarking"
-      url: /benchmarking.html
+      url: /getting-started/benchmarking.html
+- title: Documentation
+  children:
+    - title: "Representations"
+      url: /docs/representations.html
+    - title: "Expressions"
+      url: /docs/expressions.html
