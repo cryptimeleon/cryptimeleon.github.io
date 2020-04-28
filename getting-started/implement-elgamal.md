@@ -1,6 +1,7 @@
 ---
 title: Implementing ElGamal Encryption
 mathjax: true
+tpc: true
 ---
 
 In this document, we show to to use the **upb.crypto.craco** and **upb.crypto.math** library to implement an example scheme, the Elgamal encryption scheme [Elg85].

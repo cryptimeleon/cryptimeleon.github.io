@@ -175,4 +175,4 @@ To fix this, the library also stores cached powers in the `GroupElement` objects
 
 # References
 
-[PS16]: David Pointcheval and Olivier Sanders. Short Randomizable Signatures. In Kazue Sako, editor, *Topics in Cryptology - CT-RSA 2016*, pages 111-126. Springer International Publishing, 2016.
+[PS16] David Pointcheval and Olivier Sanders. Short Randomizable Signatures. In Kazue Sako, editor, *Topics in Cryptology - CT-RSA 2016*, pages 111-126. Springer International Publishing, 2016.

@@ -358,7 +358,7 @@ evaluation. There exists a class that makes this very simple, the <code class="l
 
 <h2 id="group-equality-expressions">Group Equality Expressions</h2>
 
-<p>In our implementation of the verification algorithm from <a href="David Pointcheval and Olivier Sanders. Short Randomizable Signatures. In Kazue Sako, editor, *Topics in Cryptology - CT-RSA 2016*, pages 111-126. Springer International Publishing, 2016.">PS16</a>, we used two <code class="language-plaintext highlighter-rouge">evaluate()</code> calls to evaluate both sides of the equality check. We can replace this by a <code class="language-plaintext highlighter-rouge">GroupEqualityExpr</code>:</p>
+<p>In our implementation of the verification algorithm from [PS16], we used two <code class="language-plaintext highlighter-rouge">evaluate()</code> calls to evaluate both sides of the equality check. We can replace this by a <code class="language-plaintext highlighter-rouge">GroupEqualityExpr</code>:</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// previously: return leftSide.evaluate().equals(rightSide.evaluate());</span>
     <span class="c1">// now:</span>
@@ -418,6 +418,7 @@ To decide whether to use the interleaved sliding or WNAF variant, the evaluator 
 
 <h1 id="references">References</h1>
 
+<p>[PS16] David Pointcheval and Olivier Sanders. Short Randomizable Signatures. In Kazue Sako, editor, <em>Topics in Cryptology - CT-RSA 2016</em>, pages 111-126. Springer International Publishing, 2016.</p>
 
         
       </section>

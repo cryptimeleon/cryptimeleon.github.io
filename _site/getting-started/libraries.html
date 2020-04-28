@@ -88,6 +88,10 @@
 
 
     
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
   </head>
 
   <body class="layout--single wide">
@@ -219,41 +223,41 @@
 
 <p>In this document, we give a short overview of each library.</p>
 
-<h2 id="upbcryptomath"><strong>upb.crypto.math</strong></h2>
+<h1 id="upbcryptomath"><strong>upb.crypto.math</strong></h1>
 
 <p>The <strong>upb.crypto.math</strong> library provides the mathematical foundation for the other <strong>upb.crypto</strong> libraries.
-It provides basics such as mathematical groups, rings and fields, e.g. Zn, as well as implementations of cryptographic pairings.
+It provides basics such as mathematical groups, rings and fields, e.g. \(Z_n\), as well as implementations of cryptographic pairings.
 Furthermore, it contains a serialization framework which acts as an intermediary between the cryptographic scheme and the low-level Java serialization. 
 This allows for easy serialization of mathematical objects such as group elements.
 Also noteworthy is the expression framework which provides automatic optimization of boolean and group expressions.
 The framework implements multi-exponentiation algorithms to allow for fast evaluation of the expressions.</p>
 
-<h2 id="upbcryptocraco"><strong>upb.crypto.craco</strong></h2>
+<h1 id="upbcryptocraco"><strong>upb.crypto.craco</strong></h1>
 
 <p>Craco is an acronym for CRyptogrAphic COnstructions. 
 It offers interfaces for implementing cryptographic schemes such as attribute-based encryption, signatures, and much more.
 Aside from the interfaces used to implement new schemes, the library contains implementations of various existing constructions such as an implementation of the attribute-based encryption scheme from Waters [Wat11], the signature scheme from Pointcheval and Sanders [PS16], and many more.</p>
 
-<h2 id="upbcryptobenchmark"><strong>upb.crypto.benchmark</strong></h2>
+<h1 id="upbcryptobenchmark"><strong>upb.crypto.benchmark</strong></h1>
 
 <p>Once you have implemented a scheme, you would probably like to benchmark it. This library provides benchmarks for
 different types of schemes.</p>
 
-<h2 id="upbcryptoprotocols"><strong>upb.crypto.protocols</strong></h2>
+<h1 id="upbcryptoprotocols"><strong>upb.crypto.protocols</strong></h1>
 
 <p>This library provides implementations and interfaces for cryptographic protocols.
 This includes sigma protocols such as Schnorr, and the Fiat-Shamir Transformation [FS87].</p>
 
-<h2 id="upbcryptoclarc"><strong>upb.crypto.clarc</strong></h2>
+<h1 id="upbcryptoclarc"><strong>upb.crypto.clarc</strong></h1>
 
 <p>CLARC: Cryptographic Library for Anonymous Reputation and Credentials.
 As the name suggests, this library provides an anonymous credential system.</p>
 
-<h2 id="upbcryptomclwrap"><strong>upb.crypto.mclwrap</strong></h2>
+<h1 id="upbcryptomclwrap"><strong>upb.crypto.mclwrap</strong></h1>
 
 <p>Mclwrap provides a wrapper around the efficient BN264 pairing implemented in the <a href="https://github.com/herumi/mcl">MCL library</a>. As the pairings implemented in the <strong>upb.crypto.math</strong> library are not particulary efficient, use of this wrapper is recommended for proper benchmarks.</p>
 
-<h2 id="references">References</h2>
+<h1 id="references">References</h1>
 
 <p>[Wat11] Brent Waters. Ciphertext-policy attribute-based encryption: An
  expressive, efficient, and provably secure realization. In Public Key

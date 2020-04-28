@@ -8,11 +8,18 @@ To make use of any of the **upb.crypto** libraries, you need at least Java SDK v
 # Library Installation
 
 Here, we show you how to install any of the libraries for use in your own project. 
-This process depends on your project structure and dependency management; therefore, we have manuals for each of the popular build tools such as Gradle and Maven.
+This process depends on your project structure and dependency management; therefore, we have manuals for each of the popular build tools such as Gradle and Maven. 
+
+We assume that you are familiar with the dependency management of your build tool.
 
 ## Maven
+Currently, the libraries are only available via the university nexus repository. 
+This is a Maven repository available at `https://nexus.cs.upb.de/repository/sfb901-releases/`.
 
-WIP
+The group id of all the **upb.crypto** projects is `de.upb.crypto` and the artifact id corresponds to the name of the library you want to use. 
+For example, `craco` for the **upb.crypto.craco** library.
+
+If you want to use the mclwrap library, you also need to [install the MCL java bindings](#mclwrap-installation).
 
 ## Gradle
 

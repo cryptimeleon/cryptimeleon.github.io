@@ -252,9 +252,16 @@
 <p>Here, we show you how to install any of the libraries for use in your own project. 
 This process depends on your project structure and dependency management; therefore, we have manuals for each of the popular build tools such as Gradle and Maven.</p>
 
-<h2 id="maven">Maven</h2>
+<p>We assume that you are familiar with the dependency management of your build tool.</p>
 
-<p>WIP</p>
+<h2 id="maven">Maven</h2>
+<p>Currently, the libraries are only available via the university nexus repository. 
+This is a Maven repository available at <code class="language-plaintext highlighter-rouge">https://nexus.cs.upb.de/repository/sfb901-releases/</code>.</p>
+
+<p>The group id of all the <strong>upb.crypto</strong> projects is <code class="language-plaintext highlighter-rouge">de.upb.crypto</code> and the artifact id corresponds to the name of the library you want to use. 
+For example, <code class="language-plaintext highlighter-rouge">craco</code> for the <strong>upb.crypto.craco</strong> library.</p>
+
+<p>If you want to use the mclwrap library, you also need to <a href="#mclwrap-installation">install the MCL java bindings</a>.</p>
 
 <h2 id="gradle">Gradle</h2>
 

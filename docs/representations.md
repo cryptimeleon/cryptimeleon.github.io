@@ -1,6 +1,7 @@
 ---
 title: Representations
 mathjax: true
+toc: true
 ---
 
 Representations offer a way to convert objects to a representation which can then be converted into some kind of serialization, for example into a JSON object or binary data for transmission over a network.

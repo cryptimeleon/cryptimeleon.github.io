@@ -219,6 +219,16 @@
 
       <section class="page__content" itemprop="text">
         
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#making-a-class-representable">Making a Class Representable</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
         <p>Representations offer a way to convert objects to a representation which can then be converted into some kind of serialization, for example into a JSON object or binary data for transmission over a network.</p>
 
 <p>This is useful if you want to, for example, transmit a public key over the internet. You can use the representation framework to convert your public key object into a representation, and then convert it to JSON using the <code class="language-plaintext highlighter-rouge">JSONConverter</code> class. Currently, this converter class is the only one that is supported, but you can add new ones using the <code class="language-plaintext highlighter-rouge">Converter</code> abstract class.</p>
