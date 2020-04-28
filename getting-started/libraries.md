@@ -1,5 +1,6 @@
 ---
 title: Libraries Overview
+mathjax: true
 ---
 
 The **upb.crypto** cryptography libraries are a family of libraries tailored towards fast prototyping and benchmarking of cryptographic constructions.
@@ -9,7 +10,7 @@ In this document, we give a short overview of each library.
 ## **upb.crypto.math**
 
 The **upb.crypto.math** library provides the mathematical foundation for the other **upb.crypto** libraries.
-It provides basics such as mathematical groups, rings and fields, e.g. Zn, as well as implementations of cryptographic pairings.
+It provides basics such as mathematical groups, rings and fields, e.g. \\(Z_n\\), as well as implementations of cryptographic pairings.
 Furthermore, it contains a serialization framework which acts as an intermediary between the cryptographic scheme and the low-level Java serialization. 
 This allows for easy serialization of mathematical objects such as group elements.
 Also noteworthy is the expression framework which provides automatic optimization of boolean and group expressions.
