@@ -22,3 +22,5 @@ defaults:
         classes: wide
         sidebar:
           nav: "docs"
+kramdown:
+    auto_ids: true

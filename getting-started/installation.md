@@ -5,7 +5,29 @@ toc: true
 
 To make use of any of the **upb.crypto** libraries, you need at least Java SDK version 8.
 
-# General Library Installation
+# Library Installation
+
+Here, we show you how to install any of the libraries for use in your own project. 
+This process depends on your project structure and dependency management; therefore, we have manuals for each of the popular build tools such as Gradle and Maven.
+
+## Maven
+
+WIP
+
+## Gradle
+
+We asssume you have set up a Gradle project with a `build.gradle` file.
+Currently, the libraries are only available via the university nexus repository. 
+So, add `maven { url "https://nexus.cs.upb.de/repository/sfb901-releases/" }` to your list of
+repositories in the `build.gradle` file.
+
+Then, you need to decide which libraries you need. Once you have decided, you need to add the dependency.
+For example, for `upb.crypto.craco` version 1.1.0, you would add `implementation group: 'de.upb.crypto', name: 'craco', version: '1.1.0'`
+to the `dependencies` section in the `build.gradle` file.
+
+If you want to use the mclwrap library, you also need to [install the MCL java bindings](#mclwrap-installation).
+
+## Manual Installation
 
 WIP
 
@@ -69,7 +91,8 @@ To do this, there are two options: Local installation and composite builds.
 ### Local Installation
 
 For any of the libraries you can use the command ``gradle install`` in the project root directory to build and install the library to the local repository. 
-If the version numbers match, other libraries will preferentally use this local version when resolving dependencies.
+To make sure that other libraries actually preferentally use local builds, you need to make sure that local builds are preferred compared to remote builds. 
+Hence, `mavenLocal()` should be listed at the top of the `repositories` section in the `build.gralde` file.
 
 The process then goes as follows:
 

@@ -26,6 +26,9 @@ Let \\(G\\) be a cyclic group of prime order \\(q\\).
 
 ## Implementing the Scheme
 
+We assume you have set up a new project in your IDE already, and added **upb.crypto.craco** as a dependency.
+Craco already includes the math library so you need not add that explicitly.
+
 To represent the different parts of the scheme, we start off by creating some classes.
 
 The `ElgamalEncryptionScheme` class houses the different algorithms that are part of the scheme such as encryption and key generation. Let's have it implement the existing `AsymmetricEncryptionScheme` interface contained in the **upb.crypto.craco** library:

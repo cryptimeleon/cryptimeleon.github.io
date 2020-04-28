@@ -248,6 +248,9 @@
 
 <h2 id="implementing-the-scheme">Implementing the Scheme</h2>
 
+<p>We assume you have set up a new project in your IDE already, and added <strong>upb.crypto.craco</strong> as a dependency.
+Craco already includes the math library so you need not add that explicitly.</p>
+
 <p>To represent the different parts of the scheme, we start off by creating some classes.</p>
 
 <p>The <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> class houses the different algorithms that are part of the scheme such as encryption and key generation. Let’s have it implement the existing <code class="language-plaintext highlighter-rouge">AsymmetricEncryptionScheme</code> interface contained in the <strong>upb.crypto.craco</strong> library:</p>
