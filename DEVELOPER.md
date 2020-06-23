@@ -12,4 +12,4 @@ For more information, view [the github help page on this topic](https://help.git
 
 To render the LaTex, we use MathJax Version 2 (there seemed to be some issues with MathJax Version 3 and Jekyll, but I did not bother to test that).
 To enable MathJax rendering for a site, add `mathjax: true` to the YAML Front Matter of the corresponding markdown page.
-The YAML Front Matter is the YAML code delimited by `---` on both side at the top of a markdown page.
+The YAML Front Matter is the YAML code delimited by `---` at the top of a markdown page.
