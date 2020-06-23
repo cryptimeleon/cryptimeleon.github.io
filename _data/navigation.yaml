@@ -15,3 +15,7 @@ docs:
       url: /docs/representations.html
     - title: "Expressions"
       url: /docs/expressions.html
+- title: For Contributors
+  children:
+    - title: "Snapshot Builds"
+      url: /contributors/snapshot_builds.html

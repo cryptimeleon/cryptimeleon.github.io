@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>upb.crypto Documentation</title>
+<!-- begin _includes/seo.html --><title>Resolving and Building Snapshot Builds - upb.crypto Documentation</title>
 <meta name="description" content="Documentation page for the upb.crypto libraries. ">
 
 
@@ -17,8 +17,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="upb.crypto Documentation">
-<meta property="og:title" content="upb.crypto Documentation">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:title" content="Resolving and Building Snapshot Builds">
+<meta property="og:url" content="http://localhost:4000/contributors/snapshot_builds.html">
 
 
   <meta property="og:description" content="Documentation page for the upb.crypto libraries. ">
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="http://localhost:4000/">
+<link rel="canonical" href="http://localhost:4000/contributors/snapshot_builds.html">
 
 
 
@@ -197,7 +197,7 @@
         
         <ul>
           
-            <li><a href="/contributors/snapshot_builds.html">Snapshot Builds</a></li>
+            <li><a href="/contributors/snapshot_builds.html" class="active">Snapshot Builds</a></li>
           
         </ul>
         
@@ -213,7 +213,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    
+    <meta itemprop="headline" content="Resolving and Building Snapshot Builds">
     
     
     
@@ -221,14 +221,63 @@
     <div class="page__inner-wrap">
       
         <header>
-          
+          <h1 id="page-title" class="page__title" itemprop="headline">Resolving and Building Snapshot Builds
+</h1>
           
         </header>
       
 
       <section class="page__content" itemprop="text">
         
-        <p>Welcome to the documentation page for the <strong>upb.crypto</strong> libraries developed by the Codes and Cryptography group at Paderborn University, Germany. This page is currently under construction.</p>
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#so-how-do-i-use-it">So how do I use it?</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Originally, the upb.crypto libraries were distributed via the universities own Nexus repository.
+Since then, the Nexus has been restricted to the university network, necessitating a switch to a different host for our libraries.
+Release versions are hosted on Maven Central, but snapshot builds are not appropriate to host there.</p>
+
+<p>For example, Craco needs Math to work, but, unless you have installed the appropriate version of Math in your local maven repository, you will not be able to resolve the dependency since no snapshot builds are in any other repository.
+Therefore we have implemented a different build process for snapshot versions of the upb.crypto dependencies.
+This process is also used by our Continuous Integration system for the snapshot builds.</p>
+
+<h1 id="overview">Overview</h1>
+<p>The basic idea is to automatically download the required upb.crypto dependency (such as Math), and then use <a href="https://docs.gradle.org/current/userguide/composite_builds.html">Gradle’s composite builds feature</a> to include it where required.
+To do this, every library that depends on some other upb.crypto library includes a build script in its <code class="language-plaintext highlighter-rouge">settings.gradle</code> file.
+This script clones the dependency to the same directory level as the library being built and includes it as a composite build if possible.
+“If possible” means that the branches should follow some rules. Let <code class="language-plaintext highlighter-rouge">LB</code> be the name of the branch of the library being built and <code class="language-plaintext highlighter-rouge">DB</code> be the name of the branch of the dependency library. The composite build will only be enabled, if the following holds:</p>
+
+<ul>
+  <li>The dependency has no branch called <code class="language-plaintext highlighter-rouge">LB</code> and <code class="language-plaintext highlighter-rouge">DB == master</code>. In this case, the <code class="language-plaintext highlighter-rouge">master</code> branch of the dependency is used for the composite build.</li>
+  <li>The dependency has a branch called <code class="language-plaintext highlighter-rouge">LB</code> and <code class="language-plaintext highlighter-rouge">DB = LB</code>. In this case, the <code class="language-plaintext highlighter-rouge">DB</code> branch of the dependency is used for the composite build.</li>
+</ul>
+
+<p>To summarize, the build script will always try to use the branch with the same name as <code class="language-plaintext highlighter-rouge">LB</code> and use <code class="language-plaintext highlighter-rouge">master</code> if no such branch exists.
+Importantly, no automatic checkout of branches is done. 
+This is to reduce complexity and prevent potential problems potentially caused by automatically executing git checkout commands.</p>
+
+<p>Keep in mind that this does not include any version checking!
+This means that you have to ensure that the version of the dependency being included by the composite build is the correct one.
+By this we don’t mean the version string–this is not checked–, but the dependency’s implementation itself.
+If they are not compatible, it might only show up during testing when a function from the dependencies does not behave as expected.</p>
+
+<h1 id="so-how-do-i-use-it">So how do I use it?</h1>
+<p>Let’s say you want to develop a new feature for Craco.
+You create a new branch <code class="language-plaintext highlighter-rouge">B</code> to work on.
+Let’s consider the case that you want to just reuse the existing version of the Math dependency from branch <code class="language-plaintext highlighter-rouge">master</code>.
+Then you just need to ensure that the <code class="language-plaintext highlighter-rouge">master</code> branch is checked out in the Math git repository such that it can be included in the composite build.
+If you have not cloned Math yet, no worry, the script will do it for you.
+You might, however, eventually decide that you want to change Math somehow.
+Then you need to create a new branch for Math with the exact same name as your feature branch <code class="language-plaintext highlighter-rouge">B</code> for Craco.
+Furthermore, you need to make sure that that branch is checked out when working on your new Craco feature.
+You can then change Math on that branch, and all changes will be automatically included in Craco via the composite build.</p>
 
         
       </section>
