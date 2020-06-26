@@ -233,7 +233,11 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#overview">Overview</a></li>
+  <li><a href="#overview">Overview</a>
+    <ul>
+      <li><a href="#customization">Customization</a></li>
+    </ul>
+  </li>
   <li><a href="#so-how-do-i-use-it">So how do I use it?</a></li>
 </ul>
 
@@ -267,6 +271,18 @@ This is to reduce complexity and prevent potential problems potentially caused b
 This means that you have to ensure that the version of the dependency being included by the composite build is the correct one.
 By this we don’t mean the version string–this is not checked–, but the dependency’s implementation itself.
 If they are not compatible, it might only show up during testing when a function from the dependencies does not behave as expected.</p>
+
+<h2 id="customization">Customization</h2>
+<p>Currently, there is one possible Gradle parameter you can use to customize the build script.</p>
+
+<p>These can either be set in the <code class="language-plaintext highlighter-rouge">gradle.properties</code> file in the top level folder of the project (on the same level as <code class="language-plaintext highlighter-rouge">build.gradle</code>), or be given as a parameter using the <code class="language-plaintext highlighter-rouge">-P</code> option for Gradle.</p>
+
+<ul>
+  <li><strong>useCurrentBranch</strong>: This skips the branch selection checking. 
+That means the composite build will be enabled no matter the dependency branches that are currently checked out.
+This can be useful for when you need a version that is not on <code class="language-plaintext highlighter-rouge">master</code> but you also do not want to create a new branch.
+To set this, just give it any value; the script just checks for definition of the parameter.</li>
+</ul>
 
 <h1 id="so-how-do-i-use-it">So how do I use it?</h1>
 <p>Let’s say you want to develop a new feature for Craco.
