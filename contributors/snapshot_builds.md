@@ -29,6 +29,16 @@ This means that you have to ensure that the version of the dependency being incl
 By this we don't mean the version string–this is not checked–, but the dependency's implementation itself.
 If they are not compatible, it might only show up during testing when a function from the dependencies does not behave as expected.
 
+## Customization
+Currently, there is one possible Gradle parameter you can use to customize the build script.
+
+These can either be set in the `gradle.properties` file in the top level folder of the project (on the same level as `build.gradle`), or be given as a parameter using the `-P` option for Gradle.
+
+- **useCurrentBranch**: This skips the branch selection checking. 
+That means the composite build will be enabled no matter the dependency branches that are currently checked out.
+This can be useful for when you need a version that is not on `master` but you also do not want to create a new branch.
+To set this, just give it any value; the script just checks for definition of the parameter.
+
 # So how do I use it?
 Let's say you want to develop a new feature for Craco.
 You create a new branch `B` to work on.
