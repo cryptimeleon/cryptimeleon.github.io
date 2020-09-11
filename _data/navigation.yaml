@@ -1,6 +1,10 @@
 docs:
 - title: Getting Started
   children:
+    - title: "5-minute Tutorial"
+      url: /getting-started/5-minute-tutorial.html
+    - title: "Pairing Tutorial"
+      url: /getting-started/pairing-tutorial.html
     - title: "Libraries Overview"
       url: /getting-started/libraries.html
     - title: "Installation"
