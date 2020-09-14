@@ -6,7 +6,7 @@ toc: true
 
 Representations offer a way to convert objects to a representation which can then be converted into some kind of serialization, for example into a JSON object or binary data for transmission over a network.
 
-This is useful if you want to, for example, transmit a public key over the internet. You can use the representation framework to convert your public key object into a representation, and then convert it to JSON using the `JSONConverter` class. Currently, this converter class is the only one that is supported, but you can add new ones using the `Converter` abstract class.
+This is useful if you want to, for example, transmit a public key over the internet. You can use the representation framework to convert your public key object into a representation, and then convert it to a JSON-encoded String using the `JSONConverter` class. A binary converter is provided by `BinaryFormatConverter`.
 
 *Note: In this document we will refer to creating a representation of an object as serialization, not to be confused with java's inbuilt serialization.*
 
@@ -48,8 +48,7 @@ public class PS18SigningKey implements SigningKey {
 }
 ```
 We already talked about the `getRepresentation()` method and `@Represented` annotation. 
-Additionally, we have a constructor taking in a representation and the Zp ring in which the exponents are contained. 
-A `Zp` object can itself not be represented, so it must be given explicitly. 
+Additionally, we have a constructor taking in a representation and the \\(Z_p\\) field in which the exponents are contained. 
 The `Zp` class implements the `RepresentationRestorer` object, it can therefore restore the `ZpElement` attributes from the representation. 
 
 To perform the deserialization, we instantiate the `ReprUtil` object with `this` and then register the class as a representation restorer corresponding to the string `"zp"`. 
@@ -60,7 +59,6 @@ Alternatively to giving the object responsible for restoring in the constructor,
 In that case the `Zp` object would be an attribute of the class, and you will need to use a restorer string with the same value as the name of the attribute. 
 For example, your class might have the attribute `groupG1` and a `GroupElement` called `g` from that group. 
 `g` will then use the restorer `groupG1` and `ReprUtil` will automatically match the two. 
-Keep in mind that `groupG1` must have access identifier public; otherwise, `ReprUtil` cannot access it to deserialize `g`.
 
 The `"[zp]"` notation is build into the `ReprUtil` class, it will automatically create a restorer for an array of Zp elements. 
 The same notation works for lists and sets as well.
@@ -69,8 +67,34 @@ For example, `"zp -> g"` for a map from Zp elements to group elements (given tha
 You can combine these, e.g. `"G1 -> [[G2]]"` for a map from elements of \\(G_1)\\) to list of list of elements of \\(G_2\\). 
 Precedence is given by parentheses, for example, `"(G1 -> G2) -> G3"` is a map whose keys are themselves maps, while `"G1 -> (G2 -> G3)"` has maps as values.
 
-If the type of the attribute is one of `BigInteger`, `Integer`, `String`, `Boolean`, or `byte[]`, giving a specific restorer is not necessary as the framework knows how to deserialize these automatically (keep in mind primitives such as `int` don't work). If you want to mix such "simple" types with, for example, a map, you can use any non-empty string for the "simple" type. To represent a map from integers to group elements from \\(G_2\\), you might use the restorer string `"foo -> G2"`; the `foo` will then be ignored.
+If the type of the attribute is one of `BigInteger`, `Integer`, `String`, `Boolean`, or `byte[]`, giving a specific restorer is not necessary as the framework knows how to deserialize these automatically (keep in mind primitives such as `int` don't work currently). If you want to mix such "simple" types with, for example, a map, you can use any non-empty string for the "simple" type. To represent a map from integers to group elements from \\(G_2\\), you might use the restorer string `"foo -> G2"`; the `foo` will then be ignored.
 
 The same holds for classes that implement the `StandaloneRepresentable` interface. These *must* have a constructor with just a single argument of type `Representation` and the constructor should be able to deserialize the representation just from itself. `ReprUtil` will be able to reconstruct these without giving an explicit restorer.
 
-TODO: talk about using a standalone representable group to restorer other group elements.
+## Method Notation
+
+The restorer string also supports a method notation. An example is given below:
+
+```java
+public class MethodNotationExample {
+
+    @Represented
+    protected BilinearGroup bilinearGroup;
+
+    @Represented(restorer = "bilinearGroup::getG1")
+    protected GroupElement g1; // in G_1
+
+    @Represented(restorer = "bilinearGroup::getG2")
+    protected GroupElement g2; // in G_2
+
+    @Represented(restorer = "bilinearGroup::getGT")
+    protected GroupElement gT; // in G_T
+}
+```
+
+As you can see, we have one group element from each of the groups making up the bilinear group.
+Therefore, each group element needs the corresponding group as a restorer.
+In the previous examples, we stored the group directly and could therefore refer to it in the restorer string.
+Here, the groups are stored within the bilinear group and accessible via the `getGX()` methods provided by the `BilinearGroup` interface.
+To make it easier to access these, the restorer string supports a method notation which gives a method for the `ReprUtil` class to call during deserialization. 
+In the above example, `ReprUtil` first deserializes the bilinear group and then uses its `getGX()` method to obtain the corresponding groups which can restore each group element.
