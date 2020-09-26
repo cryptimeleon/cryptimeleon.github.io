@@ -11,9 +11,9 @@ This is useful if you want to, for example, transmit a public key over the inter
 *Note: In this document we will refer to creating a representation of an object as serialization, not to be confused with java's inbuilt serialization.*
 
 # Making a Class Representable
-If you want a classes instances to be representable, you have to implement the `Representable` interface. Many interfaces in the **upb.de.craco** library already extend this interface, e.g. `SigningKey`.
+If you want a classes instances to be representable, you have to implement the `Representable` interface. Many interfaces in the Craco library already extend this interface, e.g. `SigningKey`.
 
-The `Representable` interface requires the implementation of a `getRepresentation()` method. This method should return a representation of your object. This could be potentially quite cumbersome and require knowledge of the representation framework, but the `ReprUtil` class has some utility methods that make serializing to representation and deserializing back to the object easy.
+The `Representable` interface requires the implementation of a `getRepresentation()` method. This method should return a representation of your object. Even though this can be done manually, we recommend using the `ReprUtil` class which has methods that make serializing to representation and deserializing back to the object easy.
 
 To create a representation of your object, you can use the following code:
 
@@ -26,16 +26,13 @@ public Representation getRepresentation() {
 
 Now, there is some additional configuration required. Namely, you need to indicate to the serializer which attributes of your class you want to be serialized. This is done by adding the `@Represented` annotation to each attribute. This annotation takes a single string argument: the `restorer`. The restorer indicates to the `ReprUtil` class how to deserialize this attribute. The string is matched to some object implementing the `RepresentationRestorer` interface which can then recreate the object from its representation.
 
-Let's look at an example, a signing key consisting of one exponent \\(x\\) and an array of exponents \\(y_i\\):
+Let's look at an example, a signing key consisting of one exponent `x`:
 
 ```java
 public class PS18SigningKey implements SigningKey {
 
     @Represented(restorer = "zp")
     private ZpElement exponentX;
-
-    @Represented(restorer = "[zp]")
-    private ZpElement[] exponentsYi;
 
     public PS18SigningKey(Representation repr, Zp zp) {
         new ReprUtil(this).register(zp, "zp").deserialize(repr);
@@ -48,30 +45,87 @@ public class PS18SigningKey implements SigningKey {
 }
 ```
 We already talked about the `getRepresentation()` method and `@Represented` annotation. 
-Additionally, we have a constructor taking in a representation and the \\(Z_p\\) field in which the exponents are contained. 
+Additionally, we have a constructor taking in a representation and the `Zp` field in which the exponents are contained.
+This constructor is responsible for deserializing the given `Representation` object back to an instance of `PS18SigningKey`.
 The `Zp` class implements the `RepresentationRestorer` object, it can therefore restore the `ZpElement` attributes from the representation. 
 
-To perform the deserialization, we instantiate the `ReprUtil` object with `this` and then register the class as a representation restorer corresponding to the string `"zp"`. 
-If you look towards the `@Represented` annotation, you can see that we used the `"zp"` restorer for the single Zp element and the `"[zp]"` restorer for the array of Zp elements. 
-When we call `deserialize(repr)` on the `ReprUtil` object, it will use the registered `"zp"` restorer–the `Zp` object–and use it to restore the attributes.
+To perform the deserialization, we instantiate the `ReprUtil` object with `this` and then register the `Zp` instance as a `RepresentationRestorer` corresponding to the string `"zp"`. 
+If you look towards the `@Represented` annotation, you can see that we used the `"zp"` restorer for the single Zp element. 
+When we call `deserialize(repr)` on the `ReprUtil` object, it will use the registered `"zp"` restorer–the `Zp` object–and use it to restore `exponentX`.
 
-Alternatively to giving the object responsible for restoring in the constructor, you can also add it as a class attribute which can for example be useful for public parameters. 
-In that case the `Zp` object would be an attribute of the class, and you will need to use a restorer string with the same value as the name of the attribute. 
-For example, your class might have the attribute `groupG1` and a `GroupElement` called `g` from that group. 
-`g` will then use the restorer `groupG1` and `ReprUtil` will automatically match the two. 
+## Standalone Representables
 
-The `"[zp]"` notation is build into the `ReprUtil` class, it will automatically create a restorer for an array of Zp elements. 
+Alternatively to giving the object responsible for restoring in the constructor parameters, you can also add it as a class attribute so that it can be serialized together with the rest of the instance.
+You then won't need to explicitly provide it during deserialization.
+
+For example, your class might have the attribute `groupG` containg a `Group` and a `GroupElement` called `g` from that group. 
+`ReprUtil` will first deserialize `groupG` and then use it to restore `g`.
+This is possible since `Group` implements the `RepresentationRestorer` interface.
+See the example below:
+
+```java
+public class SingleGroupElement implements Representable {
+
+    @Represented(restorer = "groupG")
+    private GroupElement g;
+
+    @Represented()
+    private Group groupG;
+
+    public PS18SigningKey(Representation repr) {
+        new ReprUtil(this).deserialize(repr);
+    }
+
+    @Override
+    public Representation getRepresentation() {
+        return ReprUtil.serialize(this);
+    }
+}
+```
+
+You might have noticed that the `Group` attribute has no value assigned to `restorer`.
+This is because `Group` implements the `StandaloneRepresentable` interface.
+Classes implementing this interface *must* provide a constructor with just a single argument of type `Representation` and the constructor should be able to deserialize the representation just from itself.
+`ReprUtil` notices if an attribute implements this interface and automatically deserializes it using this constructor. 
+
+## Restorer Notation: Composite Data Types
+The restorer attribute of the `@Represented` annotation has some more syntax to make declaring restorers for composite data types such as arrays easier. Let's look at an example showcasing some of these:
+
+```java
+public class NotationExample implements Representable {
+
+    @Represented(restorer = "[zp]")
+    private Zp.ZpElement[] exponentsXi;
+
+    @Represented(restorer = "zp -> G")
+    private HashMap<Zp.ZpElement, GroupElement> exponentsToGs;
+
+    public PS18SigningKey(Representation repr, Zp zp, Group groupG) {
+        new ReprUtil(this).register(zp, "zp").register(groupG, "G").deserialize(repr);
+    }
+
+    @Override
+    public Representation getRepresentation() {
+        return ReprUtil.serialize(this);
+    }
+}
+```
+
+The `"[zp]"` notation is build into the `ReprUtil` class, it will automatically create a restorer for an array of `Zp` elements. 
 The same notation works for lists and sets as well.
 For maps, you can use the arrow notation `"->"`. 
-For example, `"zp -> g"` for a map from Zp elements to group elements (given that you registered the `RepresentationRestorers` for `"zp"` and `"g"` before calling `deserialize()`). 
-You can combine these, e.g. `"G1 -> [[G2]]"` for a map from elements of \\(G_1)\\) to list of list of elements of \\(G_2\\). 
+For example, `"zp -> G"` for a map from Zp elements to group elements (given that you registered the `RepresentationRestorers` for `"zp"` and `"G"` before calling `deserialize()`). 
+You can combine these, e.g. `"G1 -> [[G2]]"` for a map from elements of `G1` to list of list of elements of `G2`. 
+
 Precedence is given by parentheses, for example, `"(G1 -> G2) -> G3"` is a map whose keys are themselves maps, while `"G1 -> (G2 -> G3)"` has maps as values.
 
-If the type of the attribute is one of `BigInteger`, `Integer`, `String`, `Boolean`, or `byte[]`, giving a specific restorer is not necessary as the framework knows how to deserialize these automatically (keep in mind primitives such as `int` don't work currently). If you want to mix such "simple" types with, for example, a map, you can use any non-empty string for the "simple" type. To represent a map from integers to group elements from \\(G_2\\), you might use the restorer string `"foo -> G2"`; the `foo` will then be ignored.
+## Restorer Notation: Wrapped Primitive Types
 
-The same holds for classes that implement the `StandaloneRepresentable` interface. These *must* have a constructor with just a single argument of type `Representation` and the constructor should be able to deserialize the representation just from itself. `ReprUtil` will be able to reconstruct these without giving an explicit restorer.
+If the type of the attribute is one of `BigInteger`, `Integer`, `String`, `Boolean`, or `byte[]`, giving a specific restorer is not necessary as the framework knows how to deserialize these automatically. Non-wrapped primitive types such as `int` are not supported, however. 
 
-## Method Notation
+If you want to mix these types with, for example, a map, you can use any non-empty string for the "simple" type. To represent a map from integers to group elements from `G2`, you might use the restorer string `"foo -> G2"`; the `foo` will then be ignored.
+
+## Restorer Notation: Methods
 
 The restorer string also supports a method notation. An example is given below:
 

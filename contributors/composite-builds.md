@@ -1,9 +1,9 @@
 ---
-title: Resolving and Building Snapshot Builds
+title: Composite Builds For Snapshot Versions
 toc: true
 ---
 
-Originally, the upb.crypto libraries were distributed via the universities own Nexus repository.
+Originally, the **upb.crypto** libraries were distributed via the universities own Nexus repository.
 Since then, the Nexus has been restricted to the university network, necessitating a switch to a different host for our libraries.
 Release versions are hosted on Maven Central, but snapshot builds are not appropriate to host there.
 
@@ -42,7 +42,7 @@ To set this, just give it any value; the script just checks for definition of th
 # So how do I use it?
 Let's say you want to develop a new feature for Craco.
 You create a new branch `B` to work on.
-Let's consider the case that you want to just reuse the existing version of the Math dependency from branch `master`.
+Now consider the case that you want to just reuse the existing version of the Math dependency from branch `master`.
 Then you just need to ensure that the `master` branch is checked out in the Math git repository such that it can be included in the composite build.
 If you have not cloned Math yet, no worry, the script will do it for you.
 You might, however, eventually decide that you want to change Math somehow.

@@ -21,5 +21,7 @@ docs:
       url: /docs/expressions.html
 - title: For Contributors
   children:
+    - title: "Setup"
+      url: /contributors/setup.html
     - title: "Snapshot Builds"
-      url: /contributors/snapshot_builds.html
+      url: /contributors/composite-builds.html

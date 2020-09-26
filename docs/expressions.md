@@ -4,6 +4,8 @@ mathjax: true
 toc: true
 ---
 
+**OUTDATED, this system is not to be used directly anymore I think**
+
 The expression system of the math library offers a way to do group and boolean algebra with the goal of allowing for optimizations such as the use of multi-exponentiation algorithms or rewriting algebraic terms to be more efficiently computable.
 
 Expressions differ from the usual use of functions such as `pow()` or `op()` in that the result is not calculated immediately. Instead, an expression tree is built up which, when evaluated, will compute the result of the expression. This has several advantages:
@@ -15,7 +17,7 @@ In this document we show how expressions work and what kind of optimizations are
 
 # Group Expressions
 To showcase group expressions, we want to use them to implement a concrete cryptographic scheme. We have chosen
-Pointcheval and Sanders multi-message signature scheme from [PS16](Section 4.2) for this. It is available in the **upb.crypto.craco** library already.
+Pointcheval and Sanders multi-message signature scheme from [PS16](Section 4.2) for this. It is available in the Craco library already.
 
 We start with the verification algorithm:
 ```java
