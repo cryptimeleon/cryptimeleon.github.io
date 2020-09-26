@@ -11,14 +11,16 @@ docs:
       url: /getting-started/installation.html
     - title: "Example: Implementing ElGamal Encryption"
       url: /getting-started/implement-elgamal.html
-    - title: "Benchmarking"
-      url: /getting-started/benchmarking.html
 - title: Documentation
   children:
     - title: "Representations"
       url: /docs/representations.html
     - title: "Expressions"
       url: /docs/expressions.html
+    - title: "Lazy Evaluation"
+      url: /docs/lazy-eval.html
+    - title: "Benchmarking"
+      url: /docs/benchmarking.html
 - title: For Contributors
   children:
     - title: "Setup"
