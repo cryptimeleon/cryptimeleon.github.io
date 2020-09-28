@@ -1,10 +1,8 @@
 ---
-title: 5-minute tutorial
+title: 5-Minute Tutorial For upb.crypto.math
 mathjax: true
 tpc: true
 ---
-
-# 5-minute-tutorial: `upb.crypto.math`
 
 `upb.crypto.math` is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).
 
@@ -15,12 +13,12 @@ To give you some insight into the library, let's implement the well-known Peders
 Let's include the upb.crypto.math library and set up the secp256k1 elliptic curve group. 
 
 
-```Java
+```java
 %maven de.upb.crypto:math:2.0.0-SNAPSHOT
 ```
 
 
-```Java
+```java
 import de.upb.crypto.math.elliptic.Secp256k1;
 import de.upb.crypto.math.structures.groups.lazy.LazyGroup;
 import de.upb.crypto.math.interfaces.structures.*;
@@ -28,10 +26,10 @@ import de.upb.crypto.math.interfaces.structures.*;
 Group group = new LazyGroup(new Secp256k1()); //LazyGroup evaluates group operations lazily (see later)
 ```
 
-A `Group` plays the role of the set $\mathbb{G}$. It has a `size()` and a bunch of useful methods to instantiate its `GroupElement`s.
+A `Group` plays the role of the set \\(\mathbb{G}\\). It has a `size()` and a bunch of useful methods to instantiate its `GroupElement`s.
 
 
-```Java
+```java
 var n = group.size();
 System.out.println("group size() = " + n);
 ```
@@ -39,10 +37,10 @@ System.out.println("group size() = " + n);
     group size() = 115792089237316195423570985008687907852837564279074904382605163141518161494337
 
 
-Now let's set up the public parameters for the Pedersen commitment: two random group elements $g,h\in\mathbb{G}$.
+Now let's set up the public parameters for the Pedersen commitment: two random group elements \\(g,h\in\mathbb{G}\\).
 
 
-```Java
+```java
 var g = group.getUniformlyRandomNonNeutral(); 
 var h = group.getUniformlyRandomNonNeutral(); 
 ```
@@ -53,7 +51,7 @@ var h = group.getUniformlyRandomNonNeutral();
 Let's look at the group elements:
 
 
-```Java
+```java
 System.out.println(g);
 System.out.println(h);
 ```
@@ -65,11 +63,11 @@ System.out.println(h);
 Most operations concerning group elements in upb.crypto are lazy, i.e. they are only evaluated when necessary (and we consider `toString()` not to be necessary but rather a debugging tool). This has a bunch of advantages that we'll get to later. When working with `g` and `h`, this doesn't really change anything - though their values are not yet known, you can pretend that they are (when they are needed, they will be computed transparently). 
 
 ### Precomputation 🔮
-`g` and `h` are fixed and publicly known and we'll later compute lots of expressions of the form $C = g^m\cdot h^r$. To speed that up, we can invest some time and memory to do some precomputation _now_. 
+`g` and `h` are fixed and publicly known and we'll later compute lots of expressions of the form \\(C = g^m\cdot h^r\\). To speed that up, we can invest some time and memory to do some precomputation _now_. 
 Thankfully, this is very easy to do: 
 
 
-```Java
+```java
 g.precomputePow();
 h.precomputePow();
 System.out.println("Precomputation done.");
@@ -85,19 +83,19 @@ Future computations `g.pow(...)` and `h.pow(...)` will benefit from precomputati
 ## Committing 😱
 
 ### Choosing a message 📝
-Now let's commit to a message $m$. For Pedersen commitments, $m$ lives in $\mathbb{Z}_n$ (because exponents are to be interpreted modulo the group order $n$). We can get the appropriate $\mathbb{Z}_n$ object from the group:
+Now let's commit to a message \\(m\\). For Pedersen commitments, \\(m\\) lives in \\(\mathbb{Z}_n\\) (because exponents are to be interpreted modulo the group order \\(n\\)). We can get the appropriate \\(\mathbb{Z}_n\\) object from the group:
 
 
-```Java
+```java
 var zn = group.getZn();
 ```
 
 Similar to how a `Group` is a structure that has `GroupElement`s, `zp` is a structure that contains `ZnElement`s. 
 
-We can now instantiate our message $m$, which will be a `ZnElement`, in any of the following ways:
+We can now instantiate our message \\(m\\), which will be a `ZnElement`, in any of the following ways:
 
 
-```Java
+```java
 var m = zn.valueOf(23).mul(42); //simply the number 23*42 (mod p)
 System.out.println(m);
 ```
@@ -106,7 +104,7 @@ System.out.println(m);
 
 
 
-```Java
+```java
 var m = zn.getUniformlyRandomElement(); //a random number in Zn
 System.out.println(m);
 ```
@@ -115,7 +113,7 @@ System.out.println(m);
 
 
 
-```Java
+```java
 import de.upb.crypto.math.structures.zn.HashIntoZn;
 
 var m = new HashIntoZn(zn).hashIntoStructure("We attack at midnight! ⚔️"); //the hash of the given String into Zn
@@ -127,12 +125,12 @@ System.out.println(m);
 
 ### Computing the commitment 🎲
 
-Now that we have $m$, let's compute the Pedersen commitment, which is
-$$ C = g^m\cdot h^r$$
-for a random $r\in\mathbb{Z}_n$.
+Now that we have \\(m\\), let's compute the Pedersen commitment, which is
+\\[C = g^m\cdot h^r\\]
+for a random \\(r\in\mathbb{Z}_n\\).
 
 
-```Java
+```java
 var r = zn.getUniformlyRandomElement();
 var C = g.pow(m).op(h.pow(r));
 System.out.println(C);
@@ -143,12 +141,12 @@ System.out.println(C);
 
 ### On automatic multiexponentiation 🤖
 
-One advantage of the `LazyGroup` approach is that after calling `g.pow(m)`, that value is not immediately computed. This allows us to compute $C$ as a multiexponentiation behind the scenes, i.e. more efficiently than computing $g^m$ and $h^r$ separately and then multiplying them.
+One advantage of the `LazyGroup` approach is that after calling `g.pow(m)`, that value is not immediately computed. This allows us to compute \\(C\\) as a multiexponentiation behind the scenes, i.e. more efficiently than computing \\(g^m\\) and \\(h^r\\) separately and then multiplying them.
 
-This is done automatically when the value of $C$ is needed. We can force computation of $C$ by calling `computeSync()` for the sake of illustration.
+This is done automatically when the value of \\(C\\) is needed. We can force computation of \\(C\\) by calling `computeSync()` for the sake of illustration.
 
 
-```Java
+```java
 C.computeSync() //computes the value of C and blocks the caller until it's done.
 ```
 
@@ -159,12 +157,12 @@ C.computeSync() //computes the value of C and blocks the caller until it's done.
 
 
 
-The committer can now transmit $C$ to the verifier, who won't learn anything from it ($C$ is uniformly random in $\mathbb{G}$) but will be assured that we cannot later change our mind about $m$.
+The committer can now transmit \\(C\\) to the verifier, who won't learn anything from it (\\(C\\) is uniformly random in \\(\mathbb{G}\\)) but will be assured that we cannot later change our mind about \\(m\\).
 
 For this transmission, we'd have to talk about serialization. Very roughly: every `GroupElement` is able to represent itself as a `Representation`, which is safe to send, and its corresponding `Group` is able to undo this process.
 
 
-```Java
+```java
 C.getRepresentation()
 ```
 
@@ -176,7 +174,7 @@ C.getRepresentation()
 
 
 
-```Java
+```java
 group.getElement(C.getRepresentation()).equals(C)
 ```
 
@@ -191,10 +189,10 @@ For more information on serialization, see [our documentation regarding `Represe
 
 ## Verifying the commitment 🕵️
 
-When we've additionally given $m,r$ to the verifier, they can now check whether $m,r$ is a valid opening for $C$ by checking the following equation:
+When we've additionally given \\(m,r\\) to the verifier, they can now check whether \\(m,r\\) is a valid opening for \\(C\\) by checking the following equation:
 
 
-```Java
+```java
 g.pow(m).op(h.pow(r)).equals(C)
 ```
 
@@ -205,7 +203,7 @@ g.pow(m).op(h.pow(r)).equals(C)
 
 
 
-Note that here, $g^m\cdot h^r$ is also automatically computed as multiexponentiation.
+Note that here, \\(g^m\cdot h^r\\) is also automatically computed as multiexponentiation.
 
 ... and that's already it for implementing the Pedersen commitment scheme.
 
@@ -214,7 +212,7 @@ Note that here, $g^m\cdot h^r$ is also automatically computed as multiexponentia
 Another advantage of the `LazyGroup` approach is that it makes group computations easily parallelizable. Consider the following code snippet where we'll compute a whole bunch of commitments:
 
 
-```Java
+```java
 List<GroupElement> commitments = new ArrayList<>();
 
 for (int i=0;i<500;i++) {
