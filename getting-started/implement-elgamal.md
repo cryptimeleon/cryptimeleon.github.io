@@ -4,7 +4,7 @@ mathjax: true
 tpc: true
 ---
 
-In this document, we show to to use the **upb.crypto.craco** and **upb.crypto.math** library to implement an example scheme, the Elgamal encryption scheme [Elg85].
+In this document, we show to to use the upb.crypto.craco and upb.crypto.math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
 
 First, lets review how it works:
 
@@ -19,7 +19,7 @@ Let \\(G\\) be a cyclic group of prime order \\(q\\).
 **\\(\operatorname{Encryption}(pk, m)\\)**: 
 
 1. Choose \\(r\\) from \\(\\{0, 1, \dots, q-1\\}\\) uniformly at random.
-2. The ciphertext is \\(c = (c_1, c_2) = (g_r, m \cdot h_r)\\).
+2. The ciphertext is \\(c = (c_1, c_2) = (g^r, m \cdot h^r)\\).
 
 **\\(\operatorname{Decryption}(sk, c=(c_1, c_2))\\)**:
 
@@ -27,12 +27,12 @@ Let \\(G\\) be a cyclic group of prime order \\(q\\).
 
 ## Implementing the Scheme
 
-We assume you have set up a new project in your IDE already, and added **upb.crypto.craco** as a dependency.
-Craco already includes the math library so you need not add that explicitly.
+We assume you have set up a new project in your IDE already, and added upb.crypto.craco as a dependency.
+Craco already includes the math library so you don't need to add that explicitly.
 
 To represent the different parts of the scheme, we start off by creating some classes.
 
-The `ElgamalEncryptionScheme` class houses the different algorithms that are part of the scheme such as encryption and key generation. Let's have it implement the existing `AsymmetricEncryptionScheme` interface contained in the **upb.crypto.craco** library:
+The `ElgamalEncryptionScheme` class houses the different algorithms that are part of the scheme such as encryption and key generation. Let's have it implement the existing `AsymmetricEncryptionScheme` interface contained in the upb.crypto.craco library:
 
 ```java
 public class ElgamalEncryptionScheme implements AsymmetricEncryptionScheme {
@@ -41,7 +41,7 @@ public class ElgamalEncryptionScheme implements AsymmetricEncryptionScheme {
 
 This interface – together with `EncryptionScheme` – contains the methods required for an asymmetric encryption scheme already: `generateKeyPair()`, `encrypt()` and `decrypt()`, as well as some methods for working with representations, more on those later.
 
-Next, lets create classses for the secret and public key, `ElgamalSecretKey` and `ElgamalPublicKey`, implementing the `DecryptionKey` and `EncryptionKey` interfaces included in **upb.crypto.craco**, respectively.
+Next, lets create classses for the secret and public key, `ElgamalSecretKey` and `ElgamalPublicKey`, implementing the `DecryptionKey` and `EncryptionKey` interfaces included in upb.crypto.craco, respectively.
 
 ```java
 // ElgamalSecretKey.java
@@ -143,9 +143,9 @@ public KeyPair generateKeyPair() {
     // Choose secret exponent a
     ZnElement a = zn.getUniformlyRandomElement()
     // Get a generator of the group, by prime order all non-neutral elements are generators
-    GroupElement generator = groupG.getUniformlyRandomNonNeutral();
+    GroupElement generator = groupG.getUniformlyRandomNonNeutral().compute();
     // Compute h = g^a, 
-    GroupElement h = generator.pow(a);
+    GroupElement h = generator.pow(a).compute();
     
     // Create secret key
     ElgamalSecretKey secretKey = new ElgamalSecretKey(groupG, generator, a, g);
@@ -155,7 +155,7 @@ public KeyPair generateKeyPair() {
     return new KeyPair(publicKey, privateKey);
 }
 ```
-As you can see, we make use of a number of different classes provided by the **upb.crypto.math** library such
+As you can see, we make use of a number of different classes provided by the upb.crypto.math library such
 as `Group`, `GroupElement`, or `Zn` who provide many typical methods such as group operations or efficient exponentiation, meaning we only have to concern ourselves with the scheme itself.
 
 Encryption is next:
@@ -181,7 +181,7 @@ public CipherText encrypt(PlainText plainText, EncryptionKey publicKey) {
     //c2 = h^r * plaintext
     GroupElement c2 = h.pow(random).op(groupElementPlaintext);
 
-    return new ElgamalCipherText(c1, c2);
+    return new ElgamalCipherText(c1.compute(), c2.compute());
 }
 ```
 There are a number of type checks and type casts in this method. This is because the `EncryptionScheme` interface we implement by implementing `AsymmetricEncryptionScheme` does not know about our specific classes, instead it uses the general `PlainText`, `CipherText`, and `EncryptionKey` classes.
@@ -200,7 +200,7 @@ public PlainText decrypt(CipherText cipherText, DecryptionKey privateKey) {
     ZnElement a = ((ElgamalPrivateKey) privateKey).getA();
     GroupElement u = cpCipherText.getC1().pow(a);
     GroupElement m = u.inv().op(cpCipherText.getC2()); // m = c_2 * c_1^a
-    return new ElgamalPlainText(m);
+    return new ElgamalPlainText(m.compute());
 }
 ```
 
