@@ -7,6 +7,10 @@ To enable automatic use of multi-exponentiation algorithms, the upb.crypto.math 
 Lazy evaluation means that when you call, for example, `g.pow(x)`, the exponentiation represented by `pow()` will not immediately be executed.
 Only once the result of the computation is actually needed will it be executed.
 
+The way this functionality is realized in the class hierarchy is that a group implementation implements the `GroupImpl` interface. 
+An instance of `GroupImpl` can then be wrapped in `LazyGroup` to enable lazy evaluation.
+You can disable lazy evaluation by instead wrapping your desired `GroupImpl` in a `BasicGroup` instance which performs all operations naively.
+
 ## Affected Groups
 
 Not all groups are affected as lazy evaluation only makes sense for groups where group operations are costly.

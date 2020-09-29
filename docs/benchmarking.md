@@ -4,9 +4,55 @@ toc: true
 mathjax: true
 ---
 
+In this document we discuss your options when it comes to benchmarking code written using upb.crypto libraries as well as group operation counting provided by upb.crypto.math.
+
 # Runtime Benchmarking
 
-WIP
+## Lazy Eval
+
+While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of upb.crypto.math can create some benchmarking problems if not handled correctly.
+
+Let's take for example a signature scheme. 
+During setup for your verification benchmark, you will probably execute the signing algorithm.
+If evaluation is deferred until later, group operations done during signing will only be executed once the result is needed during verification of your signature.
+This will obviously falsify your results for the verification benchmark.
+
+Therefore, you should make sure to compute all group operations via any of the methods that force a blocking evaluation of the `LazyGroupElement` instance, for example using `computeSync()`.
+
+## Micro-Benchmarking
+
+If you care about accuracy, we recommend using a micro-benchmarking framework such as [JMH](https://openjdk.java.net/projects/code-tools/jmh/).
+We also strongly recommend working through the [JMH Samples](https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/) to make sure you avoid any bad practices that could potentially invalidate your benchmarks.
+
+[Our own benchmarks](https://github.com/upbcuk/upb.crypto.benchmark) use JMH.
+Since JMH is made to be used with Maven, you will probably want to add a Gradle task for executing your JMH tests (if you use Gradle).
+
+```groovy
+task jmh(type: JavaExec) {
+    description = "This task runs JMH benchmarks"
+    classpath = sourceSets.jmh.runtimeClasspath
+    main = "org.openjdk.jmh.Main"
+
+    def include = project.properties.get('include', '');
+    def exclude = project.properties.get('exclude');
+    def prof = project.properties.get('prof'); // allow adding a profiler
+    def format = project.properties.get('format', 'json');
+    def resultFile = file("build/reports/jmh/result.${format}")
+    resultFile.parentFile.mkdirs()
+
+    args include
+    if (exclude) {
+        args '-e', exclude
+    }
+    if (prof) {
+        args '-prof', prof
+    }
+    args '-rf', format
+    args '-rff', resultFile
+}
+```
+Above is the script we use for our upb.crypto.benchmark projects.
+It allows us to use certain JMH parameters in addition to just running all tests contained in the `jmh` source set.
 
 # Group Operation Counting
 
@@ -44,7 +90,7 @@ These methods for data access can be separated in two categories:
 Methods whose names end in `Total` and ones whose names end in `NoExpMultiExp`.
 The former includes all group operations, even the ones done in (multi-)exponentiation algorithms while `NoExpMultiExp` methods only retrieve operation counts of operations done *not* in (multi-)exponentiations.
 This is useful if you want to track (multi-)exponentiations only as a single unit and not the underlying group operations.
-This data can be accessed via the `getNumExps()` and `getMultiExpTermNumbers()` methods, where the latter returns an array containing the number of bases in each multi-exponentiation done.
+That data can be accessed via the `getNumExps()` and `getMultiExpTermNumbers()` methods, where the latter returns an array containing the number of bases in each multi-exponentiation done.
 
 Additionally, `resetCounters()` can be used to reset all operation counters, and `formatCounterData()` provides a printable string that summarizes all collected data.
 
@@ -93,9 +139,9 @@ So make sure to always call `compute()` on every `CountingGroupElement` before a
 `CountingGroup` not only allows for tracking group operations, it also counts how many calls of `getRepresentation()` have been called on elements of the group. This has the purpose of allowing you to track serializations.
 The count is accessible via `getNumRetrievedRepresentations()`.
 
-# CountingBilinearGroup
+## CountingBilinearGroup
 
-upb.crypto.math also provides a `BilinearGroup` implementation that can be used for counting. It can be instantiated either directly via the `CountingBilinearGroupProvider` class, or by using `setDebugMode(true)` to enable debug mode in `BilinearGroupFactory`. It uses a simple (not secure) \\(Z_n\\) pairing.
+upb.crypto.math also provides a `BilinearGroup` implementation that can be used for counting. It can be instantiated either directly via the `CountingBilinearGroupProvider` class, or by using `setDebugMode(true)` to enable debug mode in `BilinearGroupFactory`. It uses a simple (not secure) \\(\mathbb{Z}_n\\) pairing.
 
 In addition to the usual group operation counting done by the three `CountingGroup` instances contained in the bilinear group, `CountingBilinearGroup` also allows you to track number of pairings performed.
 
