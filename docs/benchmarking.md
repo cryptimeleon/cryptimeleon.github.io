@@ -51,7 +51,7 @@ task jmh(type: JavaExec) {
     args '-rff', resultFile
 }
 ```
-Above is the script we use for our upb.crypto.benchmark projects.
+Above is the script we use for our upb.crypto.benchmark project.
 It allows us to use certain JMH parameters in addition to just running all tests contained in the `jmh` source set.
 
 # Group Operation Counting
