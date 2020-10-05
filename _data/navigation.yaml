@@ -15,8 +15,6 @@ docs:
       url: /docs/libraries.html
     - title: "Representations"
       url: /docs/representations.html
-    - title: "Expressions"
-      url: /docs/expressions.html
     - title: "Lazy Evaluation"
       url: /docs/lazy-eval.html
     - title: "Benchmarking"
