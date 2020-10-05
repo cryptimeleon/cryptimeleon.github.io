@@ -23,12 +23,12 @@ We'll work alongside the scheme's definition in the paper:
 First, we need to set up the bilinear group setting required for the scheme. `upb.crypto` provides a nice way of defining requirements you have for the group:
 
 
-```Java
+```java
 %maven de.upb.crypto:math:2.0.0-SNAPSHOT
 ```
 
 
-```Java
+```java
 import de.upb.crypto.math.factory.BilinearGroupFactory;
 import de.upb.crypto.math.factory.BilinearGroup;
 import de.upb.crypto.math.interfaces.structures.*;
@@ -59,10 +59,10 @@ System.out.println("Generated bilinear group of order "+p);
 
 ![image-2.png](attachment:image-2.png)
 
-For a key pair, we need to generate random exponents $x$ and $y_i$ as the secret key. Because it's a group of order $p$, we interpret the exponents as elements of $\mathbb{Z}_p$. 
+For a key pair, we need to generate random exponents \\(x\\) and \\(y_i\\) as the secret key. Because it's a group of order \\(p\\), we interpret the exponents as elements of \\(\mathbb{Z}_p\\). 
 
 
-```Java
+```java
 //Generate secret key
 //import de.upb.crypto.math.structures.zn.Zn.ZnElement;
 
@@ -80,7 +80,7 @@ System.out.println("y = " + y);
 Then we can compute the corresponding public key easily and run precomputation on it to speed up later verifications:
 
 
-```Java
+```java
 //Generate public key
 
 var tildeg = groupG2.getUniformlyRandomElement();
@@ -89,7 +89,7 @@ var tildeY = tildeg.pow(y).precomputePow(); //because y is a vector, this yields
 ```
 
 
-```Java
+```java
 System.out.println("tildeg = "+tildeg);
 System.out.println("tildeX = "+tildeX);
 System.out.println("tildeY = "+tildeY);
@@ -107,10 +107,10 @@ System.out.println("tildeY = "+tildeY);
 
 ![image.png](attachment:image.png)
 
-Computing a signature works as you'd expect now with what we've already seen. Messages for Pointcheval-Sanders lie in $\mathbb{Z}_p$, but we can use a hash function $\mathcal{H}:\{0,1\}\rightarrow \mathbb{Z}_p$ to sign arbitrary strings.
+Computing a signature works as you'd expect now with what we've already seen. Messages for Pointcheval-Sanders lie in \\(\mathbb{Z}_p\\), but we can use a hash function \\(\mathcal{H}:\{0,1\}\rightarrow \mathbb{Z}_p\\) to sign arbitrary strings.
 
 
-```Java
+```java
 import de.upb.crypto.math.structures.cartesian.RingElementVector;
 
 //Preparing messages ("Hello PS sigs", 42, 0, 0, ...)
@@ -124,7 +124,7 @@ var sigma2 = sigma1.pow(x.add(y.innerProduct(m))).compute(); //h^{x + sum(y_i*m_
 ```
 
 
-```Java
+```java
 System.out.println("sigma1 = " + sigma1);
 System.out.println("sigma2 = " + sigma2);
 ```
@@ -140,7 +140,7 @@ System.out.println("sigma2 = " + sigma2);
 For this verification, we need to emply the pairing `e`.
 
 
-```Java
+```java
 !sigma1.isNeutralElement() 
     && e.apply(sigma1, tildeX.op(tildeY.innerProduct(m))).equals(e.apply(sigma2, tildeg))
 ```
