@@ -11,7 +11,7 @@ In this notebook, we'll take a look at how to implement a pairing-based scheme.
 The (multi-message) [Pointcheval-Sanders signature scheme](https://eprint.iacr.org/2015/525) is a very useful digital signature scheme for advanced cryptographic constructions because of its elegant and simple algebraic structure. We'll use it as an example for implementing a cryptographic scheme.
 
 We'll work alongside the scheme's definition in the paper:
-![image.png](attachment:image.png)
+![image](/assets/images/ps16-algs-definition.png)
 
 ... and show how to implement it. 
 
@@ -25,7 +25,7 @@ You can also check this page out in an interactive Jupyter notebook by clicking 
 
 ## Setting up the bilinear group
 
-![image-2.png](attachment:image-2.png)
+![image](/assets/images/ps16-bil-group-setup.png)
 First, we need to set up the bilinear group setting required for the scheme. `upb.crypto` provides a nice way of defining requirements you have for the group:
 
 
@@ -63,7 +63,7 @@ System.out.println("Generated bilinear group of order "+p);
 
 ## Generating a key pair
 
-![image-2.png](attachment:image-2.png)
+![image](/assets/images/ps16-keygen.png)
 
 For a key pair, we need to generate random exponents \\(x\\) and \\(y_i\\) as the secret key. Because it's a group of order \\(p\\), we interpret the exponents as elements of \\(\mathbb{Z}_p\\). 
 
@@ -111,7 +111,7 @@ System.out.println("tildeY = "+tildeY);
 
 ## Computing a signature
 
-![image.png](attachment:image.png)
+![image](/assets/images/ps16-sign.png)
 
 Computing a signature works as you'd expect now with what we've already seen. Messages for Pointcheval-Sanders lie in \\(\mathbb{Z}_p\\), but we can use a hash function \\(\mathcal{H}:\{0,1\}\rightarrow \mathbb{Z}_p\\) to sign arbitrary strings.
 
@@ -141,7 +141,7 @@ System.out.println("sigma2 = " + sigma2);
 
 ## Verifying a signature
 
-![image.png](attachment:image.png)
+![image](/assets/images/ps16-verify.png)
 
 For this verification, we need to emply the pairing `e`.
 
