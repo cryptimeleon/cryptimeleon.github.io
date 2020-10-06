@@ -6,8 +6,16 @@ tpc: true
 
 `upb.crypto.math` is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).
 
-To give you some insight into the library, let's implement the well-known Pedersen commitment scheme over an elliptic curve as an example. 
+To give you some insight into the library, let's implement the well-known Pedersen commitment scheme over an elliptic curve as an example.
 
+---
+*Note:*
+You can also check this page out in an interactive Jupyter notebook by clicking the badge below:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/upbcuk/upbcuk.github.io/gh-pages?filepath=getting-started%2F5-minute-tutorial.ipynb)
+
+---
+    
 ## Setup 🔨
 
 Let's include the upb.crypto.math library and set up the secp256k1 elliptic curve group. 
