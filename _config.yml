@@ -24,3 +24,12 @@ defaults:
           nav: "docs"
 kramdown:
     auto_ids: true
+
+# exclude from jekyll site
+exclude:
+    - DEVELOPER.md
+    - Gemfile
+    - Gemfile.lock
+    - README.md
+    - Dockerfile
+    - LICENSE
