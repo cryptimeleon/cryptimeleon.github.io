@@ -5,8 +5,6 @@ plugins:
 relative_links:
     enabled: true
     collections: true
-include:
-    - LICENSE.md
 remote_theme: "mmistakes/minimal-mistakes@4.19.1"
 title: upb.crypto Documentation
 repository: upbcuk/upb.crypto.docs
