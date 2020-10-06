@@ -1,13 +1,9 @@
-FROM openjdk@sha256:6633d6cd99d278b8c598720cda21bcfb3fa356e129f481aaea9334797c6c4808
+FROM openjdk:11.0.3-jdk
 
 RUN apt-get update
 RUN apt-get install -y python3-pip
 
-# add requirements.txt, written this way to gracefully ignore a missing file
-COPY . .
-RUN ([ -f requirements.txt ] \
-    && pip3 install --no-cache-dir -r requirements.txt) \
-        || pip3 install --no-cache-dir jupyter jupyterlab
+RUN pip3 install --no-cache-dir jupyter jupyterlab
 
 USER root
 
@@ -21,7 +17,7 @@ RUN unzip ijava-kernel.zip -d ijava-kernel \
 
 # Set up the user environment
 
-ENV NB_USER jovyan
+ENV NB_USER ijava
 ENV NB_UID 1000
 ENV HOME /home/$NB_USER
 
