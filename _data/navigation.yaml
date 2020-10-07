@@ -27,3 +27,5 @@ docs:
       url: /contributors/setup.html
     - title: "Snapshot Builds"
       url: /contributors/composite-builds.html
+    - title: "Contributing"
+      url: /contributors/contributing.html
