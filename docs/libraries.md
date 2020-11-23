@@ -13,8 +13,9 @@ The upb.crypto.math library provides the mathematical foundation for the other u
 It provides basics such as mathematical groups, rings and fields, e.g. \\(Z_n\\), as well as implementations of cryptographic pairings.
 Furthermore, it contains a serialization framework which acts as an intermediary between the cryptographic scheme and the low-level Java serialization. 
 This allows for easy serialization of mathematical objects such as group elements.
-Also noteworthy is the expression framework which provides automatic optimization of boolean and group expressions.
-The framework implements multi-exponentiation algorithms to allow for fast evaluation of the expressions.
+Also noteworthy is the implementation of multi-exponentiation algorithms to allow for fast evaluation of the expressions.
+
+To support better benchmarking, the math library allows for counting group operations via a special pairing group.
 
 # upb.crypto.craco
 
@@ -24,8 +25,8 @@ Aside from the interfaces used to implement new schemes, the library contains im
 
 # upb.crypto.benchmark
 
-Once you have implemented a scheme, you would probably like to benchmark it. This library provides benchmarks for
-different types of schemes.
+Here, we store benchmarks for the implemented schemes.
+The benchmarks are generally done via JMH.
 
 # upb.crypto.protocols
 
@@ -40,6 +41,7 @@ As the name suggests, this library provides an anonymous credential system.
 # upb.crypto.mclwrap
 
 Mclwrap provides a wrapper around the efficient BN264 pairing implemented in the [MCL library](https://github.com/herumi/mcl). As the pairings implemented in the upb.crypto.math library are not particulary efficient, use of this wrapper is recommended for proper benchmarks.
+Specifically, the mclwrap implementation's group operations are roughly 100 times as fast as our own pairings.
 
 # References
 

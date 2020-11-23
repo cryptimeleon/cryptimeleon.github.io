@@ -10,6 +10,6 @@ You can test the deployment locally by setting up jekyll and the plugins as foll
 
 For more information, view [the github help page on this topic](https://help.github.com/en/github/working-with-github-pages/testing-your-github-pages-site-locally-with-jekyll).
 
-To render the LaTex, we use MathJax Version 2 (there seemed to be some issues with MathJax Version 3 and Jekyll, but I did not bother to test that).
+To render the LaTex, we use MathJax Version 2 (there seemed to be some issues with MathJax Version 3 and Jekyll, but I have not tested that).
 To enable MathJax rendering for a site, add `mathjax: true` to the YAML Front Matter of the corresponding markdown page.
 The YAML Front Matter is the YAML code delimited by `---` at the top of a markdown page.
