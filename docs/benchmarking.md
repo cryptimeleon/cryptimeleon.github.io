@@ -63,7 +63,7 @@ Specifically, it allows for tracking group inversions, squarings, operations, as
 
 The functionality of group operation counting is provided by using a special group, the `CountingGroup`.
 
-*Note: Keep in mind that `CountingGroup` uses \\(Z_n\\) under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks or even production code.*
+*Note: Keep in mind that `CountingGroup` uses \\(\mathbb{Z}_n\\) under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks or even production code.*
 
 ```java
 import de.upb.crypto.math.pairings.debug.count.CountingGroup;
