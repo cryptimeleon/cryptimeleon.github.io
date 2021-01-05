@@ -16,9 +16,6 @@ You can disable lazy evaluation by instead wrapping your desired `GroupImpl` in 
 Not all groups are affected as lazy evaluation only makes sense for groups where group operations are costly.
 This is because in that case multi-exponentiation algorithms can potentially be used to speed up computation of larger terms compared to evaluating each group operation separately.
 
-In general all bilinear groups are automatically instantiated with lazy evaluation if you use the `BilinearGroupFactory` to instantiate them.
-You can also test for lazy evaluation by checking whether the group used is an instance of `LazyGroup`.
-
 ## Forcing Evaluation
 
 There are a couple of ways you can force evaluation to be done.

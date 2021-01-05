@@ -5,7 +5,7 @@ toc: true
 
 # Project Setup
 
-All the **upb.crypo** libraries use the [Gradle](https://gradle.org/) build tool. 
+All the upb.crypto libraries use the [Gradle](https://gradle.org/) build tool. 
 In this guide, we show you how to set up a project in your integrated development environment of choice. 
 This guide is intended for development of the library itself.
 
@@ -45,7 +45,7 @@ Click **Finish** to finish setup. You can also click **Next** if you want to, fo
 ## Testing Changes
 
 Once you have done some changes to a library, you might want to test the effect of these changes on the other libraries.
-For example, as **upb.crypto.craco** relies on **upb.crypto.math**, changes to the math library should be followed by testing the craco library with the new changes.
+For example, as Craco relies on Math, changes to the math library should be followed by testing the craco library with the new changes.
 
 To do this, there are two options: Local installation and composite builds.
 

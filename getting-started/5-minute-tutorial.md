@@ -1,10 +1,10 @@
 ---
-title: 5-Minute Tutorial For upb.crypto.math
+title: 5-Minute Tutorial For UPB Math
 mathjax: true
 tpc: true
 ---
 
-`upb.crypto.math` is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).
+UPB Math is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).
 
 To give you some insight into the library, let's implement the well-known Pedersen commitment scheme over an elliptic curve as an example.
 
@@ -18,7 +18,7 @@ You can also check this page out in an interactive Jupyter notebook by clicking 
     
 ## Setup 🔨
 
-Let's include the upb.crypto.math library and set up the secp256k1 elliptic curve group. 
+Let's include the UPB Math library and set up the secp256k1 elliptic curve group. 
 
 
 ```java
@@ -68,7 +68,7 @@ System.out.println(h);
     LazyGroupElement{computationState=NOTHING}
 
 
-Most operations concerning group elements in upb.crypto are lazy, i.e. they are only evaluated when necessary (and we consider `toString()` not to be necessary but rather a debugging tool). This has a bunch of advantages that we'll get to later. When working with `g` and `h`, this doesn't really change anything - though their values are not yet known, you can pretend that they are (when they are needed, they will be computed transparently). 
+Most operations concerning group elements in UPB Math are lazy, i.e. they are only evaluated when necessary (and we consider `toString()` not to be necessary but rather a debugging tool). This has a bunch of advantages that we'll get to later. When working with `g` and `h`, this doesn't really change anything - though their values are not yet known, you can pretend that they are (when they are needed, they will be computed transparently). 
 
 ### Precomputation 🔮
 `g` and `h` are fixed and publicly known and we'll later compute lots of expressions of the form \\(C = g^m\cdot h^r\\). To speed that up, we can invest some time and memory to do some precomputation _now_. 

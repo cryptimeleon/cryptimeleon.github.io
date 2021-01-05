@@ -3,7 +3,7 @@ title: Installation
 toc: true
 ---
 
-To make use of any of the **upb.crypto** libraries, you need at least Java SDK version 8.
+To make use of any of the upb.crypto libraries, you need at least Java SDK version 8.
 
 # Library Installation
 
@@ -16,8 +16,8 @@ We assume that you are familiar with the dependency management of your build too
 Currently, the libraries are only available via the university nexus repository **outdated, not anymore**. 
 This is a Maven repository available at `https://nexus.cs.upb.de/repository/sfb901-releases/`.
 
-The group id of all the **upb.crypto** projects is `de.upb.crypto` and the artifact id corresponds to the name of the library you want to use. 
-For example, `craco` for the **upb.crypto.craco** library.
+The group id of all the upb.crypto projects is `de.upb.crypto` and the artifact id corresponds to the name of the library you want to use. 
+For example, `craco` for the upb.crypto.craco library.
 
 If you want to use the mclwrap library, you also need to [install the MCL java bindings](#mclwrap-installation).
 
@@ -41,10 +41,10 @@ WIP
 # Mclwrap Installation
 
 For benchmarking you will probably want to use an efficient cryptographic pairing implementation. 
-The **upb.crypto.math** library does provide a selection of pairings but these are orders of magnitude less efficient than other, more optimized implementations.
+The upb.crypto.math library does provide a selection of pairings but these are orders of magnitude less efficient than other, more optimized implementations.
 
 An efficient pairing implementation is provided by our wrapper around the [MCL library's](https://github.com/herumi/mcl) implementation of the BN254 curve. 
-This wrapper is provided by the **upb.crypto.mclwrap** library. 
+This wrapper is provided by the upb.crypto.mclwrap library. 
 
 To use the MCL wrapper library in your project, you need to install the Java bindings for MCL.
 To simplify this process, we have provided a [script in the **upb.crypto.mclwrap** repository](https://github.com/upbcuk/upb.crypto.mclwrap/blob/master/install_mcl.sh). 

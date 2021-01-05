@@ -26,7 +26,7 @@ You can also check this page out in an interactive Jupyter notebook by clicking 
 ## Setting up the bilinear group
 
 ![image](/assets/images/ps16-bil-group-setup.png)
-First, we need to set up the bilinear group setting required for the scheme. `upb.crypto` provides a nice way of defining requirements you have for the group:
+First, we need to set up the bilinear group setting required for the scheme. We need to know the type of pairing and the desired security parameter. In this case we want a type 3 pairing and 100 bit security.
 
 
 ```java
@@ -44,9 +44,8 @@ import de.upb.crypto.math.structures.zn.*;
 //Choose number of messages r
 var r = 3;
 
-var fac = new BilinearGroupFactory(128); //set up a factory for a security parameter 128 curve
-fac.setRequirements(BilinearGroup.Type.TYPE_3); //tell it we want a prime-order type 3 setting
-BilinearGroup bilinearGroup = fac.createBilinearGroup(); //have the bilinear group generated
+// BN pairing is type 3 and we specify a 100 bit security parameter
+BilinearGroup bilinearGroup = new BarretoNaehrigBilinearGroup(100);
 
 //Let's collect the values for our pp
 Group groupG1 = bilinearGroup.getG1();
@@ -69,11 +68,10 @@ For a key pair, we need to generate random exponents \\(x\\) and \\(y_i\\) as th
 
 
 ```java
-//Generate secret key
-//import de.upb.crypto.math.structures.zn.Zn.ZnElement;
+// Generate secret key
 
 var x = zp.getUniformlyRandomElement();
-var y = zp.getUniformlyRandomElements(r); //computes a vector of r random numbers y_0, ..., y_(r-1)
+var y = zp.getUniformlyRandomElements(r); // computes a vector of r random numbers y_0, ..., y_(r-1)
 
 System.out.println("x = " + x);
 System.out.println("y = " + y);
@@ -87,18 +85,18 @@ Then we can compute the corresponding public key easily and run precomputation o
 
 
 ```java
-//Generate public key
+// Generate public key
 
 var tildeg = groupG2.getUniformlyRandomElement();
-var tildeX = tildeg.pow(x).precomputePow(); //this computes X = tildeg^x as above and runs precomputations to speed up later pow() calls on tildeX
-var tildeY = tildeg.pow(y).precomputePow(); //because y is a vector, this yields a vector of values tildeg.pow(y_0), tildeg.pow(y_1), ...
+var tildeX = tildeg.pow(x).precomputePow(); // this computes X = tildeg^x as above and runs precomputations to speed up later pow() calls on tildeX
+var tildeY = tildeg.pow(y).precomputePow(); // because y is a vector, this yields a vector of values tildeg.pow(y_0), tildeg.pow(y_1), ...
 ```
 
 
 ```java
-System.out.println("tildeg = "+tildeg);
-System.out.println("tildeX = "+tildeX);
-System.out.println("tildeY = "+tildeY);
+System.out.println("tildeg = " + tildeg);
+System.out.println("tildeX = " + tildeX);
+System.out.println("tildeY = " + tildeY);
 ```
 
     tildeg = ([33181815845555334358577068381664821343798875962465390910891008825471831131230775, 13759173252834472530665458094698752720169013464273477214357879193677067897449538],[48400772409451731070007287131869842588349583818819704262136088467120452819539790, 44820255457880940775530882633434781340728407777262826152054247968296341908849032])
@@ -119,14 +117,16 @@ Computing a signature works as you'd expect now with what we've already seen. Me
 ```java
 import de.upb.crypto.math.structures.cartesian.RingElementVector;
 
-//Preparing messages ("Hello PS sigs", 42, 0, 0, ...)
-var m = new RingElementVector(bilinearGroup.getHashIntoZGroupExponent().hashIntoStructure("Hello PS sigs"), 
-                              zp.valueOf(42)).pad(zp.getZeroElement(), r);
+// Preparing messages ("Hello PS sigs", 42, 0, 0, ...)
+var m = new RingElementVector(
+    bilinearGroup.getHashIntoZGroupExponent().hashIntoStructure("Hello PS sigs"), 
+    zp.valueOf(42)).pad(zp.getZeroElement(), r
+);
 
-//Computing signature
-var sigma1 = groupG1.getUniformlyRandomNonNeutral().compute(); //h
-var sigma2 = sigma1.pow(x.add(y.innerProduct(m))).compute(); //h^{x + sum(y_i*m_i)}
-//The compute() call is optional but will cause sigma1 and sigma2 to be computed concurrently in the background.
+// Computing signature
+var sigma1 = groupG1.getUniformlyRandomNonNeutral().compute(); // h
+var sigma2 = sigma1.pow(x.add(y.innerProduct(m))).compute(); // h^{x + sum(y_i*m_i)}
+// The compute() call is optional but will cause sigma1 and sigma2 to be computed concurrently in the background.
 ```
 
 

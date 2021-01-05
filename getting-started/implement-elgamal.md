@@ -1,12 +1,13 @@
 ---
-title: Implementing ElGamal Encryption
+title: Class Structure Tutorial
 mathjax: true
 tpc: true
 ---
 
 In this document, we show to to use the upb.crypto.craco and upb.crypto.math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
+Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library'sy intermediate serialization framework to you along the way.
 
-First, lets review how it works:
+First, lets review how ElGamal encryption works:
 
 Let \\(G\\) be a cyclic group of prime order \\(q\\).
 
@@ -207,7 +208,7 @@ public PlainText decrypt(CipherText cipherText, DecryptionKey privateKey) {
 ## Representation
 
 You might have noticed that the `EncryptionScheme` requires more than just the methods implemented so far.
-These methods, e.g. `getPlainText()` all take a Representation as argument. In short, Representations allow you to represent certain objects in a way that supports sending them to other people. They act as an intermediate step between your scheme and the java serialization.
+These methods, e.g. `getPlainText()` all take a `Representation` object as argument. Representations act as an intermediate format between the actual object and java serialization. Once you have created a representation of an object, you can use one of the converter classes to serialize it to, for example, JSON or binary.
 
 The `getPlainText()` takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.
 
@@ -269,6 +270,22 @@ public class ElgamalEncryptionScheme implements AsymmetricEncryptionScheme {
 ```
 The `Group` class is itself a `StandaloneRepresentable`, so we just delegate the representation to it.
 
-The only thing that could be done now, is implementing `equals()` and `hashCode()` methods, but we leave that to you.
+The only thing missing now is implementing `equals()` and `hashCode()` methods. We sketch our usual approach:
+
+```java
+
+public boolean equals(Object other) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    // Now convert "other" to the right type and check attribute equality via "Objects.equals()"
+}
+
+public int hashCode() {
+    // Use "Objects.hash()" for simplicity
+}
+```
+
+Using `Objects.equals()` and `Objects.hash()` is the easiest way to do this. The class check if-condition in the `equals()` method (instead of an `instanceof`) is important since it ensures symmetry of the equals relation for subclasses.
+
 
 [Elg85] T. Elgamal, "A public key cryptosystem and a signature scheme based on discrete logarithms," in *IEEE Transactions on Information Theory*, vol. 31, no. 4, pp. 469-472, July 1985.

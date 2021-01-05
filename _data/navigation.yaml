@@ -7,7 +7,7 @@ docs:
       url: /getting-started/5-minute-tutorial.html
     - title: "Pairing Tutorial"
       url: /getting-started/pairing-tutorial.html
-    - title: "Example: Implementing ElGamal Encryption"
+    - title: "Class Structure Tutorial"
       url: /getting-started/implement-elgamal.html
 - title: Documentation
   children:
