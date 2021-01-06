@@ -13,10 +13,12 @@ docs:
   children:
     - title: "Libraries Overview"
       url: /docs/libraries.html
-    - title: "Representations"
-      url: /docs/representations.html
     - title: "Lazy Evaluation"
       url: /docs/lazy-eval.html
+    - title: "Bilinear Groups"
+      url: /docs/bilinear-groups.html
+    - title: "Representations"
+      url: /docs/representations.html
     - title: "Benchmarking"
       url: /docs/benchmarking.html
     - title: "Frequently Asked Questions"

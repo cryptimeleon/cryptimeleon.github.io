@@ -141,18 +141,13 @@ The count is accessible via `getNumRetrievedRepresentations()`.
 
 ## CountingBilinearGroup
 
-upb.crypto.math also provides a `BilinearGroup` implementation that can be used for counting. It can be instantiated either directly via the `CountingBilinearGroupProvider` class, or by using `setDebugMode(true)` to enable debug mode in `BilinearGroupFactory`. It uses a simple (not secure) \\(\mathbb{Z}_n\\) pairing.
+upb.crypto.math also provides a `BilinearGroup` implementation that can be used for counting, the `CountingBilinearGroup` class. 
+It uses a simple (not secure) \\(\mathbb{Z}_n\\) pairing.
 
 In addition to the usual group operation counting done by the three `CountingGroup` instances contained in the bilinear group, `CountingBilinearGroup` also allows you to track number of pairings performed.
 
 ```java
-// manual instantiation of the CountingBilinearGroup
-CountingBilinearGroup bilGroup = (CountingBilinearGroup) new CountingBilinearGroupProvider().provideBilinearGroup(
-    128,
-    new BilinearGroupRequirement(
-        BilinearGroup.Type.TYPE_1, true, true, true
-    )
-);
+CountingBilinearGroup bilGroup = new CountingBilinearGroup(100);
 // Get G1 and G2 of the bilinear group
 CountingGroup groupG1 = (CountingGroup) bilGroup.getG1();
 CountingGroup groupG2 = (CountingGroup) bilGroup.getG2();

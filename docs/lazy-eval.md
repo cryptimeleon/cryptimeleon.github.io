@@ -13,6 +13,7 @@ You can disable lazy evaluation by instead wrapping your desired `GroupImpl` in 
 
 ## Affected Groups
 
+When you instantiate a group directly, for example `BarretoNaehrigBilinearGroup`, we already have made the choice whether to use lazy evaluation for you.
 Not all groups are affected as lazy evaluation only makes sense for groups where group operations are costly.
 This is because in that case multi-exponentiation algorithms can potentially be used to speed up computation of larger terms compared to evaluating each group operation separately.
 
@@ -21,8 +22,9 @@ This is because in that case multi-exponentiation algorithms can potentially be 
 There are a couple of ways you can force evaluation to be done.
 
 Calling `compute()` on a `LazyGroupElement` instance will start the computation in a separate thread. 
-This is a non-blocking operation.
-You should use `compute()` whenever a term has been fully constructed as waiting any longer won't offer any additional benefits, and you might as well use your idle cores.
+This is a non-blocking operation. The only exception to this are any of the counting groups; here `compute()` blocks instead. 
+This serves to avoid race conditions.
+You should use `compute()` whenever a term has been fully constructed as waiting any longer won't offer any additional benefits, and you might as well use your idle cores. 
 
 `computeSync()` is a blocking compute call, meaning that the current thread will block until computation is done.
 `getRepresentation()`, `hashCode()`, and `equals()` will also force a blocking computation as they require the result of the computation to function correctly.

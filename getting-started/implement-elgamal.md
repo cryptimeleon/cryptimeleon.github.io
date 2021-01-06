@@ -5,7 +5,7 @@ tpc: true
 ---
 
 In this document, we show to to use the upb.crypto.craco and upb.crypto.math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
-Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library'sy intermediate serialization framework to you along the way.
+Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library's intermediate serialization framework to you along the way.
 
 First, lets review how ElGamal encryption works:
 
@@ -140,7 +140,7 @@ Key generation may then look like this:
 // ElgamalEncryptionScheme class
 @Override
 public KeyPair generateKeyPair() {
-    Zn zn = new Zn(groupG.size()); zn = {0, 1, ..., q-1}
+    Zn zn = new Zn(groupG.size()); // Zn = {0, 1, ..., groupG.size()-1}
     // Choose secret exponent a
     ZnElement a = zn.getUniformlyRandomElement()
     // Get a generator of the group, by prime order all non-neutral elements are generators
@@ -212,7 +212,7 @@ These methods, e.g. `getPlainText()` all take a `Representation` object as argum
 
 The `getPlainText()` takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.
 
-We don't give a detailed walkthrough for that here, the [the representations documentation]({% link docs/representations.md %})) should allow you to implement it on your own for the four classes that require it: `ElgamalPublicKey`, `ElgamalSecretKey`, `ElgamalPlainText`, and `ElgamalCipherText`.
+We don't give a detailed walkthrough for that here, the [representations documentation]({% link docs/representations.md %}) should allow you to implement it on your own for the four classes that require it: `ElgamalPublicKey`, `ElgamalSecretKey`, `ElgamalPlainText`, and `ElgamalCipherText`.
 
 For `ElgamalCipherText`, it may look as follows:
 
@@ -247,7 +247,7 @@ public ElgamalCipherText getCipherText(Representation repr) {
 }
 ```
 
-Now, only one thing is missing: The `ElgamalEncryptionScheme` class implements `AsymmetricEncryptionScheme` which indirectly extends the `StandaloneRepresentable` interface. So we need to add a constructor taking a `Representation` object and instantiates a `ElgamalEncryptionScheme` object with the correct group (more on `StandaloneRepresentable` in [the representations documentation]({% link docs/representations.md %})).
+Now, only one thing is missing: The `ElgamalEncryptionScheme` class implements `AsymmetricEncryptionScheme` which indirectly extends the `StandaloneRepresentable` interface. So we need to add a constructor taking a `Representation` object and instantiates a `ElgamalEncryptionScheme` object with the correct group (more on `StandaloneRepresentable` in the [representations documentation]({% link docs/representations.md %}).
 
 Thankfully, this is easy:
 
@@ -285,7 +285,8 @@ public int hashCode() {
 }
 ```
 
-Using `Objects.equals()` and `Objects.hash()` is the easiest way to do this. The class check if-condition in the `equals()` method (instead of an `instanceof`) is important since it ensures symmetry of the equals relation for subclasses.
+Using `Objects.equals()` and `Objects.hash()` is the easiest way to do this. The class check if-condition in the `equals()` method (instead of an `instanceof`) is important since it ensures symmetry of the equals relation in case you ever implement a subclass.
 
+# References
 
 [Elg85] T. Elgamal, "A public key cryptosystem and a signature scheme based on discrete logarithms," in *IEEE Transactions on Information Theory*, vol. 31, no. 4, pp. 469-472, July 1985.

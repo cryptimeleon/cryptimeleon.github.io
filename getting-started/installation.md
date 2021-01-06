@@ -12,6 +12,8 @@ This process depends on your project structure and dependency management; theref
 
 We assume that you are familiar with the dependency management of your build tool.
 
+** Currently, the only way to install the library is directly via the Github repositories, as the university's repository has been made internal-access only **
+
 ## Maven
 Currently, the libraries are only available via the university nexus repository **outdated, not anymore**. 
 This is a Maven repository available at `https://nexus.cs.upb.de/repository/sfb901-releases/`.
