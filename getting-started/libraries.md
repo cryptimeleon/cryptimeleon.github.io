@@ -3,7 +3,7 @@ title: Libraries Overview
 mathjax: true
 ---
 
-The upb.crypto cryptography libraries are a family of libraries tailored towards fast prototyping and benchmarking of cryptographic constructions.
+The upb.crypto cryptography libraries are a family of libraries tailored towards fast prototyping of cryptographic constructions.
 
 In this document, we give a short overview of each library.
 
@@ -14,7 +14,6 @@ It provides basics such as mathematical groups, rings and fields, e.g. \\(\mathb
 Furthermore, it contains a serialization framework which acts as an intermediary between the cryptographic scheme and the low-level Java serialization. 
 This allows for easy serialization of mathematical objects such as group elements.
 Also noteworthy is the implementation of multi-exponentiation algorithms to allow for fast evaluation of multi-exponentiations.
-
 To support better benchmarking, the math library allows for counting group operations via a special pairing group.
 
 # upb.crypto.craco
@@ -30,8 +29,8 @@ This includes sigma protocols such as Schnorr, and the Fiat-Shamir Transformatio
 
 # upb.crypto.mclwrap
 
-Mclwrap provides a wrapper around the efficient BN264 pairing implemented in the [MCL library](https://github.com/herumi/mcl). As the pairings implemented in the upb.crypto.math library are not particulary efficient, use of this wrapper is recommended for proper benchmarks.
-Specifically, the mclwrap implementation's group operations are roughly 100 times as fast as our own pairings.
+Mclwrap provides a wrapper around the BN-254 bilinear group implemented in the [MCL library](https://github.com/herumi/mcl). As the bilinear groups implemented in the upb.crypto.math library are not particulary efficient, use of this wrapper is recommended for proper benchmarks.
+Specifically, the mclwrap implementation's group operations are roughly 100 times as fast as our own implementation.
 
 # upb.crypto.benchmark
 
@@ -41,7 +40,8 @@ The benchmarks are generally done via the [JMH micro-benchmarking library](https
 # upb.crypto.clarc
 
 CLARC: Cryptographic Library for Anonymous Reputation and Credentials.
-As the name suggests, this library provides an anonymous credential system.
+This library provides an anonymous credential system.
+It was developed as part of the ReACt project group at Paderborn University.
 
 Documentation can be found [here](https://cs.uni-paderborn.de/fileadmin/informatik/fg/cuk/Lehre/Veranstaltungen/WS2016/ReACt/ReACt_documentation.pdf).
 

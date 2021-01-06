@@ -14,14 +14,16 @@ To decide which bilinear group to use, you will need to know the desired type, t
 
 The following bilinear groups are available in our libraries:
 
-| Group  | [Type](#types)  | Has Hash to G1?  | Has Hash to G2?   | Has Hash to GT?  | Security | Library |
-|---|---|---|---|---|---|---|---|
-| Barreto-Naehrig  |  3 | yes  | yes  | no  | 100, 128 | [Math](https://github.com/upbcuk/upb.crypto.math) |
-| Mcl (BN-254) | 3 | yes | yes | no | 100 | [Mclwrap](https://github.com/upbcuk/upb.crypto.mclwrap)] |
-| Supersingular  | 1  | yes  | yes  | no  | 48 - 256 | [Math](https://github.com/upbcuk/upb.crypto.math) |
-| Counting Group  | any  | yes  | yes  | yes  | no security | [Math](https://github.com/upbcuk/upb.crypto.math) |
+| Group  | [Type](#types)  | Has Hash to \\(\mathbb{G}_1\\)?  | Has Hash to \\(\mathbb{G}_2\\)?   | Has Hash to \\(\mathbb{G}_T\\)?  | Security | Library | Class Name |
+|---|---|---|---|---|---|---|---|---|
+| Barreto-Naehrig  |  3 | yes  | yes  | no  | 100, 128 | [Math](https://github.com/upbcuk/upb.crypto.math) | `BarretoNaehrigBilinearGroup` |
+| Mcl (BN-254) | 3 | yes | yes | no | 100 | [Mclwrap](https://github.com/upbcuk/upb.crypto.mclwrap) | `MclBilinearGroup` |
+| Supersingular  | 1  | yes  | yes  | no  | 48 - 256 | [Math](https://github.com/upbcuk/upb.crypto.math) | `SupersingularBilinearGroup` |
+| Counting Group  | any  | yes  | yes  | yes  | no security | [Math](https://github.com/upbcuk/upb.crypto.math) | `CountingBilinearGroup` |
 
 The security is given as the negated logarithm base 2 of the adversaries attacking chance, i.e. a security parameter of 100 means the adversary has no more than a \\(2^{-100}\\) chance of breaking security. Security parameter estimations are determined based on numbers from [BD19].
+
+The "Has Hash to \\(\mathbb{G}_X\\)?" column tells you whether the implementation offers a hash function from byte arrays to the corresponding group \\(\mathbb{G}_X\\).
 
 Regarding performance, the bilinear groups we implement are very slow when it comes to computing group operations and the pairing itself. This includes our Barreto-Naehrig and supersingular implementations. If you are looking for better performance, you should use the Mcl wrapper (for type 3). For types other than 3 we do not currently offer an efficient implementation or wrapper.
 
