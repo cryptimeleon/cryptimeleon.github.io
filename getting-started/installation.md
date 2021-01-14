@@ -49,6 +49,4 @@ An efficient pairing implementation is provided by our wrapper around the [MCL l
 This wrapper is provided by the upb.crypto.mclwrap library. 
 
 To use the MCL wrapper library in your project, you need to install the Java bindings for MCL.
-To simplify this process, we have provided a [script in the **upb.crypto.mclwrap** repository](https://github.com/upbcuk/upb.crypto.mclwrap/blob/master/install_mcl.sh). 
-Aside from Java, you need to have installed ``libgmp-dev`` via your package manager to execute it. 
-It clones MCL, builds it and its Java bindings, and copies the resulting library to where the Java loader can find it.
+See [here](https://github.com/upbcuk/upb.crypto.mclwrap/blob/master/README.md) for installation instructions.
