@@ -1,5 +1,5 @@
 ---
-title: Class Structure Tutorial
+title: ElGamal Implementation Tutorial
 mathjax: true
 tpc: true
 ---

@@ -9,7 +9,9 @@ docs:
       url: /getting-started/5-minute-tutorial.html
     - title: "Pairing Tutorial"
       url: /getting-started/pairing-tutorial.html
-    - title: "Class Structure Tutorial"
+    - title: "Protocol Tutorial"
+      url: /getting-started/protocols-tutorial.html
+    - title: "ElGamal Tutorial"
       url: /getting-started/implement-elgamal.html
 - title: Documentation
   children:
