@@ -8,8 +8,8 @@ relative_links:
 remote_theme: "mmistakes/minimal-mistakes@4.19.1"
 minimal_mistakes_skin: "air"
 title: upb.crypto Documentation
-subtitle: "Version 2.0"
-repository: upbcuk/upb.crypto.docs
+subtitle: "Version 2.0.0"
+repository: upbcuk/upbcuk.github.io
 locale: en
 description: Documentation page for the upb.crypto cryptography libraries.
 defaults:
@@ -24,6 +24,7 @@ defaults:
           nav: "docs"
 kramdown:
     auto_ids: true
+    hard_wrap: false
 
 # exclude from jekyll site
 exclude:
