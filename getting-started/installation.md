@@ -3,7 +3,7 @@ title: Installation
 toc: true
 ---
 
-To make use of any of the LIBRARY_NAME libraries, you need at least Java SDK version 8.
+To make use of any of the upb.crypto libraries, you need at least Java SDK version 8.
 
 # Library Installation
 

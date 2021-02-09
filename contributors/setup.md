@@ -9,7 +9,8 @@ All the upb.crypto libraries use the [Gradle](https://gradle.org/) build tool.
 In this guide, we show you how to set up a project in your integrated development environment of choice. 
 This guide is intended for development of the library itself.
 
-A Java SDK Version 8 or higher is required to run the libraries.
+If you have problems with building any of the projects, make sure you use the newest version of the Java SDK 8.
+Not all versions of Java 8 are supported.
 
 ## Cloning the Repo
 
@@ -53,7 +54,9 @@ To do this, there are two options: Local installation and composite builds.
 
 Composite builds have the advantage of not requiring you to manually install the project each time you want to test its changes. 
 Instead, the dependencies will automatically be newly built when required.
-This is recommended over the local installation approach. More info on this [here]({% link contributors/composite-builds.md %})
+Furthermore, IDEs such as IntelliJ IDEA have special support for composite builds, allowing you to view the sources for any dependencies included in the composite build.
+
+We recommend using composite builds over the local installation approach. More info on this [here]({% link contributors/composite-builds.md %}).
 
 ### Local Installation
 
