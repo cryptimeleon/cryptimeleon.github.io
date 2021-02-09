@@ -111,7 +111,7 @@ System.out.println("tildeY = " + tildeY);
 
 ![image](/assets/images/ps16-sign.png)
 
-Computing a signature works as you'd expect now with what we've already seen. Messages for Pointcheval-Sanders lie in \\(\mathbb{Z}_p\\), but we can use a hash function \\(\mathcal{H}:\{0,1\}\rightarrow \mathbb{Z}_p\\) to sign arbitrary strings.
+Computing a signature works as you'd expect now with what we've already seen. Messages for Pointcheval-Sanders lie in \\(\mathbb{Z}_p\\), but we can use a hash function $$\mathcal{H}:\{0,1\}\rightarrow \mathbb{Z}_p$$ to sign arbitrary strings.
 
 
 ```java

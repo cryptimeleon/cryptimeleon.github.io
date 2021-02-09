@@ -3,7 +3,7 @@ title: Dependencies
 toc: true
 ---
 
-You can of course refer to each project's `build.gradle` file for the list of dependenies, but, for your convenience, we list each project's dependencies here.
+You can of course refer to each project's `build.gradle` file for the list of dependencies, but, for your convenience, we list each project's dependencies here.
 
 ### Math
 

@@ -8,29 +8,39 @@ tpc: true
 
 In this notebook, we'll take a look at how to implement a simple protocol: [VOPRFs](https://datatracker.ietf.org/doc/draft-irtf-cfrg-voprf/) (based on this [paper](https://eprint.iacr.org/2014/650)).
 
-## 🗒 The basic setup
-A VOPRF is, first and foremost, a PRF. The secret key $k$ for the PRF is a random scalar and we'll call $h = g^k$ the "public key". 
-The values of the $\mathrm{PRF}_k: \{0,1\}^* \rightarrow \{0,1\}^n$ are 
-$$\mathrm{PRF}_k(x) = H_2(h, x, H_1(x)^k)$$ 
-where $H_1:\{0,1\}^*\rightarrow \mathbb{G}$, $H_2:\{0,1\}^* \rightarrow \{0,1\}^n$ are hash functions modeled as random oracles.
+---
+*Note:*
+You can also check this page out in an interactive Jupyter notebook by clicking the badge below:
 
-This is a PRF because under appropriate (DDH-type) assumptions (essentially the only way to distinguish a PRF-value $\mathrm{PRF}_k(x)$ from random is to compute $H_1(x)^k$ without knowing $k$).
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/upbcuk/upbcuk.github.io/gh-pages?filepath=getting-started%2Fprotocols-tutorial.ipynb)
+
+---
+
+## 🗒 The basic setup
+A VOPRF is, first and foremost, a PRF. The secret key $$k$$ for the PRF is a random scalar and we'll call $$h = g^k$$ the "public key". 
+The values of the $$\mathrm{PRF}_k: \{0,1\}^* \rightarrow \{0,1\}^n$$ are 
+
+$$\mathrm{PRF}_k(x) = H_2(h, x, H_1(x)^k)$$
+
+where $$H_1:\{0,1\}^*\rightarrow \mathbb{G}$$, $$H_2:\{0,1\}^* \rightarrow \{0,1\}^n$$ are hash functions modeled as random oracles.
+
+This is a PRF because under appropriate (DDH-type) assumptions (essentially the only way to distinguish a PRF-value $$\mathrm{PRF}_k(x)$$ from random is to compute $$H_1(x)^k$$ without knowing $$k$$).
 
 ## 🥸 How to obliviously retrieve function values
 
-Now in an *oblivious* PRF, there is a protocol between two parties: the *issuer* and the *user*. The issuer holds a PRF key $k$ and publishes the public key $h = g^k$. The user wants to retrieve $\mathrm{PRF}(x)$ for some bit string $x\in\{0,1\}^*$ from the issuer without revealing $x$. In our case, this protocol works as follows:
+Now in an *oblivious* PRF, there is a protocol between two parties: the *issuer* and the *user*. The issuer holds a PRF key $$k$$ and publishes the public key $$h = g^k$$. The user wants to retrieve $$\mathrm{PRF}(x)$$ for some bit string $$x \in \{0,1\}^*$$ from the issuer without revealing $$x$$. In our case, this protocol works as follows:
 
-- The user chooses a random scalar $r$ and sends $a = H_1(x)^r$ to the issuer.
-- The issuer replies with $a^k$ and a zero-knowledge proof that he has used the right $k$ to compute $a^k$.
+- The user chooses a random scalar $$r$$ and sends $$a = H_1(x)^r$$ to the issuer.
+- The issuer replies with $$a^k$$ and a zero-knowledge proof that he has used the right $$k$$ to compute $$a^k$$.
 
-Note that in this protocol, the user only sends a random value $a$ that holds no information about $x$, so the issuer cannot learn $x$. The zero-knowledge proof ensures that the issuer cannot send incorrect responses (which he might otherwise do to "tag" requests).
+Note that in this protocol, the user only sends a random value $$a$$ that holds no information about $$x$$, so the issuer cannot learn $$x$$. The zero-knowledge proof ensures that the issuer cannot send incorrect responses (which he might otherwise do to "tag" requests).
 
 ## 📡 Implementation - Setup
 
 So let's implement this using our library. First, let's do the basic setup. 
 
 
-```Java
+```java
 %maven de.upb.crypto:math:2.0.0-SNAPSHOT
 %maven de.upb.crypto:craco:2.0.0-SNAPSHOT
 
@@ -52,10 +62,10 @@ var k = group.getUniformlyRandomNonzeroExponent(); //secret key
 var h = g.pow(k).precomputePow(); //public key
 ```
 
-With this setup, we can naively (without hiding x) evaluate $\mathrm{PRF}_k(x) = H_2(h, x, H_1(x)^k)$ as follows:
+With this setup, we can naively (without hiding x) evaluate $$\mathrm{PRF}_k(x) = H_2(h, x, H_1(x)^k)$$ as follows:
 
 
-```Java
+```java
 byte[] evaluatePRF(Zn.ZnElement k, byte[] x) {
     var h2Preimage = new ByteArrayAccumulator();
     h2Preimage.escapeAndSeparate(h);
@@ -67,7 +77,7 @@ byte[] evaluatePRF(Zn.ZnElement k, byte[] x) {
 ```
 
 
-```Java
+```java
 var result = evaluatePRF(k, new byte[] {4, 8, 15, 16, 23, 42});
 Arrays.toString(result)
 ```
@@ -82,10 +92,12 @@ Arrays.toString(result)
 ## ↔️ Implementation - Zero-knowledge proof
 
 To implement the oblivious evaluation protocol, we start with the subprotocol to prove that the issuer's response is valid. 
-Specifically, when the issuer gets $a$ and replies with $b = a^k$, he needs to *prove knowledge of $k$ such that $b = a^k \land h = g^k$*, i.e. $a$ was exponentiated with the correct secret key belonging to public key $h$. In Camenisch-Stadler notation:
-$$ \mathrm{ZKPoK}\{(k) :\ b = a^k \land h = g^k\} $$
+Specifically, when the issuer gets $$a$$ and replies with $$b = a^k$$, he needs to *prove knowledge of $$k$$ such that $$b = a^k \land h = g^k$$, i.e. $$a$$ was exponentiated with the correct secret key belonging to public key $$h$$. In Camenisch-Stadler notation:
 
-For this, we implement our own Schnorr-style protocol. Within the protocol framework of our library, we think of Schnorr-style protocols as being composed of "fragments". In our case, the protocol will consist of two fragments, one that handes the $b = a^k$ part, one that handles the $h = g^k$ part (in general, fragments can also handle more complicated statements, such as "$z \leq 100$", but those are not needed in this example).
+$$\mathrm{ZKPoK}\{(k) :\ b = a^k \land h = g^k\}$$
+
+
+For this, we implement our own Schnorr-style protocol. Within the protocol framework of our library, we think of Schnorr-style protocols as being composed of "fragments". In our case, the protocol will consist of two fragments, one that handes the $$b = a^k$$ part, one that handles the $$h = g^k$$ part (in general, fragments can also handle more complicated statements, such as "$$z \leq 100$$", but those are not needed in this example).
 
 Essentially, what we want is a `DelegateProtocol`, i.e. one that delegates its functionality to two sub-"fragments". For this protocol, we need to define mostly two things:
 
@@ -95,7 +107,7 @@ Essentially, what we want is a `DelegateProtocol`, i.e. one that delegates its f
 With this defined, composing this into a Schnorr-style protocol is done automatically behind the scenes.
 
 
-```Java
+```java
 import de.upb.crypto.craco.protocols.arguments.sigma.schnorr.*;
 import de.upb.crypto.craco.protocols.*;
 import de.upb.crypto.craco.protocols.arguments.fiatshamir.FiatShamirProofSystem;
@@ -165,10 +177,10 @@ var fiatShamirProofSystem = new FiatShamirProofSystem(new ReplyCorrectnessProof(
 We're now ready to implement the rest of the protocol. 
 
 ### 🙋 Client's request
-Let's start with the user's first message $a = H_1(x)^r$.
+Let's start with the user's first message $$a = H_1(x)^r$$.
 
 
-```Java
+```java
 //User's perspective
 
 byte[] x = new byte[] {4, 8, 15, 16, 23, 42}; //want PRF(x)
@@ -195,10 +207,10 @@ messageOverTheWire
 
 ### 💁 Server's response
 
-Now the server responds with $b = a^k$ as well as a proof of correctness.
+Now the server responds with $$b = a^k$$ as well as a proof of correctness.
 
 
-```Java
+```java
 //Server's perspective
 
 //Deserialize the request (also ensures the request is a valid group element)
@@ -244,10 +256,10 @@ responseOverTheWire
 
 ### 🧑‍🎓 Client unblinding and proof check
 
-Now the client checks the proof and unblinds $b$ as $b^{1/r}$, getting $H_1(x)^k$ and computing the PRF value from that.
+Now the client checks the proof and unblinds $$b$$ as $$b^{1/r}$$, getting $$H_1(x)^k$$ and computing the PRF value from that.
 
 
-```Java
+```java
 //Deserialize stuff
 var deserializedResponse = jsonConverter.deserialize(responseOverTheWire);
 var b = group.getElement(deserializedResponse.list().get(0));
