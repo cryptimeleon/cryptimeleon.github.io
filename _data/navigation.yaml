@@ -21,8 +21,6 @@ docs:
       url: /docs/bilinear-groups.html
     - title: "Representations"
       url: /docs/representations.html
-    - title: "Testing Your Scheme"
-      url: /docs/testing.html
     - title: "Benchmarking"
       url: /docs/benchmarking.html
     - title : "Javadocs"

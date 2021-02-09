@@ -15,5 +15,5 @@ To use the upb.crypto.mclwrap wrapper, you additionally need to install the Mcl 
 
 ## Which operating systems do you support?
 
-Since Java is cross-platform, the libraries should run on Linux/Mac OS and Windows.
+Since Java is cross-platform, the libraries should run on Linux, Mac OS and Windows.
 Keep in mind that we develop on Linux/Mac OS and do not necessarily test on Windows.
