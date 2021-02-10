@@ -27,6 +27,8 @@ Because of the intermediate format, serialization is a two-step process.
   - The `JSONConverter` converts a `Representation` into a JSON `String`
   - The `BinaryFormatConverter` converts a `Representation` into a less readable but more compact `byte[]` format.
 
+After step 2, you are responsible for how to send/store the resulting (`String`/`byte[]`) data.
+
 ## Deserialization
 For deserialization, we invert the steps above.
 
