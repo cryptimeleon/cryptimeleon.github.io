@@ -126,7 +126,7 @@ The `Zp` class implements the `RepresentationRestorer` object, it can therefore 
 
 To perform the deserialization, we instantiate the `ReprUtil` object with `this` and then register the `Zp` instance as a `RepresentationRestorer` corresponding to the string `"zp"`. 
 If you look towards the `@Represented` annotation, you can see that we used the `"zp"` restorer for the single Zp element. 
-When we call `deserialize(repr)` on the `ReprUtil` object, it will use the registered `"zp"` restorer–the `Zp` object–and use it to restore `exponentX`.
+When we call `deserialize(repr)` on the `ReprUtil` object, it will use the registered `"zp"` restorer – the `Zp` object – and use it to restore `exponentX`.
 
 ## Standalone Representables
 
@@ -190,7 +190,7 @@ The `"[zp]"` notation is build into the `ReprUtil` class, it will automatically 
 The same notation works for lists and sets as well.
 For maps, you can use the arrow notation `"->"`. 
 For example, `"zp -> G"` for a map from Zp elements to group elements (given that you registered the `RepresentationRestorers` for `"zp"` and `"G"` before calling `deserialize()`). 
-You can combine these, e.g. `"G1 -> [[G2]]"` for a map from elements of `G1` to list of list of elements of `G2`. 
+You can combine these, e.g. `"G1 -> [[G2]]"` for a map from elements of `G1` to lists of lists of elements of `G2`. 
 
 Precedence is given by parentheses, for example, `"(G1 -> G2) -> G3"` is a map whose keys are themselves maps, while `"G1 -> (G2 -> G3)"` has maps as values.
 
