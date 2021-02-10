@@ -4,11 +4,84 @@ mathjax: true
 toc: true
 ---
 
-Representations offer a way to convert objects to a representation which can then be converted into some kind of serialization, for example into a JSON object or binary data for transmission over a network.
+Eventually, when writing anything useful, you will be forced to convert Java objects (e.g., a public key) into a format that you can transmit over a network or store on a disk. 
+What you need in these cases is *serialization*. 
 
-This is useful if you want to, for example, transmit a public key over the internet. You can use the representation framework to convert your public key object into a representation, and then convert it to a JSON-encoded String using the `JSONConverter` class. A binary converter is provided by `BinaryFormatConverter`.
+# The Basic Serialization and Deserialization Processes
 
-*Note: In this document we will refer to creating a representation of an object as serialization, not to be confused with java's inbuilt serialization.*
+For serialization and deserialization, we introduce an intermediate format, the `Representation`.
+
+```
+Java object <-> Representation <-> Serialized format (String/byte[])
+```
+
+The intermediate format `Representation` makes it easier for classes to implement serialization.
+The serialization formats in our libraries are generally not based on standards, but rather flexible ad hoc formats.
+
+*Note: In this document we will sometimes refer to creating the representation of an object as serialization, not to be confused with java's inbuilt serialization.*
+
+## Serialization
+Because of the intermediate format, serialization is a two-step process.
+1.  Any object in our library that implements the `Representable` interface, for example an encryption key, needs to be able to represent itself as a `Representation`.
+2. A `Representation` can then be converted into a serialized format by a `Converter`.
+  - The `JSONConverter` converts a `Representation` into a JSON `String`
+  - The `BinaryFormatConverter` converts a `Representation` into a less readable but more compact `byte[]` format.
+
+## Deserialization
+For deserialization, we invert the steps above.
+
+1. Use the `Converter` to get back from the serialized format to a `Representation`.
+2. Then use that `Representation` to instantiate the Java object (e.g., an encryption key).
+
+The second step is non-generic and depends heavily on what kind of object you want to instantiate. For example, if you want to instantiate a encryption key, you would call `getEncryptionKey(representation)` on an `EncryptionScheme` object.
+
+# Our Philosophy of Serialization
+First of all, we distinguish two types of representable objects: 
+1. `StandaloneRepresentable` and 
+2. (just) `Representable`. 
+
+Both implement a `getRepresentation()` method which returns a `Representation` object. 
+
+A `StandaloneRepresentable`'s representation contains the complete set of data required to recreate the object from scratch. By contract, `StandaloneRepresentable` classes have a constructor with a single `Representation` parameter such that `foo.equals(new Foo(foo.getRepresentation()))`. 
+For example, a `Group` is `StandaloneRepresentable`. Its `Representation` contains all necessary parameters to describe itself (e.g., elliptic curve parameters) and one can easily create a group from some `representation` using `new MyGroup(representation)`.
+
+In contrast, a `Representable`'s representation is not necessarily complete and help may be needed to recreate such an object from `Representation`. 
+For example, a `GroupElement` object's representation (e.g., coordinates of an elliptic curve point, but no description of the curve parameters) is usually insufficient to recreate the full object. As a result, a `GroupElement` needs help from its `Group` to be recreated from `Representation` (the pattern is `groupElement = group.getElement(representationOfGroupElement)`).
+
+While it may seem at first like `StandaloneRepresentable` objects are strictly superior (and more convenient), normal `Representable` objects are actually more common because of (1) generally smaller size of representation and (2) security aspects (as described next).
+
+## A Quick Journey into Use-Cases 
+There are generally two use-cases for serialization:
+
+1. Serialize trusted data that needs to survive JVM shutdown (but never really leaves a trust zone)
+    - Public parameters (such as specific elliptic curve parameters or a hash function key) - usually hardcoded into an application or part of a config file.
+    - Secret keys - usually stored on hard disk, ideally in a OS-protected key chain
+2. Serialize data to send to or receive from other (untrusted) devices.
+    - Public keys
+    - Ciphertexts
+    - Messages in the context of an interactive protocol
+
+For the first use-case, external mechanisms must ensure that our serialized data is not manipulated. Otherwise, for example, someone could replace elliptic curve parameters with weak ones. Because of this, there is less burden on the serialization and deserialization processes - we can assume that deserialization is fed exactly the value that serialization generated. If the serialized value is changed, security is compromised anyway. 
+
+As a rule of thumb, for the second use-case, you almost never want objects to be `StandaloneRepresentable`. See the next section for details. 
+
+## The Security Pitfalls of Serialization
+The idea of having a helper to recreate an object from representation actually serves a security purpose.
+
+For example, suppose you have a `Group` object `group`, which you trust (e.g., something that is hardcoded into the program or was loaded from a trusted file). 
+Now if someone sends you the representation `repr` of a group element, this is a value that you do not (and should not) trust. 
+
+In this case, `group` acts as a trust anchor. The statement `g = group.getElement(repr)` should be read as "hey, trusted group, please interpret `repr` as a valid element". The resulting group element `g` can again be trusted (in the sense that it is a valid group element of `group` with all the expected properties that go along with that). 
+This approach solves a big set of possible issues such as 
+- subgroup attacks: someone may try to send a representation that syntactically looks like a valid group element but that actually has different mathematical properties (belonging to a different subgroup) than valid group elements.
+- class substitution: someone may try to send a serialization of a completely different class that uses the wrong group operations (for example `g.pow(x)` may just return `x`, leaking a secret). This would potentially be possible with Java's inbuilt serialization (where deserialization generally reads what class to instantiate from the untrusted data).
+- group substitution: someone may try to send a serialization that contains data for a different group parameterization than the trusted parameters. The resulting group element may then lie in a completely different (insecure) group.
+
+For this reason, one should, in cases where a `Representation` may have been sent from an untrusted source, have some trusted object deserialize it. 
+For example, this holds for group elements, ciphertexts, signatures, which are deserialized by a `Group`, an `EncryptionScheme`, or a `SignatureScheme`, respectively.
+
+For classes whose `Representation`s will usually come from a trusted source (such as Use-Case 1 above), you can choose to make that class `StandaloneRepresentable` (usually things such as `Group`s, `EncryptionScheme`s, or `SignatureScheme`s, which encode trusted public parameters).
+
 
 # Making a Class Representable
 If you want a classes instances to be representable, you have to implement the `Representable` interface. Many interfaces in the Craco library already extend this interface, e.g. `SigningKey`.
