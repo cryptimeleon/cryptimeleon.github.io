@@ -89,8 +89,12 @@ For classes whose `Representation`s will usually come from a trusted source (suc
 
 Now we want to show you how to take a class you have created, and implement serialization and deserialization for it.
 
-There are two options for converting your Java objects to and from their representation: via `ReprUtil` or manually.
-We recommend using `ReprUtil` whenever possible as it substantially reduces the work required.
+There are two options for converting your Java objects to and from their representation: via `ReprUtil` or manually without using `ReprUtil`.
+We recommend using `ReprUtil` whenever possible as it reduces the amount of code you have to write, especially for more complex use cases.
+
+Therefore, we will first explain the `ReprUtil` approach via a small toy example.
+If you want to learn more about the manual approach, consult the [manual tutorial](#manual-serialization-and-deserialization).
+We have written them to be self-contained, meaning 
 
 ## Serialization And Deserialization Via ReprUtil
 
@@ -207,21 +211,23 @@ To perform the deserialization, we can once again make use of `ReprUtil`, result
 ```
 
 The `new ReprUtil(this).deserialize(repr)` call does the following: It deserializes the field values stored within `repr` and stores them in the new `SomeClass` instance given by `this`. 
-It only overwrites the values of `this` that have not been initialized yet, i.e. which are set to `null`.
-In this case it will restore all fields, since `this`'s fields have not been initialized at that point in the constructor.
+It only overwrites the fields of `this` that have not been initialized yet, i.e. which are set to `null`.
+In the above example, it will restore all fields since `this`'s fields have not been initialized at that point in the constructor.
 
 The code above does not work as is, however.
 As we discussed previously, `ZpElement` instances do require some additional information for deserialization; namely, the `Zp` instance which they belong to.
 Therefore, we need to additionally provide `ReprUtil` with the `Zp` instance.
+This is also the reason we cannot make `SomeClass` a `StandaloneRepresentable` as that requires the constructor to only take in a `Representation` and no extra information such as `Zp`.
 
-For this purpose, `ReprUtil` provides a `register` method that takes in a `RepresentationRestorer` instance and a String.
+To add such extra information, `ReprUtil` provides a `register` method that takes in a `RepresentationRestorer` instance and a String.
 
-A `RepresentationRestorer` is an interface that contains a `recreateFromRepresentation` method. 
-This method can be used to deserialize objects that require additional external information for deserialization.
+A `RepresentationRestorer` can be used to deserialize objects that require additional external information for deserialization.
 An example of such an object is the `ZpElement`. 
-The `Zp` class implements the `RepresentationRestorer` interface and its `recreateFromRepresentation` method can be used to deserialize a `ZpElement` that belongs to that `Zp` instance.
+The `Zp` class can be used to deserialize a `ZpElement` that belongs to that `Zp` instance.
 
 The String argument is an identifier used by `ReprUtil` to refer to that specific `RepresentationRestorer`.
+
+For more in-depth information on the `RepresentationRestorer` interface, see [here](#representation-restorers)
 
 So let's register our `Zp` restorer. This needs to be done *before* calling `deserialize`:
 
@@ -285,16 +291,16 @@ We now have successfully implemented serialization and deserialization for our `
 
 This covers the very basics of implementing conversion from and to a `Representation` object via `ReprUtil`.
 `ReprUtil` and `@Represented` also support more complex data types and method references. 
-For more information on this topic, see the [restorer notation section](#restorer-notation).
+For more information on this topic, see the [restorer notation section](#reprutil:-restorer-notation).
 
 ## Manual Serialization and Deserialization
 
 Instead of using `ReprUtil`, you can also manually implement serialization and deserialization.
 
-Let us do this for a simple example class (the same as used for the `ReprUtil` tutorial):
+Let us do this for a simple example class:
 
 ```java
-    class SomeClass{
+    class SomeClass {
 
         Integer someInt;
 
@@ -307,10 +313,158 @@ Let us do this for a simple example class (the same as used for the `ReprUtil` t
     }
 ```
 
-# @Represented Restorers
+### Manual Serialization
+
+To implement serialization, we can either have `SomeClass` implement the `Representable` or the `StandaloneRepresentable` interface.
+In this case, `Representable` is the only choice.
+We will see why in the section on deserialization.
+
+`Representable` (and `StandaloneRepresentable`) requires implementation of a `getRepresentation` method that returns a `Representation`:
+
+```java
+    class SomeClass {
+
+        Integer someInt;
+
+        ZpElement exponentX;
+
+        // insert regular constructor here
+
+        @Override
+        public Representation getRepresentation() {
+            // empty body so far
+        }
+    }
+```
+
+To create a `Representation` object that can later be deserialized again, we now need to decide which fields of `SomeClass` are required to restore the original object.
+In this case all fields are required.
+Hence, we need to create a `Representation` object that contains the values of fields `someInt` and `exponentX`.
+
+The `serialization` package in the Math library provides a number of different `Representation` subclasses that implement representations for different kind of values:
+
+- `BigIntegerRepresentation` for storing all kinds of integers
+- `ByteArrayRepresentation` for storing `byte[]` objects
+- `ListRepresentation` for storing arrays, lists and sets cointaining `Representation` objects
+- `MapRepresentation` for storing maps from `Representation` to `Representation`
+- `ObjectRepresentation` for storing an arbitrary object via a map from `String` to `Representation`
+- `StringRepresentation` for storing `String` objects
+
+Using these classes, we can implement `getRepresentation` as follows:
+
+```java
+    class SomeClass {
+
+        Integer someInt;
+
+        ZpElement exponentX;
+
+        // insert regular constructor here
+
+        @Override
+        public Representation getRepresentation() {
+            ObjectRepresentation objRepr = new ObjectRepresentation();
+            objRepr.put("someInt", new BigIntegerRepresentation(someInt));
+            objRepr.put("exponentX", exponentX.getRepresentation());
+            return objRepr;
+        }
+    }
+```
+
+To represent a `SomeClass` object, we use a `ObjectRepresentation` in which we then store the fields `someInt` and `exponentX`.
+The `put` method of `ObjectRepresentation` allows storing representations via a String identifier.
+Since `put` expects to be given a `Representation`, we need to wrap `someInt` into a `Representation` object. 
+This can be done via `BigIntegerRepresentation`.
+The `ZpElement` class already implements `Representable`.
+Therefore, it already implements a `getRepresentation` method which we use to obtain a representation of `exponentX`.
+
+Once we are done with constructing the `ObjectRepresentation`, we just return it.
+
+You will not always need to use an `ObjectRepresentation` for serialization.
+If your class only consists of a single field, or a single field suffices to restore the original object, you can just return a representation of that single field instead.
+For example, if our class only consisted of `exponentX`, we could implement `getRepresentation` by just returning the return value of `exponentX.getRepresentation()`.
+This would be enough for deserialization.
+
+### Manual Deserialization
+
+To deserialize a given `Representation`, we need to create a new `SomeClass` object, extract the field values from the `Representation`, and then fill the `SomeClass` object with the extracted values.
+
+The standard approach in the UPB Libraries is via a new constructor that takes in at minimum a `Representation` object and restores the original object from that.
+
+```java
+    class SomeClass {
+
+        Integer someInt;
+
+        ZpElement exponentX;
+
+        // insert regular constructor here
+
+        public SomeClass(Representation repr, Zp zp) {
+            ObjectRepresentation objRepr = (ObjectRepresentation) repr;
+            someInt = objRepr.get("someInt").bigInt().getInt();
+            exponentX = zp.getElement(objRepr.get("exponentX"));
+        }
+
+        @Override
+        public Representation getRepresentation() {
+            ObjectRepresentation objRepr = new ObjectRepresentation();
+            objRepr.put("someInt", new BigIntegerRepresentation(someInt));
+            objRepr.put("exponentX", exponentX.getRepresentation());
+            return objRepr;
+        }
+    }
+```
+
+As you can see, we have already implemented the new constructor.
+In addition to the representation we want to deserialize, we have provided the `Zp` instance to which the `exponentX` element belongs.
+This is necessary as `ZpElement` instances cannot be deserialized just from their representation alone; deserialization must be done using their `Zp` instance. 
+This is the reason why we had `SomeClass` implement `Representable` and not `StandaloneRepresentable` as the latter requires the existence of a deserialization constructor with just a single `Representation` argument.
+
+Hence, we also need to provide the `Zp` instance.
+
+We first typecast the `repr` object to a `ObjectRepresentation` to gain access to the methods of `ObjectRepresentation`.
+
+Next, we extract the `someInt` value.
+We use `get` to obtain the `Representation` used to store `someInt`.
+Remember to use the same String identifier as you used for `put` during serialization, otherwise this will not work.
+Since `get` returns a `Representation` object, we use the `bigInt` method to typecast it to a `BigIntegerRepresentation`. The `Representation` object contains such typecasting methods for each of its subclasses.
+Finally, we call `getInt` to retrieve the `Integer` object that was stored inside the `BigIntegerRepresentation`.
+
+To complete deserialization, we need to restore `exponentX`.
+To do this, we use the `getElement` method of `Zp`.
+This method takes in a `Representation` and, if possible, restores the corresponding `ZpElement` from it.
+
+`getElement` is a method specific to `Zp`. For a more generic method of restoring, refer to the [section on representation restorers](#representation-restorers).
+
+We have now completed implementation of manual serialization and deserialization.
+To actually send the object over the wire, you will need to convert the representation to some format that can be sent.
+Refer to the [section on conversion to a sendable format](#conversion-to-a-sendable-format) for more information on this topic.
+
+# Conversion To A Sendable Format
+
+# Representation Restorers
+
+The `RepresentationRestorer` interface is contained in the `serialization.annotations.internal` package as part of the Math library.
+When implemented, it indicates that the implementing class can restore objects of certain types from their corresponding `Representation`.
+
+Specifically, the interface contains a `recreateFromRepresentation` method that takes in a `Type` and a `Representation`.
+This method should take the given `Representation` and recreate the original object from it, i.e. deserialize it.
+The `Type` argument indicates to the method the type the resulting deserialized object should have.
+This is useful to check whether the `RepresentationRestorer` is actually able to deserialize the representation.
+If it is unable to restore objects of the given type, `recreateFromRepresentation` will throw an `IllegalArgumentException`.
+
+A fairly simple example is given by the `EncryptionScheme` class that is part of Craco.
+
+
+
+# ReprUtil: Restorer Notation
 
 The `@Represented` annotation, used to indicate which fields should be serialized as part of the `Representation` by `ReprUtil`, takes a String argument: `restorer`.
 This can be used to reference the `RepresentationRestorer` that should be used by `ReprUtil` to restore the field's value from its representation.
+
+The annotation supports special syntax for enabling more use cases.
+We explain these in this section.
 
 ## Composite Types
 
@@ -367,7 +521,7 @@ In this case, you can use a placeholder restorer string to indicate the `Integer
 In the case of an array of `Integer`s, this may look like `@Represented(restorer = "[foo]")`.
 You do not need to give a restorer corresponding to the `foo` identifier; `ReprUtil` will recognise that no restorer is necessary during deserialization and ignore the `foo`.
 
-## Field Restorers
+## Restorer Fields
 
 Alternatively to giving the object responsible for restoring in the constructor parameters, you can also add it as a class attribute so that it can be serialized together with the rest of the instance.
 You then won't need to explicitly provide it during deserialization.
