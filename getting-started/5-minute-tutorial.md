@@ -12,7 +12,7 @@ To give you some insight into the library, let's implement the well-known Peders
 *Note:*
 You can also check this page out in an interactive Jupyter notebook by clicking the badge below:
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/upbcuk/upbcuk.github.io/gh-pages?filepath=getting-started%2F5-minute-tutorial.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/gh-pages?filepath=getting-started%2F5-minute-tutorial.ipynb)
 
 ---
     

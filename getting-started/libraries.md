@@ -4,13 +4,13 @@ mathjax: true
 toc: true
 ---
 
-The upb.crypto cryptography libraries are a family of libraries tailored towards fast prototyping of cryptographic constructions.
+The Cryptimeleon cryptography libraries are a family of libraries tailored towards fast prototyping of cryptographic constructions.
 
 In this document, we give a short overview of each library.
 
 # Math
 
-The [Math library](https://github.com/upbcuk/upb.crypto.math) provides the mathematical foundation for the other upb.crypto libraries.
+The [Math library](https://github.com/cryptimeleon/math) provides the mathematical foundation for the other Cryptimeleon libraries.
 It provides basics such as mathematical groups, rings and fields, e.g. \\(\mathbb{Z}_n\\), as well as implementations of cryptographic pairings.
 
 Furthermore, it contains a serialization framework which acts as an intermediary between the cryptographic scheme and the low-level Java serialization. 
@@ -77,7 +77,7 @@ WIP
 
 # Craco
 
-[Craco](https://github.com/upbcuk/upb.crypto.craco) (CRyptogrAphic COnstructions) is a Java library providing implementations of various cryptographic primitives and low-level constructions. This includes primitives such as commitment schemes, signature schemes, and much more.
+[Craco](https://github.com/cryptimeleon/craco) (CRyptogrAphic COnstructions) is a Java library providing implementations of various cryptographic primitives and low-level constructions. This includes primitives such as commitment schemes, signature schemes, and much more.
 
 The goal of Craco is to provide common cryptographic schemes for usage in more high-level protocols as well as to offer facilities for improving the process of implementing more low-level schemes such as signature and encryption schemes.
 
@@ -105,7 +105,7 @@ The constructions provided are:
 
 # Mclwrap
 
-Mclwrap provides a wrapper around the BN-254 bilinear group implemented in the [MCL library](https://github.com/herumi/mcl). As the bilinear groups implemented in the upb.crypto.math library are not particulary efficient, use of this wrapper is recommended for proper benchmarks.
+Mclwrap provides a wrapper around the BN-254 bilinear group implemented in the [MCL library](https://github.com/herumi/mcl). As the bilinear groups implemented in the Cryptimeleon Math library are not particulary efficient, use of this wrapper is recommended for proper benchmarks.
 Specifically, the mclwrap implementation's group operations are roughly 100 times as fast as our own implementation.
 
 # Predenc
