@@ -91,10 +91,14 @@ Now we want to show you how to take a class you have created, and implement seri
 
 There are two options for converting your Java objects to and from their representation: via `ReprUtil` or manually without using `ReprUtil`.
 The `ReprUtil` approach has the advantage of requiring less code.
-Classes we have implemented, e.g. as part of Craco, usually use it for that reason.
-However, the manual conversion may be easier to understand at first.
+Classes we have implemented, for example as part of Craco, usually use it for that reason.
+However, the manual conversion may be easier to understand.
 Therefore, we will present the manual approach first via a small toy example.
-After that, we do the same via `ReprUtil`.
+After that, we do the same for `ReprUtil`.
+
+Both approaches are usable, but we generally recommend usage of `ReprUtil` over the manual approach.
+
+You can skip to the `ReprUtil` tutorial via [this link](#serialization-and-deserialization-via-reprutil).
 
 ## Manual Serialization and Deserialization
 
