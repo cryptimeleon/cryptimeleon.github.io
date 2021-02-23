@@ -195,7 +195,7 @@ This would be enough for deserialization.
 
 To deserialize a given `Representation`, we need to create a new `SomeClass` object, extract the field values from the `Representation`, and then fill the `SomeClass` object with the extracted values.
 
-The standard approach in the UPB Libraries is via a new constructor that takes in at minimum a `Representation` object and restores the original object from that.
+The standard approach in the Cryptimeleon libraries is via a new constructor that takes in at minimum a `Representation` object and restores the original object from that.
 
 ```java
     class SomeClass implements Representable {
