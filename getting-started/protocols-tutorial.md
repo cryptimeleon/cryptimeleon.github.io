@@ -1,10 +1,8 @@
 ---
-title: Implementing a pairing-based signature scheme
+title: Implementing a verifiable oblivious pseudorandom function (VOPRF)
 mathjax: true
-tpc: true
+toc: true
 ---
-
-# Example: Verifiable oblivious pseudorandom function (VOPRF)
 
 In this notebook, we'll take a look at how to implement a simple protocol: [VOPRFs](https://datatracker.ietf.org/doc/draft-irtf-cfrg-voprf/) (based on this [paper](https://eprint.iacr.org/2014/650)).
 
