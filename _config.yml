@@ -7,11 +7,11 @@ relative_links:
     collections: true
 remote_theme: "mmistakes/minimal-mistakes@4.19.1"
 minimal_mistakes_skin: "air"
-title: upb.crypto Documentation
-subtitle: "Version 2.0.0"
-repository: upbcuk/upbcuk.github.io
+title: Cryptimeleon Documentation
+subtitle: "Version 1.0.0"
+repository: cryptimeleon/cryptimeleon.github.io
 locale: en
-description: Documentation page for the upb.crypto cryptography libraries.
+description: Documentation page for the Cryptimeleon cryptography libraries.
 defaults:
     # _pages
     - scope:

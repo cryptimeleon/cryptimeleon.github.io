@@ -4,13 +4,13 @@ toc: true
 mathjax: true
 ---
 
-In this document we discuss your options when it comes to benchmarking code written using upb.crypto libraries as well as group operation counting provided by upb.crypto.math.
+In this document we discuss your options when it comes to benchmarking code written using Cryptimeleon libraries as well as group operation counting provided by Cryptimeleon Math.
 
 # Runtime Benchmarking
 
 ## Lazy Eval
 
-While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of upb.crypto.math can create some benchmarking problems if not handled correctly.
+While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of Math can create some benchmarking problems if not handled correctly.
 
 Let's take for example a signature scheme. 
 During setup for your verification benchmark, you will probably execute the signing algorithm.
@@ -24,7 +24,7 @@ Therefore, you should make sure to compute all group operations via any of the m
 If you care about accuracy, we recommend using a micro-benchmarking framework such as [JMH](https://openjdk.java.net/projects/code-tools/jmh/).
 We also strongly recommend working through the [JMH Samples](https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/) to make sure you avoid any bad practices that could potentially invalidate your benchmarks.
 
-[Our own benchmarks](https://github.com/upbcuk/upb.crypto.benchmark) use JMH.
+[Our own benchmarks](https://github.com/cryptimeleon/benchmark) use JMH.
 Since JMH is made to be used with Maven, you will probably want to add a Gradle task for executing your JMH tests (if you use Gradle).
 
 ```groovy
@@ -51,12 +51,12 @@ task jmh(type: JavaExec) {
     args '-rff', resultFile
 }
 ```
-Above is the script we use for our upb.crypto.benchmark project.
+Above is the script we use for our Cryptimeleon Benchmark project.
 It allows us to use certain JMH parameters in addition to just running all tests contained in the `jmh` source set.
 
 # Group Operation Counting
 
-upb.crypto.math includes capabilities for group operation counting.
+Cryptimeleon Math includes capabilities for group operation counting.
 Specifically, it allows for tracking group inversions, squarings, operations, as well as (multi-)exponentiations for a specific group.
 
 ## CountingGroup
@@ -66,7 +66,7 @@ The functionality of group operation counting is provided by using a special gro
 *Note: Keep in mind that `CountingGroup` uses \\(\mathbb{Z}_n\\) under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks or even production code.*
 
 ```java
-import de.upb.crypto.math.pairings.debug.count.CountingGroup;
+import org.cryptimeleon.math.pairings.debug.count.CountingGroup;
 
 // instantiate the counting group with a name and its size
 CountingGroup countingGroup = new CountingGroup("CG1", 1000000);
@@ -82,7 +82,7 @@ System.out.println(countingGroup.getNumSquaringsTotal());
 1
 ```
 
-As seen above, `CountingGroup` provides the same interfaces as any other group in upb.crypto.math does, just with some additional features.
+As seen above, `CountingGroup` provides the same interfaces as any other group in Math does, just with some additional features.
 
 Whenever a group operation is performed, `CountingGroup` tracks it internally.
 The user can access the data via a variety of methods.
@@ -141,7 +141,7 @@ The count is accessible via `getNumRetrievedRepresentations()`.
 
 ## CountingBilinearGroup
 
-upb.crypto.math also provides a `BilinearGroup` implementation that can be used for counting, the `CountingBilinearGroup` class. 
+Cryptimeleon Math also provides a `BilinearGroup` implementation that can be used for counting, the `CountingBilinearGroup` class. 
 It uses a simple (not secure) \\(\mathbb{Z}_n\\) pairing.
 
 In addition to the usual group operation counting done by the three `CountingGroup` instances contained in the bilinear group, `CountingBilinearGroup` also allows you to track number of pairings performed.

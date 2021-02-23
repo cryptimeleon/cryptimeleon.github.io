@@ -3,7 +3,7 @@ title: Lazy Evaluation
 toc: true
 ---
 
-To enable automatic use of multi-exponentiation algorithms, the upb.crypto.math library lazily evaluates group operations where relevant.
+To enable automatic use of multi-exponentiation algorithms, the Cryptimeleon Math library lazily evaluates group operations where relevant.
 Lazy evaluation means that when you call, for example, `g.pow(x)`, the exponentiation represented by `pow()` will not immediately be executed.
 Only once the result of the computation is actually needed will it be executed.
 
