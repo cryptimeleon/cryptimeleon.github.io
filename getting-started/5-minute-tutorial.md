@@ -194,7 +194,7 @@ group.getElement(C.getRepresentation()).equals(C)
 
 
 
-For more information on serialization, see [our documentation regarding `Representation`s](https://upbcuk.github.io/upb.crypto.docs/docs/representations.html).
+For more information on serialization, see [our documentation regarding `Representation`s](https://cryptimeleon.github.io/docs/representations.html).
 
 ## Verifying the commitment 🕵️
 
