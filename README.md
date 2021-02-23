@@ -1,6 +1,6 @@
 # cryptimeleon.github.io
 Documentation for the Cryptimeleon cryptography libraries.
-This is currently work in progress: https://cryptimeleon.github.io
+You can view the rendered page [here](https://cryptimeleon.github.io).
 
 ## How to Build This Site Locally
 
