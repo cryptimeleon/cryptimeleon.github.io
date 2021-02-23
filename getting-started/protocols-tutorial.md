@@ -41,21 +41,25 @@ So let's implement this using our library. First, let's do the basic setup.
 
 
 ```java
-%maven de.upb.crypto:math:2.0.0-SNAPSHOT
-%maven de.upb.crypto:craco:2.0.0-SNAPSHOT
+%maven org.cryptimeleon:math:1.0.0-SNAPSHOT
+%maven org.cryptimeleon:craco:1.0.0-SNAPSHOT
 
-import de.upb.crypto.math.structures.groups.elliptic.nopairing.Secp256k1;
-import de.upb.crypto.math.structures.groups.lazy.*;
-import de.upb.crypto.math.hash.impl.SHA256HashFunction;
-import de.upb.crypto.math.structures.rings.zn.Zn;
-import de.upb.crypto.math.hash.impl.ByteArrayAccumulator;
-import de.upb.crypto.math.structures.groups.*;
+import org.cryptimeleon.math.structures.groups.elliptic.nopairing.Secp256k1;
+import org.cryptimeleon.math.structures.groups.lazy.*;
+import org.cryptimeleon.math.hash.impl.SHA256HashFunction;
+import org.cryptimeleon.math.structures.rings.zn.Zn;
+import org.cryptimeleon.math.hash.impl.ByteArrayAccumulator;
+import org.cryptimeleon.math.structures.groups.*;
+import org.cryptimeleon.math.serialization.converter.JSONPrettyConverter;
+import org.cryptimeleon.craco.protocols.arguments.sigma.schnorr.*;
+import org.cryptimeleon.craco.protocols.*;
+import org.cryptimeleon.craco.protocols.arguments.fiatshamir.FiatShamirProofSystem;
 
 //Set up group and generate key
-var group = new LazyGroup(new Secp256k1()); //TODO can we make this easier somehow? Like maybe a GroupSuite or something? Like BilinearGroup has everything in one place.
+var group = new LazyGroup(new Secp256k1()); 
 var H1 = new HashIntoLazyGroup(new Secp256k1.HashIntoSecp256k1(), group);
 var H2 = new SHA256HashFunction();
-var jsonConverter = new de.upb.crypto.math.serialization.converter.JSONPrettyConverter(); //for serialization later
+var jsonConverter = new JSONPrettyConverter(); //for serialization later
 
 var g = group.getGenerator();
 var k = group.getUniformlyRandomNonzeroExponent(); //secret key
@@ -108,9 +112,6 @@ With this defined, composing this into a Schnorr-style protocol is done automati
 
 
 ```java
-import de.upb.crypto.craco.protocols.arguments.sigma.schnorr.*;
-import de.upb.crypto.craco.protocols.*;
-import de.upb.crypto.craco.protocols.arguments.fiatshamir.FiatShamirProofSystem;
 
 class ProofCommonInput implements CommonInput {
     public final GroupElement a,b;
@@ -223,7 +224,7 @@ var bServer = aServer.pow(k);
 var proofServer = fiatShamirProofSystem.createProof(new ProofCommonInput(aServer,bServer), new ProofWitnessInput(k));
 
 //Send response
-var responseRepresentation = new de.upb.crypto.math.serialization.ListRepresentation(bServer.getRepresentation(), proofServer.getRepresentation());
+var responseRepresentation = new org.cryptimeleon.math.serialization.ListRepresentation(bServer.getRepresentation(), proofServer.getRepresentation());
 var responseOverTheWire = jsonConverter.serialize(responseRepresentation);
 responseOverTheWire
 ```
