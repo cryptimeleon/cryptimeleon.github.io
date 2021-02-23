@@ -1,12 +1,12 @@
 ---
-title: 5-Minute Tutorial For UPB Math
+title: 5-Minute Tutorial For Cryptimeleon Math
 mathjax: true
-tpc: true
+toc: true
 ---
 
-UPB Math is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).
+Cryptimeleon Math is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).
 
-To give you some insight into the library, let's implement the well-known Pedersen commitment scheme over an elliptic curve as an example.
+To give you some insight into the library, let's implement the well-known Pedersen commitment scheme over an elliptic curve as an example. 
 
 ---
 *Note:*
@@ -15,26 +15,27 @@ You can also check this page out in an interactive Jupyter notebook by clicking 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/gh-pages?filepath=getting-started%2F5-minute-tutorial.ipynb)
 
 ---
-    
+
+
 ## Setup 🔨
 
-Let's include the UPB Math library and set up the secp256k1 elliptic curve group. 
+Let's include the Math library and set up the secp256k1 elliptic curve group. 
 
 
 ```java
-%maven de.upb.crypto:math:2.0.0-SNAPSHOT
+%maven org.cryptimeleon:math:1.0.0-SNAPSHOT
 ```
 
 
 ```java
-import de.upb.crypto.math.elliptic.Secp256k1;
-import de.upb.crypto.math.structures.groups.lazy.LazyGroup;
-import de.upb.crypto.math.interfaces.structures.*;
+import org.cryptimeleon.math.structures.groups.elliptic.nopairing.Secp256k1;
+import org.cryptimeleon.math.structures.groups.lazy.LazyGroup;
+import org.cryptimeleon.math.structures.groups.*;
 
 Group group = new LazyGroup(new Secp256k1()); //LazyGroup evaluates group operations lazily (see later)
 ```
 
-A `Group` plays the role of the set \\(\mathbb{G}\\). It has a `size()` and a bunch of useful methods to instantiate its `GroupElement`s.
+A `Group` plays the role of the set $$\mathbb{G}$$. It has a `size()` and a bunch of useful methods to instantiate its `GroupElement`s.
 
 
 ```java
@@ -45,7 +46,7 @@ System.out.println("group size() = " + n);
     group size() = 115792089237316195423570985008687907852837564279074904382605163141518161494337
 
 
-Now let's set up the public parameters for the Pedersen commitment: two random group elements \\(g,h\in\mathbb{G}\\).
+Now let's set up the public parameters for the Pedersen commitment: two random group elements $$g,h\in\mathbb{G}$$.
 
 
 ```java
@@ -68,10 +69,10 @@ System.out.println(h);
     LazyGroupElement{computationState=NOTHING}
 
 
-Most operations concerning group elements in UPB Math are lazy, i.e. they are only evaluated when necessary (and we consider `toString()` not to be necessary but rather a debugging tool). This has a bunch of advantages that we'll get to later. When working with `g` and `h`, this doesn't really change anything - though their values are not yet known, you can pretend that they are (when they are needed, they will be computed transparently). 
+Most operations concerning group elements in Math are lazy, i.e. they are only evaluated when necessary (and we consider `toString()` not to be necessary but rather a debugging tool). This has a bunch of advantages that we'll get to later. When working with `g` and `h`, this doesn't really change anything - though their values are not yet known, you can pretend that they are (when they are needed, they will be computed transparently). 
 
 ### Precomputation 🔮
-`g` and `h` are fixed and publicly known and we'll later compute lots of expressions of the form \\(C = g^m\cdot h^r\\). To speed that up, we can invest some time and memory to do some precomputation _now_. 
+`g` and `h` are fixed and publicly known and we'll later compute lots of expressions of the form $$C = g^m\cdot h^r$$. To speed that up, we can invest some time and memory to do some precomputation _now_. 
 Thankfully, this is very easy to do: 
 
 
@@ -91,7 +92,7 @@ Future computations `g.pow(...)` and `h.pow(...)` will benefit from precomputati
 ## Committing 😱
 
 ### Choosing a message 📝
-Now let's commit to a message \\(m\\). For Pedersen commitments, \\(m\\) lives in \\(\mathbb{Z}_n\\) (because exponents are to be interpreted modulo the group order \\(n\\)). We can get the appropriate \\(\mathbb{Z}_n\\) object from the group:
+Now let's commit to a message $$m$$. For Pedersen commitments, $$m$$ lives in $$\mathbb{Z}_n$$ (because exponents are to be interpreted modulo the group order $$n$$). We can get the appropriate $$\mathbb{Z}_n$$ object from the group:
 
 
 ```java
@@ -100,7 +101,7 @@ var zn = group.getZn();
 
 Similar to how a `Group` is a structure that has `GroupElement`s, `zp` is a structure that contains `ZnElement`s. 
 
-We can now instantiate our message \\(m\\), which will be a `ZnElement`, in any of the following ways:
+We can now instantiate our message $$m$$, which will be a `ZnElement`, in any of the following ways:
 
 
 ```java
@@ -117,14 +118,14 @@ var m = zn.getUniformlyRandomElement(); //a random number in Zn
 System.out.println(m);
 ```
 
-    13992166359579056221313865179730665094231114406904438796802013373640178413481
+    92630712224131646301456420918815700255881880605567842301690225585365649881467
 
 
 
 ```java
-import de.upb.crypto.math.structures.zn.HashIntoZn;
+import org.cryptimeleon.math.structures.rings.zn.HashIntoZn;
 
-var m = new HashIntoZn(zn).hashIntoStructure("We attack at midnight! ⚔️"); //the hash of the given String into Zn
+var m = new HashIntoZn(zn).hash("We attack at midnight! ⚔️"); //the hash of the given String into Zn
 System.out.println(m);
 ```
 
@@ -133,9 +134,9 @@ System.out.println(m);
 
 ### Computing the commitment 🎲
 
-Now that we have \\(m\\), let's compute the Pedersen commitment, which is
-\\[C = g^m\cdot h^r\\]
-for a random \\(r\in\mathbb{Z}_n\\).
+Now that we have $$m$$, let's compute the Pedersen commitment, which is
+$$C = g^m\cdot h^r$$
+for a random $$r\in\mathbb{Z}_n$$.
 
 
 ```java
@@ -149,9 +150,9 @@ System.out.println(C);
 
 ### On automatic multiexponentiation 🤖
 
-One advantage of the `LazyGroup` approach is that after calling `g.pow(m)`, that value is not immediately computed. This allows us to compute \\(C\\) as a multiexponentiation behind the scenes, i.e. more efficiently than computing \\(g^m\\) and \\(h^r\\) separately and then multiplying them.
+One advantage of the `LazyGroup` approach is that after calling `g.pow(m)`, that value is not immediately computed. This allows us to compute $$C$$ as a multiexponentiation behind the scenes, i.e. more efficiently than computing $$g^m$$ and $$h^r$$ separately and then multiplying them.
 
-This is done automatically when the value of \\(C\\) is needed. We can force computation of \\(C\\) by calling `computeSync()` for the sake of illustration.
+This is done automatically when the value of $$C$$ is needed. We can force computation of $$C$$ by calling `computeSync()` for the sake of illustration.
 
 
 ```java
@@ -161,11 +162,11 @@ C.computeSync() //computes the value of C and blocks the caller until it's done.
 
 
 
-    (58169634281804311752524932157207108266551368222203576391328166275732185654637,74943005388860664085553359509906579585955255204193574062154102519615359270473)
+    (56771449235264302615258677380344060394745101305888541425349080151044428825409,88883184015215676917695009465406684554267011012005634798071713139170389707278)
 
 
 
-The committer can now transmit \\(C\\) to the verifier, who won't learn anything from it (\\(C\\) is uniformly random in \\(\mathbb{G}\\)) but will be assured that we cannot later change our mind about \\(m\\).
+The committer can now transmit $$C$$ to the verifier, who won't learn anything from it ($$C$$ is uniformly random in $$\mathbb{G}$$) but will be assured that we cannot later change our mind about $$m$$.
 
 For this transmission, we'd have to talk about serialization. Very roughly: every `GroupElement` is able to represent itself as a `Representation`, which is safe to send, and its corresponding `Group` is able to undo this process.
 
@@ -177,7 +178,7 @@ C.getRepresentation()
 
 
 
-    {"__type":"OBJ","x":"INT:809ad8a49cf1c9553e41bd87adc50b3abd9e920459d5055e0ab4fd34f631a56d","y":"INT:a5b03ce564c4a295314b1376e5b8259d6a44514e0b25a7b777f49e958ae7be49","z":"INT:1"}
+    {"__type":"OBJ","x":"INT:7d838066de6a5e807c8b35b1c49513175e1db3d7cd053e2e81490c674b828341","y":"INT:c48219706b509d790941ffacf9891718502f96b17da35b91f5240bb5b3faca0e","z":"INT:1"}
 
 
 
@@ -197,7 +198,7 @@ For more information on serialization, see [our documentation regarding `Represe
 
 ## Verifying the commitment 🕵️
 
-When we've additionally given \\(m,r\\) to the verifier, they can now check whether \\(m,r\\) is a valid opening for \\(C\\) by checking the following equation:
+When we've additionally given $$m,r$$ to the verifier, they can now check whether $$m,r$$ is a valid opening for $$C$$ by checking the following equation:
 
 
 ```java
@@ -211,7 +212,7 @@ g.pow(m).op(h.pow(r)).equals(C)
 
 
 
-Note that here, \\(g^m\cdot h^r\\) is also automatically computed as multiexponentiation.
+Note that here, $$g^m\cdot h^r$$ is also automatically computed as multiexponentiation.
 
 ... and that's already it for implementing the Pedersen commitment scheme.
 
