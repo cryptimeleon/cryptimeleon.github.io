@@ -4,7 +4,7 @@ mathjax: true
 tpc: true
 ---
 
-In this document, we show to to use the upb.crypto.craco and upb.crypto.math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
+In this document, we show to to use the Cryptimeleon Craco and Cryptimeleon Math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
 Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library's intermediate serialization framework to you along the way.
 
 First, lets review how ElGamal encryption works:
@@ -28,12 +28,12 @@ Let \\(G\\) be a cyclic group of prime order \\(q\\).
 
 ## Implementing the Scheme
 
-We assume you have set up a new project in your IDE already, and added upb.crypto.craco as a dependency.
+We assume you have set up a new project in your IDE already, and added Craco as a dependency.
 Craco already includes the math library so you don't need to add that explicitly.
 
 To represent the different parts of the scheme, we start off by creating some classes.
 
-The `ElgamalEncryptionScheme` class houses the different algorithms that are part of the scheme such as encryption and key generation. Let's have it implement the existing `AsymmetricEncryptionScheme` interface contained in the upb.crypto.craco library:
+The `ElgamalEncryptionScheme` class houses the different algorithms that are part of the scheme such as encryption and key generation. Let's have it implement the existing `AsymmetricEncryptionScheme` interface contained in the Craco library:
 
 ```java
 public class ElgamalEncryptionScheme implements AsymmetricEncryptionScheme {
@@ -42,7 +42,7 @@ public class ElgamalEncryptionScheme implements AsymmetricEncryptionScheme {
 
 This interface – together with `EncryptionScheme` – contains the methods required for an asymmetric encryption scheme already: `generateKeyPair()`, `encrypt()` and `decrypt()`, as well as some methods for working with representations, more on those later.
 
-Next, lets create classses for the secret and public key, `ElgamalSecretKey` and `ElgamalPublicKey`, implementing the `DecryptionKey` and `EncryptionKey` interfaces included in upb.crypto.craco, respectively.
+Next, lets create classses for the secret and public key, `ElgamalSecretKey` and `ElgamalPublicKey`, implementing the `DecryptionKey` and `EncryptionKey` interfaces included in Craco, respectively.
 
 ```java
 // ElgamalSecretKey.java
@@ -156,7 +156,7 @@ public KeyPair generateKeyPair() {
     return new KeyPair(publicKey, privateKey);
 }
 ```
-As you can see, we make use of a number of different classes provided by the upb.crypto.math library such
+As you can see, we make use of a number of different classes provided by the Math library such
 as `Group`, `GroupElement`, or `Zn` who provide many typical methods such as group operations or efficient exponentiation, meaning we only have to concern ourselves with the scheme itself.
 
 Encryption is next:

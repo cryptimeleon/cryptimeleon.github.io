@@ -12,8 +12,8 @@ This document assumes you know the basics of how they work.
 To make composite builds easier to use, we have implemented a Gradle build script to automate some steps of the process.
 
 # Overview
-The basic idea is to automatically download the required upb.crypto dependency (such as Math), and then use Gradle's composite builds feature to include it where required.
-To do this, every library that depends on some other upb.crypto library includes a build script in its `settings.gradle` file.
+The basic idea is to automatically download the required Cryptimeleon dependency (such as Math), and then use Gradle's composite builds feature to include it where required.
+To do this, every library that depends on some other Cryptimeleon library includes a build script in its `settings.gradle` file.
 This script clones the dependency to the same directory level as the library being built and includes it as a composite build if possible.
 "If possible" means that the branches should follow some rules. Let `LB` be the name of the branch of the library being built and `DB` be the name of the branch of the dependency library. The composite build will only be enabled if either of the following hold:
 

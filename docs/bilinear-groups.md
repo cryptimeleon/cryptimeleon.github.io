@@ -16,10 +16,10 @@ The following bilinear groups are available in our libraries:
 
 | Group  | [Type](#types)  | Has Hash to \\(\mathbb{G}_1\\)?  | Has Hash to \\(\mathbb{G}_2\\)?   | Has Hash to \\(\mathbb{G}_T\\)?  | Security | Library | Class Name |
 |---|---|---|---|---|---|---|---|---|
-| Barreto-Naehrig  |  3 | yes  | yes  | no  | 100, 128 | [Math](https://github.com/upbcuk/upb.crypto.math) | `BarretoNaehrigBilinearGroup` |
-| Mcl (BN-254) | 3 | yes | yes | no | 100 | [Mclwrap](https://github.com/upbcuk/upb.crypto.mclwrap) | `MclBilinearGroup` |
-| Supersingular  | 1  | yes  | yes  | no  | 48 - 256 | [Math](https://github.com/upbcuk/upb.crypto.math) | `SupersingularBilinearGroup` |
-| Counting Group  | any  | yes  | yes  | yes  | no security | [Math](https://github.com/upbcuk/upb.crypto.math) | `CountingBilinearGroup` |
+| Barreto-Naehrig  |  3 | yes  | yes  | no  | 100, 128 | [Math](https://github.com/cryptimeleon/math) | `BarretoNaehrigBilinearGroup` |
+| Mcl (BN-254) | 3 | yes | yes | no | 100 | [Mclwrap](https://github.com/cryptimeleon/mclwrap) | `MclBilinearGroup` |
+| Supersingular  | 1  | yes  | yes  | no  | 48 - 256 | [Math](https://github.com/cryptimeleon/math) | `SupersingularBilinearGroup` |
+| Counting Group  | any  | yes  | yes  | yes  | no security | [Math](https://github.com/cryptimeleon/math) | `CountingBilinearGroup` |
 
 The security is given as the negated logarithm base 2 of the adversaries attacking chance, i.e. a security parameter of 100 means the adversary has no more than a \\(2^{-100}\\) chance of breaking security. Security parameter estimations are determined based on numbers from [BD19].
 

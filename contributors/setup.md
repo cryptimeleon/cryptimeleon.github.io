@@ -5,7 +5,7 @@ toc: true
 
 # Project Setup
 
-All the upb.crypto libraries use the [Gradle](https://gradle.org/) build tool. 
+All the Cryptimeleon libraries use the [Gradle](https://gradle.org/) build tool. 
 In this guide, we show you how to set up a project in your integrated development environment of choice. 
 This guide is intended for development of the library itself.
 
@@ -40,7 +40,7 @@ As import wizard select **Gradle &rarr; Existing Gradle Project**.
 Click **Next** on the introductory information page that pops up.
 A window will open up asking you to select the project root directory.
 Browse to the location where you cloned the repository to and select the repository folder.
-For example, ``/home/username/code/upb.crypto.craco``. 
+For example, ``/home/username/code/craco``. 
 Click **Finish** to finish setup. You can also click **Next** if you want to, for example, select a specific Java SDK.
 
 ## Testing Changes
