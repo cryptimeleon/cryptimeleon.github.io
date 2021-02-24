@@ -16,6 +16,9 @@ To render the LaTex, we use MathJax Version 2 (there seemed to be some issues wi
 To enable MathJax rendering for a site, add `mathjax: true` to the YAML Front Matter of the corresponding markdown page.
 The YAML Front Matter is the YAML code delimited by `---` at the top of a markdown page.
 
+The Markdown partser used is [Kramdown](https://kramdown.gettalong.org).
+Its documentation is helpful for looking up things such as what kind of Latex math delimiters are supported etc.
+
 ### Jupyter
 
 The documentation contains a number of Jupyter notebooks.
