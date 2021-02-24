@@ -455,6 +455,61 @@ The JSON format is provided via the `JSONConverter` class and the binary format 
 The `JSONPrettyConverter` creates a JSON String better suited for reading by human eyes, but it also wastes a lot of space due to the inserted white spaces.
 Of course you can also implement your own `Converter` if needed.
 
+# Representation Restorers
+
+Objects that implement `Representable` and not `StandaloneRepresentable` generally require external help to be deserialized correctly.
+This help is given by a `RepresentationRestorer`.
+`RepresentationRestorer` is an interface for classes that can deserialize representations containing specific types of objects back to the original object.
+An example is the `Zp` class in Cryptimeleon Math.
+It can deserialize `ZpElement` instances that belong to the corresponding $$\mathbb{Z}_p$$ field.
+
+Generally, elements of some algebraic structure that are not `StandaloneRepresentable` can be restored by the class representing the structure itself.
+For example, the `Group` class can restore `GroupElement` objects via its `getElement` method.
+
+For cryptographic scheme such as an encryption scheme, usually the scheme itself acts as the restorer. 
+It can restore ciphertexts, encryption keys, plaintexts, and ciphertexts.
+This is because the scheme instance generally contains the public parameters which have information about the algebraic structures needed for restoration.
+For example, the `EncryptionScheme` class offers methods `getPlainText`, `getCipherText`, `getEncryptionKey`, and `getDecryptionKey` to restore the corresponding objects from their representation.
+When implementing a new encryption scheme, you can implement those methods and then use the `EncryptionScheme` object as the restorer.
+
+```java
+    @Override
+    public ElgamalCipherText getCipherText(Representation repr) {
+        return new ElgamalCipherText(repr, groupG);
+    }
+```
+
+The above is an example taken from our ElGamal encryption implementation.
+The `getCipherText` method calls the deserialization constructor of `ElGamalCipherText` to restore the object from the given representation.
+As an ElGamal ciphertext contains a group element, you also need to provide the group that contains that group element.
+This is possible since the scheme has information about that group as given by the `groupG` field variable.
+
+If you are ever unsure what types of object a `RepresentationRestorer` can restore, consult its `recreateFromRepresentable` method.
+This method is used by `ReprUtil` to perform the restoration and usually contains a number of if-conditions which tell you which types are supported.
+The `recreateFromRepresentable` in `EncryptionScheme` looks as follows:
+
+```java
+    default Object recreateFromRepresentation(Type type, Representation repr) {
+        if (type instanceof Class) {
+            if (EncryptionKey.class.isAssignableFrom((Class) type)) {
+                return this.getEncryptionKey(repr);
+            } else if (DecryptionKey.class.isAssignableFrom((Class) type)) {
+                return this.getDecryptionKey(repr);
+            } else if (CipherText.class.isAssignableFrom((Class) type)) {
+                return this.getCipherText(repr);
+            } else if (PlainText.class.isAssignableFrom((Class) type)) {
+                return this.getPlainText(repr);
+            }
+        }
+        throw new IllegalArgumentException("Cannot recreate object of type: " + type.getTypeName());
+    }
+```
+
+From this method, you can see that `EncryptionScheme` can be used to restore objects of type `EncryptionKey`, `DecryptionKey`, `CipherText`, and `PlainText`.
+
+The `recreateFromRepresentation` method is *not* meant to be used manually in your code.
+It should be used as a reference for which kind of objects are supported, or, if you are manually serializing and deserializing, to find out which methods to use for deserialization.
+
 # ReprUtil: Restorer Notation
 
 The `@Represented` annotation, used to indicate which fields should be serialized as part of the `Representation` by `ReprUtil`, takes a String argument: `restorer`.
