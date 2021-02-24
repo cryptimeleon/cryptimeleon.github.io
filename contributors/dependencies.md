@@ -24,3 +24,10 @@ Refer to the `dependencies` section in Predenc's Gradle [build configuration](ht
 ### Groupsig
 
 Refer to the `dependencies` section in Groupsig's Gradle [build configuration](https://github.com/cryptimeleon/groupsig/blob/master/build.gradle).
+
+### CLARC
+
+The only version of CLARC whose tests currently run correctly lies on the [fix-clarc-tests branch](https://github.com/cryptimeleon/upb.crypto.clarc/tree/fix-clarc-tests).
+You will also need to use branch `fix-clarc-tests` of Math, Craco, and the [old Protocols project](https://github.com/cryptimeleon/upb.crypto.protocols/tree/fix-clarc-tests).
+
+For more information installation, see the [CLARC Readme](https://github.com/cryptimeleon/upb.crypto.clarc/blob/fix-clarc-tests/README.md).
