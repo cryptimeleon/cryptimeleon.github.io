@@ -208,9 +208,9 @@ public PlainText decrypt(CipherText cipherText, DecryptionKey privateKey) {
 ## Representation
 
 You might have noticed that the `EncryptionScheme` requires more than just the methods implemented so far.
-These methods, e.g. `getPlainText()` all take a `Representation` object as argument. Representations act as an intermediate format between the actual object and java serialization. Once you have created a representation of an object, you can use one of the converter classes to serialize it to, for example, JSON or binary.
+These methods, e.g. `restorePlainText()` all take a `Representation` object as argument. Representations act as an intermediate format between the actual object and java serialization. Once you have created a representation of an object, you can use one of the converter classes to serialize it to, for example, JSON or binary.
 
-The `getPlainText()` takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.
+The `restorePlainText()` takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.
 
 We don't give a detailed walkthrough for that here, the [representations documentation]({% link docs/representations.md %}) should allow you to implement it on your own for the four classes that require it: `ElgamalPublicKey`, `ElgamalSecretKey`, `ElgamalPlainText`, and `ElgamalCipherText`.
 
@@ -237,12 +237,12 @@ public class ElgamalCipherText implements CipherText {
 }
 ```
 
-With this, implementing e.g. the aforementioned `getCipherText` method is simple:
+With this, implementing e.g. the aforementioned `restoreCipherText` method is simple:
 
 ```java
 // ElgamalEncryptionScheme class
 @Override
-public ElgamalCipherText getCipherText(Representation repr) {
+public ElgamalCipherText restoreCipherText(Representation repr) {
     return new ElgamalCipherText(repr, groupG);
 }
 ```
