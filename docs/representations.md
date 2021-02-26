@@ -35,7 +35,7 @@ For deserialization, we invert the steps above.
 1. Use the `Converter` to get back from the serialized format to a `Representation`.
 2. Then use that `Representation` to instantiate the Java object (e.g., an encryption key).
 
-The second step is non-generic and depends heavily on what kind of object you want to instantiate. For example, if you want to instantiate a encryption key, you would call `getEncryptionKey(representation)` on an `EncryptionScheme` object.
+The second step is non-generic and depends heavily on what kind of object you want to instantiate. For example, if you want to instantiate a encryption key, you would call `restoreEncryptionKey(representation)` on an `EncryptionScheme` object.
 
 # Our Philosophy of Serialization
 First of all, we distinguish two types of representable objects: 
@@ -44,11 +44,11 @@ First of all, we distinguish two types of representable objects:
 
 Both implement a `getRepresentation()` method which returns a `Representation` object. 
 
-A `StandaloneRepresentable`'s representation contains the complete set of data required to recreate the object from scratch. By contract, `StandaloneRepresentable` classes have a constructor with a single `Representation` parameter such that `foo.equals(new Foo(foo.getRepresentation()))`. 
+A `StandaloneRepresentable`'s representation contains the complete set of data required to restore the object from scratch. By contract, `StandaloneRepresentable` classes have a constructor with a single `Representation` parameter such that `foo.equals(new Foo(foo.getRepresentation()))`. 
 For example, a `Group` is `StandaloneRepresentable`. Its `Representation` contains all necessary parameters to describe itself (e.g., elliptic curve parameters) and one can easily create a group from some `representation` using `new MyGroup(representation)`.
 
-In contrast, a `Representable`'s representation is not necessarily complete and help may be needed to recreate such an object from `Representation`. 
-For example, a `GroupElement` object's representation (e.g., coordinates of an elliptic curve point, but no description of the curve parameters) is usually insufficient to recreate the full object. As a result, a `GroupElement` needs help from its `Group` to be recreated from `Representation` (the pattern is `groupElement = group.getElement(representationOfGroupElement)`).
+In contrast, a `Representable`'s representation is not necessarily complete and help may be needed to restore such an object from `Representation`. 
+For example, a `GroupElement` object's representation (e.g., coordinates of an elliptic curve point, but no description of the curve parameters) is usually insufficient to restore the full object. As a result, a `GroupElement` needs help from its `Group` to be restored from `Representation` (the pattern is `groupElement = group.restoreElement(representationOfGroupElement)`).
 
 While it may seem at first like `StandaloneRepresentable` objects are strictly superior (and more convenient), normal `Representable` objects are actually more common because of (1) generally smaller size of representation and (2) security aspects (as described next).
 
@@ -68,12 +68,12 @@ For the first use-case, external mechanisms must ensure that our serialized data
 As a rule of thumb, for the second use-case, you almost never want objects to be `StandaloneRepresentable`. See the next section for details. 
 
 ## The Security Pitfalls of Serialization
-The idea of having a helper to recreate an object from representation actually serves a security purpose.
+The idea of having a helper to restore an object from representation actually serves a security purpose.
 
 For example, suppose you have a `Group` object `group`, which you trust (e.g., something that is hardcoded into the program or was loaded from a trusted file). 
 Now if someone sends you the representation `repr` of a group element, this is a value that you do not (and should not) trust. 
 
-In this case, `group` acts as a trust anchor. The statement `g = group.getElement(repr)` should be read as "hey, trusted group, please interpret `repr` as a valid element". The resulting group element `g` can again be trusted (in the sense that it is a valid group element of `group` with all the expected properties that go along with that). 
+In this case, `group` acts as a trust anchor. The statement `g = group.restoreElement(repr)` should be read as "hey, trusted group, please interpret `repr` as a valid element". The resulting group element `g` can again be trusted (in the sense that it is a valid group element of `group` with all the expected properties that go along with that). 
 This approach solves a big set of possible issues such as 
 - subgroup attacks: someone may try to send a representation that syntactically looks like a valid group element but that actually has different mathematical properties (belonging to a different subgroup) than valid group elements.
 - class substitution: someone may try to send a serialization of a completely different class that uses the wrong group operations (for example `g.pow(x)` may just return `x`, leaking a secret). This would potentially be possible with Java's inbuilt serialization (where deserialization generally reads what class to instantiate from the untrusted data).
@@ -209,7 +209,7 @@ The standard approach in the Cryptimeleon libraries is via a new constructor tha
         public SomeClass(Representation repr, Zp zp) {
             ObjectRepresentation objRepr = (ObjectRepresentation) repr;
             someInt = objRepr.get("someInt").bigInt().getInt();
-            exponentX = zp.getElement(objRepr.get("exponentX"));
+            exponentX = zp.restoreElement(objRepr.get("exponentX"));
         }
 
         @Override
@@ -237,11 +237,11 @@ Since `get` returns a `Representation` object, we use the `bigInt` method to typ
 Finally, we call `getInt` to retrieve the `Integer` object that was stored inside the `BigIntegerRepresentation`.
 
 To complete deserialization, we need to restore `exponentX`.
-To do this, we use the `getElement` method of `Zp`.
+To do this, we use the `restoreElement` method of `Zp`.
 This method takes in a `Representation` and, if possible, restores the corresponding `ZpElement` from it.
 
-`getElement` is a method specific to `Zp` used to deserialize `ZpElement` instances.
-Other classes that can deserialize `Representation` objects usually have similarly named methods, for example `getEncryptionKey` for the `EncryptionScheme` interface that is part of Craco.
+`restoreElement` is a method specific to `Zp` used to deserialize `ZpElement` instances.
+Other classes that can deserialize `Representation` objects usually have similarly named methods, for example `restoreEncryptionKey` for the `EncryptionScheme` interface that is part of Craco.
 
 We have now completed the implementation of manual serialization and deserialization.
 To actually send the object over the wire, you will need to convert the representation to some format that can be sent.
@@ -464,51 +464,52 @@ An example is the `Zp` class in Cryptimeleon Math.
 It can deserialize `ZpElement` instances that belong to the corresponding $$\mathbb{Z}_p$$ field.
 
 Generally, elements of some algebraic structure that are not `StandaloneRepresentable` can be restored by the class representing the structure itself.
-For example, the `Group` class can restore `GroupElement` objects via its `getElement` method.
+For example, the `Group` class can restore `GroupElement` objects via its `restoreElement` method.
 
 For cryptographic scheme such as an encryption scheme, usually the scheme itself acts as the restorer. 
 It can restore ciphertexts, encryption keys, plaintexts, and ciphertexts.
 This is because the scheme instance generally contains the public parameters which have information about the algebraic structures needed for restoration.
-For example, the `EncryptionScheme` class offers methods `getPlainText`, `getCipherText`, `getEncryptionKey`, and `getDecryptionKey` to restore the corresponding objects from their representation.
+For example, the `EncryptionScheme` class offers methods `restorePlainText`, `restoreCipherText`, `restoreEncryptionKey`, and `restoreDecryptionKey` to restore the corresponding objects from their representation.
 When implementing a new encryption scheme, you can implement those methods and then use the `EncryptionScheme` object as the restorer.
 
 ```java
     @Override
-    public ElgamalCipherText getCipherText(Representation repr) {
+    public ElgamalCipherText restoreCipherText(Representation repr) {
         return new ElgamalCipherText(repr, groupG);
     }
 ```
 
 The above is an example taken from our ElGamal encryption implementation.
-The `getCipherText` method calls the deserialization constructor of `ElGamalCipherText` to restore the object from the given representation.
+The `restoreCipherText` method calls the deserialization constructor of `ElGamalCipherText` to restore the object from the given representation.
 As an ElGamal ciphertext contains a group element, you also need to provide the group that contains that group element.
 This is possible since the scheme has information about that group as given by the `groupG` field variable.
 
-If you are ever unsure what types of object a `RepresentationRestorer` can restore, consult its `recreateFromRepresentable` method.
+If you are ever unsure what types of object a `RepresentationRestorer` can restore, consult its `restoreFromRepresentable` method.
 This method is used by `ReprUtil` to perform the restoration and usually contains a number of if-conditions which tell you which types are supported.
-The `recreateFromRepresentable` in `EncryptionScheme` looks as follows:
+The `restoreFromRepresentable` in `EncryptionScheme` looks as follows:
 
 ```java
-    default Object recreateFromRepresentation(Type type, Representation repr) {
+    default Object restoreFromRepresentation(Type type, Representation repr) {
         if (type instanceof Class) {
             if (EncryptionKey.class.isAssignableFrom((Class) type)) {
-                return this.getEncryptionKey(repr);
+                return this.restoreEncryptionKey(repr);
             } else if (DecryptionKey.class.isAssignableFrom((Class) type)) {
-                return this.getDecryptionKey(repr);
+                return this.restoreDecryptionKey(repr);
             } else if (CipherText.class.isAssignableFrom((Class) type)) {
-                return this.getCipherText(repr);
+                return this.restoreCipherText(repr);
             } else if (PlainText.class.isAssignableFrom((Class) type)) {
-                return this.getPlainText(repr);
+                return this.restorePlainText(repr);
             }
         }
-        throw new IllegalArgumentException("Cannot recreate object of type: " + type.getTypeName());
+        throw new IllegalArgumentException("Cannot restore object of type: " + type.getTypeName());
     }
 ```
 
 From this method, you can see that `EncryptionScheme` can be used to restore objects of type `EncryptionKey`, `DecryptionKey`, `CipherText`, and `PlainText`.
 
-The `recreateFromRepresentation` method is *not* meant to be used manually in your code.
+The `restoreFromRepresentation` method is *not* meant to be used manually in your code.
 It should be used as a reference for which kind of objects are supported, or, if you are manually serializing and deserializing, to find out which methods to use for deserialization.
+For example, the `restoreFromRepresentation` method of `EncryptionScheme` indicates the use of `restoreEncryptionKey` for restoring `EncryptionKey` objects.
 
 # ReprUtil: Restorer Notation
 
@@ -562,7 +563,7 @@ However, the non-boxed primitive counterparts, for example `int`, `long` or `boo
 This is due to implementation details of `ReprUtil` (primitive types cannot be assigned a `null` value).
 
 For fields that are of a type that implements `StandaloneRepresentable`, you also do not need to give a restorer.
-This is because `StandaloneRepresentable` objects can always be recreated without external information as they must implement a constructor that only takes in a `Representation`.
+This is because `StandaloneRepresentable` objects can always be restored without external information as they must implement a constructor that only takes in a `Representation`.
 
 ### Combination With Composite Types
 
