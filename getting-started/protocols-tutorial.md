@@ -39,8 +39,8 @@ So let's implement this using our library. First, let's do the basic setup.
 
 
 ```java
-%maven org.cryptimeleon:math:1.0.0-SNAPSHOT
-%maven org.cryptimeleon:craco:1.0.0-SNAPSHOT
+%maven org.cryptimeleon:math:1.0.0
+%maven org.cryptimeleon:craco:1.0.0
 
 import org.cryptimeleon.math.structures.groups.elliptic.nopairing.Secp256k1;
 import org.cryptimeleon.math.structures.groups.lazy.*;
@@ -213,7 +213,7 @@ Now the server responds with $$b = a^k$$ as well as a proof of correctness.
 //Server's perspective
 
 //Deserialize the request (also ensures the request is a valid group element)
-GroupElement aServer = group.getElement(jsonConverter.deserialize(messageOverTheWire));
+GroupElement aServer = group.restoreElement(jsonConverter.deserialize(messageOverTheWire));
 
 //Compute the response
 var bServer = aServer.pow(k);
@@ -261,11 +261,11 @@ Now the client checks the proof and unblinds $$b$$ as $$b^{1/r}$$, getting $$H_1
 ```java
 //Deserialize stuff
 var deserializedResponse = jsonConverter.deserialize(responseOverTheWire);
-var b = group.getElement(deserializedResponse.list().get(0));
+var b = group.restoreElement(deserializedResponse.list().get(0));
 
 //Check proof
 var commonInput = new ProofCommonInput(a,b); //set common input for proof
-var proof = fiatShamirProofSystem.recreateProof(commonInput, deserializedResponse.list().get(1)); //deserialize proof
+var proof = fiatShamirProofSystem.restoreProof(commonInput, deserializedResponse.list().get(1)); //deserialize proof
 assert fiatShamirProofSystem.checkProof(commonInput, proof); //check proof
 
 //Unblind b and compute PRF value
