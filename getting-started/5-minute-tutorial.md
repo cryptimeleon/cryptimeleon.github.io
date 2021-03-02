@@ -23,7 +23,7 @@ Let's include the Math library and set up the secp256k1 elliptic curve group.
 
 
 ```java
-%maven org.cryptimeleon:math:1.0.0-SNAPSHOT
+%maven org.cryptimeleon:math:1.0.0
 ```
 
 
@@ -184,7 +184,7 @@ C.getRepresentation()
 
 
 ```java
-group.getElement(C.getRepresentation()).equals(C)
+group.restoreElement(C.getRepresentation()).equals(C)
 ```
 
 

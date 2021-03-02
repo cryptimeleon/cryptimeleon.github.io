@@ -30,7 +30,7 @@ First, we need to set up the bilinear group setting required for the scheme. We 
 
 
 ```java
-%maven org.cryptimeleon:math:1.0.0-SNAPSHOT
+%maven org.cryptimeleon:math:1.0.0
 ```
 
 
