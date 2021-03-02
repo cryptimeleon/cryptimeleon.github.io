@@ -1,3 +1,8 @@
+---
+title: Javadoc
+toc: false
+---
+
 
 ## Math
 
