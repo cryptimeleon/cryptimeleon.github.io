@@ -438,7 +438,7 @@ We now have successfully implemented serialization and deserialization for our `
 
 This covers the very basics of implementing conversion from and to a `Representation` object via `ReprUtil`.
 `ReprUtil` and `@Represented` also support more complex data types and method references. 
-For more information on this topic, see the [restorer notation section](#reprutil:-restorer-notation).
+For more information on this topic, see the [restorer notation section](#reprutil-restorer-notation).
 
 # Conversion To A Sendable Format
 
