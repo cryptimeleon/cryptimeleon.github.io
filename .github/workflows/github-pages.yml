@@ -23,4 +23,4 @@ jobs:
         with:
           token: ${{ secrets.JEKYLL_PAT }}
           target_branch: "gh-pages"
-          jekyll_build_options: "--config ../_config.yml"
+          jekyll_build_options: "--trace"
