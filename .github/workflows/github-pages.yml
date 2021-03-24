@@ -25,9 +25,9 @@ jobs:
 
       - name: Convert Jupyter notebooks
         run: |
-          jupyter nbtojekyll getting-started/pairing-tutorial.ipynb --output getting-started/pairing-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fpairing-tutorial.ipynb --image-dir /assets/images/pairing-tutorial --md-title "Pairing Tutorial" --binder-link-cell 1 --enable-toc --enable-mathjax
-          jupyter nbtojekyll getting-started/protocols-tutorial.ipynb --output getting-started/protocols-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fprotocols-tutorial.ipynb --image-dir assets/images/protocols-tutorial --md-title "Protocols Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax
-          jupyter nbtojekyll getting-started/5-minute-tutorial.ipynb --output getting-started/5-minute-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2F5-minute-tutorial.ipynb --image-dir assets/images/5-minute-tutorial --md-title "5 Minute Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax
+          jupyter nbtojekyll getting-started/pairing-tutorial.ipynb --output getting-started/pairing-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fpairing-tutorial.ipynb --image-dir assets/images/pairing-tutorial --md-title "Pairing Tutorial" --binder-link-cell 1 --enable-toc --enable-mathjax
+          jupyter nbtojekyll getting-started/protocols-tutorial.ipynb --output getting-started/protocols-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fprotocols-tutorial.ipynb --md-title "Protocols Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax
+          jupyter nbtojekyll getting-started/5-minute-tutorial.ipynb --output getting-started/5-minute-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2F5-minute-tutorial.ipynb --md-title "5 Minute Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax
 
       # Use GitHub Actions' cache to shorten build times and decrease load on servers
       - uses: actions/cache@v2
