@@ -1,11 +1,10 @@
 plugins:
     - jekyll-relative-links
     - jekyll-include-cache
-    - jekyll-remote-theme
 relative_links:
     enabled: true
     collections: true
-remote_theme: "mmistakes/minimal-mistakes@4.19.1"
+theme: minimal-mistakes-jekyll
 minimal_mistakes_skin: "air"
 title: Cryptimeleon Documentation
 subtitle: "Version 1.0.0"
