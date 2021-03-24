@@ -24,5 +24,3 @@ jobs:
           token: ${{ secrets.JEKYLL_PAT }}
           target_branch: "gh-pages"
           jekyll_build_options: "--config ../_config.yml"
-          jekyll_src: ".."
-          gem_src: ".."
