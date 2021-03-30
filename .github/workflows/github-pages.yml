@@ -23,10 +23,10 @@ jobs:
           cd nbtojekyll
           python -m pip install --upgrade --force-reinstall --no-deps --no-cache-dir .
 
-      - name: Set up JDK 1.9
+      - name: Set up JDK 1.11
         uses: actions/setup-java@v1
         with:
-          java-version: 1.9
+          java-version: 1.11
 
       - name: Install Java Jupyter Kernel
         run: |
@@ -38,9 +38,9 @@ jobs:
 
       - name: Convert Jupyter notebooks
         run: |
-          jupyter nbtojekyll getting-started/pairing-tutorial.ipynb --output getting-started/pairing-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fpairing-tutorial.ipynb --image-dir assets/images/pairing-tutorial --md-title "Pairing Tutorial" --binder-link-cell 1 --enable-toc --enable-mathjax --execute --debug
-          jupyter nbtojekyll getting-started/protocols-tutorial.ipynb --output getting-started/protocols-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fprotocols-tutorial.ipynb --md-title "Protocols Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax --execute --debug
-          jupyter nbtojekyll getting-started/5-minute-tutorial.ipynb --output getting-started/5-minute-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2F5-minute-tutorial.ipynb --md-title "5 Minute Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax --execute --debug
+          jupyter nbtojekyll getting-started/pairing-tutorial.ipynb --output getting-started/pairing-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fpairing-tutorial.ipynb --image-dir assets/images/pairing-tutorial --md-title "Pairing Tutorial" --binder-link-cell 1 --enable-toc --enable-mathjax --execute
+          jupyter nbtojekyll getting-started/protocols-tutorial.ipynb --output getting-started/protocols-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2Fprotocols-tutorial.ipynb --md-title "Protocols Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax --execute
+          jupyter nbtojekyll getting-started/5-minute-tutorial.ipynb --output getting-started/5-minute-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/master\?filepath\=getting-started%2F5-minute-tutorial.ipynb --md-title "5 Minute Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax --execute
 
       # Use GitHub Actions' cache to shorten build times and decrease load on servers
       - uses: actions/cache@v2
