@@ -33,7 +33,7 @@ jobs:
           wget "https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip"
           unzip ijava-1.3.0.zip -d ijava-1.3.0
           cd ijava-1.3.0
-          python install.py
+          python install.py --user
           jupyter kernelspec list
 
       - name: Convert Jupyter notebooks
