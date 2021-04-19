@@ -23,6 +23,8 @@ docs:
       url: /docs/representations.html
     - title: "Benchmarking"
       url: /docs/benchmarking.html
+    - title: "Group Signatures"
+      url: /docs/groupsig.html
     - title : "Javadocs"
       url: /docs/javadoc.html
     - title: "Frequently Asked Questions"
