@@ -34,6 +34,8 @@ The bilinear groups we implement are very slow when it comes to computing group 
 The debug group fulfills two main purposes: tests, and counting benchmarks.
 It is based on an insecure \\(\mathbb{Z}_n\\) pairing which makes it very fast.
 Therefore it is well suited for use in your tests as they will execute much faster than with a secure bilinear group.
+Just replace the existing groups with their debug counterparts when running any tests.
+
 It also has group operation and pairing counting capabilities built in. For more information see the [benchmarking page]({% link docs/benchmarking.md %}) 
 
 ## Types
