@@ -22,7 +22,7 @@ This is because in that case multi-exponentiation algorithms can potentially be 
 There are a couple of ways you can force evaluation to be done.
 
 Calling `compute()` on a `LazyGroupElement` instance will start the computation in a separate thread. 
-This is a non-blocking operation. The only exception to this are any of the counting groups; here `compute()` blocks instead. 
+This is a non-blocking operation. The only exception to this is `DebugGroupElement`; here `compute()` blocks instead. 
 This serves to avoid race conditions.
 You should use `compute()` whenever a term has been fully constructed as waiting any longer won't offer any additional benefits, and you might as well use your idle cores. 
 

@@ -68,7 +68,7 @@ Math implements a random generator based on Java's `java.security.SecureRandom` 
 
 ### Counting Group Operations
 
-Math allows counting of group operations via a special counting group.
+Math allows counting of group operations via the debug group.
 See [here]({% link docs/benchmarking.md %}) for information on this topic.
 
 ### Expression Framework
