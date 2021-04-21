@@ -19,15 +19,24 @@ The following bilinear groups are available in our libraries:
 | Barreto-Naehrig  |  3 | yes  | yes  | no  | 100, 128 | [Math](https://github.com/cryptimeleon/math) | `BarretoNaehrigBilinearGroup` |
 | Mcl (BN-254) | 3 | yes | yes | no | 100 | [Mclwrap](https://github.com/cryptimeleon/mclwrap) | `MclBilinearGroup` |
 | Supersingular  | 1  | yes  | yes  | no  | 48 - 256 | [Math](https://github.com/cryptimeleon/math) | `SupersingularBilinearGroup` |
-| Counting Group  | any  | yes  | yes  | yes  | no security | [Math](https://github.com/cryptimeleon/math) | `CountingBilinearGroup` |
+| Debug Group  | any  | yes  | yes  | yes  | no security | [Math](https://github.com/cryptimeleon/math) | `DebugBilinearGroup` |
 
 The security is given as the negated logarithm base 2 of the adversaries attacking chance, i.e. a security parameter of 100 means the adversary has no more than a \\(2^{-100}\\) chance of breaking security. Security parameter estimations are determined based on numbers from [BD19].
 
 The "Has Hash to \\(\mathbb{G}_X\\)?" column tells you whether the implementation offers a hash function from byte arrays to the corresponding group \\(\mathbb{G}_X\\).
 
-Regarding performance, the bilinear groups we implement are very slow when it comes to computing group operations and the pairing itself. This includes our Barreto-Naehrig and supersingular implementations. If you are looking for better performance, you should use the Mcl wrapper (for type 3). For types other than 3 we do not currently offer an efficient implementation or wrapper.
+## Performance
 
-The Counting Group bilinear group is based on an insecure \\(\mathbb{Z}_n\\) pairing and therefore very fast. Due to the insecurity, it should only be used for unit tests and counting benchmarks.
+The bilinear groups we implement are very slow when it comes to computing group operations and the pairing itself. This includes our Barreto-Naehrig and supersingular implementations. If you are looking for better performance, you should use [Mclwrap](https://github.com/cryptimeleon/mclwrap) (for type 3). For types other than 3 we do not currently offer an efficient implementation or wrapper.
+
+## Debug Group
+
+The debug group fulfills two main purposes: tests, and counting benchmarks.
+It is based on an insecure \\(\mathbb{Z}_n\\) pairing which makes it very fast.
+Therefore it is well suited for use in your tests as they will execute much faster than with a secure bilinear group.
+Just replace the existing groups with their debug counterparts when running any tests.
+
+It also has group operation and pairing counting capabilities built in. For more information see the [benchmarking page]({% link docs/benchmarking.md %}) 
 
 ## Types
 

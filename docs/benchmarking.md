@@ -30,8 +30,10 @@ Since JMH is made to be used with Maven, you will probably want to add a Gradle 
 ```groovy
 task jmh(type: JavaExec) {
     description = "This task runs JMH benchmarks"
+    // Run tests inside jmh source path
     classpath = sourceSets.jmh.runtimeClasspath
-    main = "org.openjdk.jmh.Main"
+    // Need to run the JMH main class which collects and runs the tests
+    main = "org.openjdk.jmh.Main" 
 
     def include = project.properties.get('include', '');
     def exclude = project.properties.get('exclude');
@@ -59,47 +61,47 @@ It allows us to use certain JMH parameters in addition to just running all tests
 Cryptimeleon Math includes capabilities for group operation counting.
 Specifically, it allows for tracking group inversions, squarings, operations, as well as (multi-)exponentiations for a specific group.
 
-## CountingGroup
+## DebugGroup
 
-The functionality of group operation counting is provided by using a special group, the `CountingGroup`.
+The functionality of group operation counting is provided by using a special group, the `DebugGroup`.
 
-*Note: Keep in mind that `CountingGroup` uses \\(\mathbb{Z}_n\\) under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks or even production code.*
+*Note: Keep in mind that `DebugGroup` uses \\(\mathbb{Z}_n\\) under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
 
 ```java
-import org.cryptimeleon.math.pairings.debug.count.CountingGroup;
+import org.cryptimeleon.math.structures.groups.debug.DebugGroup;
 
-// instantiate the counting group with a name and its size
-CountingGroup countingGroup = new CountingGroup("CG1", 1000000);
+// instantiate the debug group with a name and its size
+DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
 
 // Get a random non-neutral element and square it
-GroupElement elem = countingGroup.getUniformlyRandomNonNeutral();
+GroupElement elem = debugGroup.getUniformlyRandomNonNeutral();
 elem.op(elem).compute();
 
 // Print number of squarings in group
-System.out.println(countingGroup.getNumSquaringsTotal());
+System.out.println(debugGroup.getNumSquaringsTotal());
 ```
 ```
 1
 ```
 
-As seen above, `CountingGroup` provides the same interfaces as any other group in Math does, just with some additional features.
+As seen above, `DebugGroup` provides the same interfaces as any other group in Math does, just with some additional features.
 
-Whenever a group operation is performed, `CountingGroup` tracks it internally.
+Whenever a group operation is performed, `DebugGroup` tracks it internally.
 The user can access the data via a variety of methods.
 These methods for data access can be separated in two categories:
 Methods whose names end in `Total` and ones whose names end in `NoExpMultiExp`.
-The former includes all group operations, even the ones done in (multi-)exponentiation algorithms while `NoExpMultiExp` methods only retrieve operation counts of operations done *not* in (multi-)exponentiations.
+The former includes all group operations, even the ones done in (multi-)exponentiation algorithms while `NoExpMultiExp` methods only retrieve operation counts of operations *not* done in (multi-)exponentiations.
 This is useful if you want to track (multi-)exponentiations only as a single unit and not the underlying group operations.
 That data can be accessed via the `getNumExps()` and `getMultiExpTermNumbers()` methods, where the latter returns an array containing the number of bases in each multi-exponentiation done.
 
 Additionally, `resetCounters()` can be used to reset all operation counters, and `formatCounterData()` provides a printable string that summarizes all collected data.
 
 ```java
-CountingGroup countingGroup = new CountingGroup("CG1", 1000000);
-GroupElement elem = countingGroup.getUniformlyRandomNonNeutral();
-GroupElement elem2 = countingGroup.getUniformlyRandomNonNeutral();
-GroupElement elem3 = countingGroup.getUniformlyRandomNonNeutral();
-GroupElement elem4 = countingGroup.getUniformlyRandomNonNeutral();
+DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
+GroupElement elem = debugGroup.getUniformlyRandomNonNeutral();
+GroupElement elem2 = debugGroup.getUniformlyRandomNonNeutral();
+GroupElement elem3 = debugGroup.getUniformlyRandomNonNeutral();
+GroupElement elem4 = debugGroup.getUniformlyRandomNonNeutral();
 
 // Perform a multi-exponentiation with 4 bases
 elem.pow(10).op(elem2.pow(10)).op(elem3.pow(10)).op(elem4.pow(10)).compute();
@@ -108,10 +110,11 @@ elem.pow(10).compute();
 // Squaring, group op and inversion
 elem.op(elem).op(elem2).inv().compute();
 
-System.out.println(countingGroup.formatCounterData());
+// Print summary of all data
+System.out.println(debugGroup.formatCounterData());
 ```
 ```
-------- Operation data for CountingGroup(Lazy CG1;Lazy CG1) -------
+------- Operation data for DebugGroup(Lazy DG1;Lazy DG1) -------
 ----- Total group operation data: -----
     Number of Group Operations: 34
     Number of Group Inversions: 1
@@ -130,27 +133,27 @@ As you can see, the "Total group operation data" block has much higher numbers t
 
 ### Lazy Evaluation
 
-`CountingGroup` does use lazy evaluation, meaning that `compute()` calls are necessary before retrieving tracked operation data, else the operation might have not been executed yet.
+`DebugGroup` does use lazy evaluation, meaning that `compute()` calls are necessary before retrieving tracked operation data, else the operation might have not been executed yet.
 However, `compute()` has been changed to behave like `computeSync()` in that it blocks until the computation is done.
 This is because non-blocking computation can lead to race conditions when printing the result of tracking the group operations, i.e. the computation has not been performed yet when the data is printed.
-So make sure to always call `compute()` on every `CountingGroupElement` before accessing any counter data.
+So make sure to always call `compute()` on every `DebugGroupElement` before accessing any counter data.
 
 ### Serialization Tracking
-`CountingGroup` not only allows for tracking group operations, it also counts how many calls of `getRepresentation()` have been called on elements of the group. This has the purpose of allowing you to track serializations.
+`DebugGroup` not only allows for tracking group operations, it also counts how many calls of `getRepresentation()` have been called on elements of the group. This has the purpose of allowing you to track serializations.
 The count is accessible via `getNumRetrievedRepresentations()`.
 
-## CountingBilinearGroup
+## DebugBilinearGroup
 
-Cryptimeleon Math also provides a `BilinearGroup` implementation that can be used for counting, the `CountingBilinearGroup` class. 
+Cryptimeleon Math also provides a `BilinearGroup` implementation that can be used for counting, the `DebugBilinearGroup` class. 
 It uses a simple (not secure) \\(\mathbb{Z}_n\\) pairing.
 
-In addition to the usual group operation counting done by the three `CountingGroup` instances contained in the bilinear group, `CountingBilinearGroup` also allows you to track number of pairings performed.
+In addition to the usual group operation counting done by the three `DebugGroup` instances contained in the bilinear group, `DebugBilinearGroup` also allows you to track number of pairings performed.
 
 ```java
-CountingBilinearGroup bilGroup = new CountingBilinearGroup(100);
+DebugBilinearGroup bilGroup = new DebugBilinearGroup(100);
 // Get G1 and G2 of the bilinear group
-CountingGroup groupG1 = (CountingGroup) bilGroup.getG1();
-CountingGroup groupG2 = (CountingGroup) bilGroup.getG2();
+DebugGroup groupG1 = (DebugGroup) bilGroup.getG1();
+DebugGroup groupG2 = (DebugGroup) bilGroup.getG2();
 
 GroupElement elemG1 = groupG1.getUniformlyRandomNonNeutral();
 GroupElement elemG2 = groupG2.getUniformlyRandomNonNeutral();
