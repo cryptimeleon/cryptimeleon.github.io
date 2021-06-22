@@ -13,13 +13,18 @@ This process depends on your project structure and dependency management; theref
 We assume that you are familiar with the dependency management of your build tool.
 
 ## Maven
-For adding for example Craco 1.0.0 to your project, add this dependency:
+For adding for example the newest version of Craco and Math to your project, add this dependency:
 
 ```xml
 <dependency>
     <groupId>org.cryptimeleon</groupId>
+    <artifactId>math</artifactId>
+    <version>{{site.mathversion}}</version>
+</dependency>
+<dependency>
+    <groupId>org.cryptimeleon</groupId>
     <artifactId>craco</artifactId>
-    <version>1.0.0</version>
+    <version>{{site.cracoversion}}</version>
 </dependency>
 ```
 
@@ -31,25 +36,30 @@ If you want to use the mclwrap library, you also need to [install the MCL java b
 
 ## Gradle
 
-We asssume you have set up a Gradle project with a `build.gradle` file.
+We assume you have set up a Gradle project with a `build.gradle` file.
 The libraries are hosted on Maven Central.
-Therefore, you need to add `mavenCentral()` to the `repositories` section of your `build.gradle` file.
 
-Then, you need to decide which library you want to use. Once you have decided, you need to add it as a dependency.
-For example, for Craco version 1.0.0, you would add `implementation group: 'org.cryptimeleon', name: 'craco', version: '1.0.0'`
-to the `dependencies` section in the `build.gradle` file.
-The group id is common to all Cryptimeleon libraries.
-The name of the library generally corresponds to the name of the repository.
+Example gradle file:
+```gradle
+plugins {
+  id 'java-library'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'org.cryptimeleon:math:{{site.mathversion}}'
+  implementation 'org.cryptimeleon:craco:{{site.cracoversion}}'
+}
+```
 
 If you want to use the mclwrap library, you also need to [install the MCL java bindings](#mclwrap-installation).
 
 # Mclwrap Installation
 
-For benchmarking you will probably want to use an efficient cryptographic pairing implementation. 
-The Cryptimeleon Math library does provide a selection of pairings, but these are orders of magnitude less efficient than other, more optimized implementations.
+For a much more efficient bilinear group implementation, use our wrapper around the [MCL library](https://github.com/herumi/mcl)'s BN254 curve. 
 
-An efficient pairing implementation is provided by our wrapper around the [MCL library's](https://github.com/herumi/mcl) implementation of the BN254 curve. 
-This wrapper is provided by the Cryptimeleon Mclwrap library. 
-
-To use the MCL wrapper library in your project, you need to install the Java bindings for MCL.
-See [here](https://github.com/cryptimeleon/mclwrap/blob/master/README.md) for installation instructions.
+To use the MCL wrapper library in your project, you need to (1) compile and install MCL, and then (2) add the dependency to our the Java bindings.
+This process is explained [here](https://github.com/cryptimeleon/mclwrap/blob/main/README.md).
