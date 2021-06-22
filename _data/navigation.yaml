@@ -13,6 +13,8 @@ docs:
       url: /getting-started/implement-elgamal.html
 - title: Documentation
   children:
+    - title: "How do I ...?"
+      url: /docs/how-do-I.html
     - title: "Lazy Evaluation"
       url: /docs/lazy-eval.html
     - title: "Bilinear Groups"
