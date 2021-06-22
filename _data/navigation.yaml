@@ -1,8 +1,8 @@
 docs:
 - title: Getting Started
   children:
-    - title: "Installation"
-      url: /getting-started/installation.html
+    - title: "First Steps"
+      url: /getting-started/first-steps.html
     - title: "5-minute Tutorial"
       url: /getting-started/5-minute-tutorial.html
     - title: "Pairing Tutorial"

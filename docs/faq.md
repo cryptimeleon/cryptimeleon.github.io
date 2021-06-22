@@ -11,7 +11,7 @@ If you are not sure which repository exactly the issue belongs to, just pick one
 ## What software is required to use the libraries?
 
 In general you only need Java SDK Version 8 or higher.
-To use the Cryptimeleon Mclwrap wrapper, you additionally need to install the Mcl Java bindings (more info on this [here]({% link getting-started/installation.md %})).
+To use the Cryptimeleon Mclwrap wrapper, you additionally need to install the Mcl Java bindings (more info on this [here]({% link getting-started/first-steps.md %})).
 
 ## Which operating systems do you support?
 

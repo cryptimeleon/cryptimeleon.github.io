@@ -36,7 +36,7 @@ Cryptimeleon supports the following features (plus others):
 ## Getting started
 - 🙋 To read more, consider our paper [to be published].
 - 🧑‍💻 To see example code, read the [5 minute tutorial](/getting-started/5-minute-tutorial.html) or generate a Sigma protocol with [subzero](https://cptml.org/subzero).
-- 👷 To build your own application with Cryptimeleon, [install](/getting-started/installation.html) it via Maven or Gradle.
+- 👷 To build your own application with Cryptimeleon, [import our projects](/getting-started/first-steps.html) via Maven or gradle. Check out our ["how do I ..."](/docs/how-do-I.html) page if you're stuck.
 - 🧙 For everything else, consult this documentation page, follow our [Twitter](https://twitter.com/cryptimeleon), find the code on [GitHub](https://github.com/cryptimeleon), or [contact us](mailto:contactus@cryptimeleon.org).
 
 
