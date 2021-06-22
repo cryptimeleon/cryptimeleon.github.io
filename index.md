@@ -16,12 +16,15 @@ Cryptimeleon supports the following features (plus others):
 - Write equations in our simple algebraic ([bilinear groups](docs/bilinear-groups.html)) framework.
   - Easily readable, e.g., `g.pow(m).op(h.pow(r))`.
   - Easy parallelism and precomputation. Transparent multiexponentiation.
-- [Benchmark](docs/benchmarking.html) your construction (in milliseconds or count group operations) and put convincing numbers into your paper
-  - Android support - run modern crypto on a phone.
+  - Same abstraction as in conference papers. We're taking care of point-on-curve and subgroup checks.
+- [Benchmark](docs/benchmarking.html) your construction (in milliseconds or count group operations)
+  - Put convincing numbers into your paper.
+  - Android support - benchmark modern crypto on a phone.
 - Implement Schnorr-style zero-knowledge proofs.
   - Specify them using Camenisch-Stadler notation in [subzero](https://cptml.org/subzero) to generate code.
   - Supports AND/OR composition, range proofs, pairing support, Fiat-Shamir, etc.
-- Use the basics you may expect: hash into groups or \\(\mathbb{Z}_p\\), use pseudorandom functions with arbitrary input/output length, ...
+- Use the basics you may expect: hash into groups or \\(\mathbb{Z}_p\\), use pseudorandom function and random oracles with arbitrary input/output length, ...
+- No copyright issues: Open-source under Apache 2.0 license.
 
 ## ❌ What Cryptimeleon does _not_ offer
 
