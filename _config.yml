@@ -6,8 +6,9 @@ relative_links:
     collections: true
 theme: minimal-mistakes-jekyll
 minimal_mistakes_skin: "air"
-title: Cryptimeleon Documentation
-subtitle: "Version 1.0.0"
+title: Cryptimeleon
+subtitle: Prototyping of Cryptographic Construction
+logo: /assets/logo.png
 repository: cryptimeleon/cryptimeleon.github.io
 locale: en
 description: Documentation page for the Cryptimeleon cryptography libraries.
