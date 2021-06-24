@@ -4,11 +4,24 @@ toc: true
 mathjax: true
 ---
 
-In this document we discuss your options when it comes to benchmarking code written using Cryptimeleon libraries as well as group operation counting provided by Cryptimeleon Math.
+In this document we discuss your options when it comes to benchmarking code written using Cryptimeleon libraries.
 
-# Runtime Benchmarking
+There are many different kinds of possible performance metrics.
+These include runtime in the form of CPU cycles or CPU time, memory usage, and network usage.
+Furthermore, one may want to collect hardware-independent information such as the number of group operations or pairings.
+Both of these types of metrics have their use-cases.
+Counting group operations and pairings has the advantage of being hardware-independent.
+To the layperson and potential user, applied metrics such as CPU time or memory usage can be more meaningful as they demonstrate practicality better than the more abstract group operations metrics.
 
-## Lazy Eval
+# Collecting Applied Metrics
+
+Applied metrics, such as runtime or memory usage, can be collected using any existing Java benchmark framework.
+An example of such a framework is the Java Microbenchmarking Harness (JMH). 
+It allows for very accurate measurements and integrates with many existing profilers.
+Due to these existing options, we have decided against implementing any such capabilities ourselves.
+Therefore, you will need to use one of these existing benchmark frameworks.
+
+## Problems With Lazy Evaluation
 
 While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of Math can create some benchmarking problems if not handled correctly.
 
@@ -17,15 +30,96 @@ During setup for your verification benchmark, you will probably execute the sign
 If evaluation is deferred until later, group operations done during signing will only be executed once the result is needed during verification of your signature.
 This will obviously falsify your results for the verification benchmark.
 
-Therefore, you should make sure to compute all group operations via any of the methods that force a blocking evaluation of the `LazyGroupElement` instance, for example using `computeSync()`.
+Furthermore, the signing algorithm may compute precomputations.
+These precomputations could then be used during the verification algorithm, resulting in lower runtime than is actually the case.
 
-## Micro-Benchmarking
+We show how to compensate for this in the JMH example that is part of the next section.
+Specifically, by calling `getRepresentation()` on the signature you can force all the involved computations to be done in a blocking manner.
+To remove the precomputations, you can use a method like `restoreSignature()` to recreate the `Signature` object.
+This new signature does not have precomputations.
 
-If you care about accuracy, we recommend using a micro-benchmarking framework such as [JMH](https://openjdk.java.net/projects/code-tools/jmh/).
-We also strongly recommend working through the [JMH Samples](https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/) to make sure you avoid any bad practices that could potentially invalidate your benchmarks.
+## JMH Example
 
-[Our own benchmarks](https://github.com/cryptimeleon/benchmark) use JMH.
+As an example we look at how to use JMH to measure runtime for our implementation of the verification algorithm of the signature scheme from Section 4.2 of Pointcheval and Sanders [PS18].
+
+Given the public key $$\textsf{pk} = (\tilde{g}, \tilde{X}, \tilde{Y}_1, \dots, \tilde{Y}_{r+1})$$, the message vector $$\textbf{m} = (m_1, \dots, m_r)$$, and the signature $$\sigma = (m', \sigma_1, \sigma_2)$$, the verification algorithm works as follows:
+Check whether $$\sigma_1$$ is the multiplicative identity of $$\mathbb{G}_1$$ and output $$0$$ if yes.
+Lastly, output $$1$$ if $$e(\sigma_1, \tilde{X} \cdot \prod_{j = 1}^r{\tilde{Y}_j^{m_j} \cdot \tilde{Y}_{r+1}^{m'}}) = e(\sigma_2, \tilde{g})$$ holds, and $$0$$ if not.
+Here $$e$$ denotes the pairing operation.
+
+We test the verification operation using messages of length one and of length 10.
+```java
+@State(Scope.Thread)
+public class PS18VerifyBenchmark {
+	
+	// Test with one message and ten
+	@Param({"1", "10"})
+	int numMessages;
+	
+    PS18SignatureScheme scheme;
+    PlainText plainText;
+    Signature signature;
+    VerificationKey verificationKey;
+	
+    // The setup method that creates the signature and verificationKey used by the verify benchmark
+	@Setup(Level.Iteration)
+	public void setup() {
+        PSPublicParameters pp = new PSPublicParameters(new MclBilinearGroup());
+        scheme = new PS18SignatureScheme(pp);
+        SignatureKeyPair<? extends PS18VerificationKey, ? extends PS18SigningKey> keyPair =
+                scheme.generateKeyPair(numMessages);
+        RingElementPlainText[] messages = new RingElementPlainText[numMessages];
+        for (int i = 0; i < messages.length; i++) {
+            messages[i] = new RingElementPlainText(pp.getZp().getUniformlyRandomElement());
+        }
+        plainText = new MessageBlock(messages);
+        signature = scheme.sign(plainText, keyPair.getSigningKey());
+        verificationKey = keyPair.getVerificationKey();
+        // Computations in sign and/or key gen may be done non-blocking.
+        // To make sure these are not done as part of the verification benchmark, 
+        //  we force the remaining computations to be done blocking via getRepresentation()
+        signature.getRepresentation();
+        verificationKey.getRepresentation();
+	}
+	
+	// The benchmark method. Includes settings for JMH
+	@Benchmark
+	@BenchmarkMode(Mode.SingleShotTime)
+	@Warmup(iterations = 3, batchSize = 1)
+	@Measurement(iterations = 10, batchSize = 1)
+	@OutputTimeUnit(TimeUnit.MILLISECONDS)
+	public Boolean measureVerify() {
+        // Running the signing or key gen algorithms may have done precomputations
+        //  for the verification key and/or signature.
+        // To reset these precomputation such that they do not make the verification
+        //  algorithm faster than it would be without, we recreate the objects
+        //  without precomputations.
+        signature = scheme.restoreSignature(signature.getRepresentation());
+        verificationKey = scheme.restoreVerificationKey(verificationKey.getRepresentation());
+        return scheme.verify(plainText, signature, verificationKey);
+	}
+}
+```
+
+JMH outputs the following results for the above benchmark (using an i5-4210m on Ubuntu 20.04):
+
+|Benchmark           |               numMessages|  Mode|  Cnt | Score |  Error|  Units |
+|-------------------|---------------------------|--------|----|-------|--------|-------|
+|measureVerify     |         1 |   ss |  50 | 5.263 |$$\pm$$ 0.641 | ms/op |
+|measureVerify     |        10 |   ss |  50|  8.157 |$$\pm$$ 1.506 | ms/op|
+
+The above example is also part of our [Benchmark](https://github.com/cryptimeleon/benchmark) project.
+There you can find more examples like it.
+
+If you want to use JMH, we strongly recommend working through the [JMH Samples](https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/) to make sure you avoid any bad practices that could potentially invalidate your benchmarks.
+
+## Using JMH with Gradle
+
 Since JMH is made to be used with Maven, you will probably want to add a Gradle task for executing your JMH tests (if you use Gradle).
+To run the JMH tests, you need to run JMH's `Main` class with the classpath set to the folder where your tests lie.
+The code below gives an example Gradle task that can run JMH tests inside the `jmh` source set.
+It also enables support for certain JMH parameters.
+For example, using the `include` parameter you can explicitly state the test classes you want to run.
 
 ```groovy
 task jmh(type: JavaExec) {
@@ -53,19 +147,27 @@ task jmh(type: JavaExec) {
     args '-rff', resultFile
 }
 ```
-Above is the script we use for our Cryptimeleon Benchmark project.
-It allows us to use certain JMH parameters in addition to just running all tests contained in the `jmh` source set.
+
+For example, to execute the previous JMH example (and only it), you would run 
+```bash
+./gradlew -q jmh -Pinclude="PS18VerifyBenchmark"
+```
+inside the folder of your Gradle project.
 
 # Group Operation Counting
 
-Cryptimeleon Math includes capabilities for group operation counting.
-Specifically, it allows for tracking group inversions, squarings, operations, as well as (multi-)exponentiations for a specific group.
+The collection of hardware-independent metrics such as group operations is implemented by the Cryptimeleon Math library.
+The main points of interest here are the `DebugBilinearGroup` and `DebugGroup` classes.
+The former allows for counting pairings, and the latter allows for counting group operations, group squarings (relevant for elliptic curves), group inversions, exponentiations, and multi-exponentiations.
+It is also able to track the number of times group elements have been serialized.
 
 ## DebugGroup
 
 The functionality of group operation counting is provided by using a special group, the `DebugGroup`.
 
-*Note: Keep in mind that `DebugGroup` uses \\(\mathbb{Z}_n\\) under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
+By simply using the `DebugGroup` to perform the computations, it automatically counts the operations done within it.
+
+*Note: Keep in mind that `DebugGroup` uses $$\mathbb{Z}_n$$ under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
 
 ```java
 import org.cryptimeleon.math.structures.groups.debug.DebugGroup;
@@ -84,17 +186,22 @@ System.out.println(debugGroup.getNumSquaringsTotal());
 1
 ```
 
-As seen above, `DebugGroup` provides the same interfaces as any other group in Math does, just with some additional features.
-
-Whenever a group operation is performed, `DebugGroup` tracks it internally.
-The user can access the data via a variety of methods.
-These methods for data access can be separated in two categories:
-Methods whose names end in `Total` and ones whose names end in `NoExpMultiExp`.
-The former includes all group operations, even the ones done in (multi-)exponentiation algorithms while `NoExpMultiExp` methods only retrieve operation counts of operations *not* done in (multi-)exponentiations.
+The counting is done in two modes: The `NoExpMultiExp` mode and the `Total` mode.
+Group operations metrics from the `NoExpMultiExp` mode disregard operations done inside (multi-)exponentiations while the `Total` mode does account for operations inside (multi-)exponentiations.
+`NoExpMultiExp` measurements are therefore independent of the actual (multi-)exponentiation algorithm while `Total` measurements are more expressive in regards to the actual runtime (since estimating group operation runtime is easier than that of a (multi-)exponentiation).
 This is useful if you want to track (multi-)exponentiations only as a single unit and not the underlying group operations.
-That data can be accessed via the `getNumExps()` and `getMultiExpTermNumbers()` methods, where the latter returns an array containing the number of bases in each multi-exponentiation done.
 
+Exponentiation and multi-exponentiation data can be accessed via the `getNumExps()` and `getMultiExpTermNumbers()` methods, where the latter returns an array containing the number of bases in each multi-exponentiation done.
 Additionally, `resetCounters()` can be used to reset all operation counters, and `formatCounterData()` provides a printable string that summarizes all collected data.
+
+As an example we consider the computation of $$g^a \cdot h^b$$.
+The `NoExpMultiExp` mode counts this as a single multi-exponentiation with two terms.
+No group operations are counted since they are all part of the multi-exponentiation.
+The `Total` mode does not consider the multi-exponentiation as its own unit.
+Instead, it counts the group operations, inversions, and squarings that are part of evaluating the multi-exponentiation (using a wNAF-type algorithm).
+Combining these metrics gives us therefore a more complete picture of the computational costs.
+
+A more detailed (code) example is given below:
 
 ```java
 DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
@@ -145,7 +252,7 @@ The count is accessible via `getNumRetrievedRepresentations()`.
 ## DebugBilinearGroup
 
 Cryptimeleon Math also provides a `BilinearGroup` implementation that can be used for counting, the `DebugBilinearGroup` class. 
-It uses a simple (not secure) \\(\mathbb{Z}_n\\) pairing.
+It uses a simple (not secure) $$\mathbb{Z}_n$$ pairing.
 
 In addition to the usual group operation counting done by the three `DebugGroup` instances contained in the bilinear group, `DebugBilinearGroup` also allows you to track number of pairings performed.
 
