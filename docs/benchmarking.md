@@ -21,26 +21,40 @@ It allows for very accurate measurements and integrates with many existing profi
 Due to these existing options, we have decided against implementing any such capabilities ourselves.
 Therefore, you will need to use one of these existing benchmark frameworks.
 
-## Problems With Lazy Evaluation
+## Problems That Can Falsify Your Benchmarks
+
+We now want to look at some potential problems when creating a benchmark.
+We will illustrate these problems using the example of benchmarking the verification algorithm of a signature scheme.
+
+### Lazy Evaluation
 
 While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of Math can create some benchmarking problems if not handled correctly.
+To benchmark your verification algorithm, you will need valid signatures, and these signatures will be provided by executing the signing algorithm.
+Inside the signing algorithm group operations might be executed.
+By default, group operations in Cryptimeleon Math are evaluated lazily, i.e. deferred until needed.
+Therefore, group operations done during signing will only be executed once the result is needed during verification of your signature.
+This will increase the runtime of your verification algorithm and therefore falsify the results.
+By serializing the `Signature` object using the `getRepresentation()` method *before* running verification, you can force all remaining computations involving fields of the `Signature` object to be completed in a blocking manner.
 
-Let's take for example a signature scheme. 
-During setup for your verification benchmark, you will probably execute the signing algorithm.
-If evaluation is deferred until later, group operations done during signing will only be executed once the result is needed during verification of your signature.
-This will obviously falsify your results for the verification benchmark.
+### Mutability
 
-Furthermore, the signing algorithm may compute precomputations.
-These precomputations could then be used during the verification algorithm, resulting in lower runtime than is actually the case.
+Another problem is the mutability of the `Signature` object.
+When repeatedly verifying the same `Signature` object, it may be possible that executing the verification algorithm leads to certain optimizations that change the runtime of the verification for the succeeding verification runs.
+An example of this problem is the storing of *precomputations*.
+The `Signature` object will most likely contain group elements.
+Those group elements can store precomputations which help to make future exponentiations more efficient.
+The first run of your verification may create such precomputations that can then be used in future invocations of the verification algorithm.
+These latter runs will then run faster than the first one, leading to skewed results.
 
-We show how to compensate for this in the JMH example that is part of the next section.
-Specifically, by calling `getRepresentation()` on the signature you can force all the involved computations to be done in a blocking manner.
-To remove the precomputations, you can use a method like `restoreSignature()` to recreate the `Signature` object.
-This new signature does not have precomputations.
+The underlying problem here is the mutability of the `Signature` object and the reuse of it for multiple runs of the verification algorithm.
+Therefore, the solution is to recreate the `Signature` object for each invocation of the verification algorithm.
+This can be done using our [representation framework]({% link docs/representations.md %}).
+By serializing and then deserializing it for each invocation of the verification algorithm, you obtain a fresh `Signature` object each time with the same state as before serialization.
 
 ## JMH Example
 
 As an example we look at how to use JMH to measure runtime for our implementation of the verification algorithm of the signature scheme from Section 4.2 of Pointcheval and Sanders [PS18].
+Here we will also see how to implement the mitigations for the benchmarking problems discussed in the previous section.
 
 Given the public key $$\textsf{pk} = (\tilde{g}, \tilde{X}, \tilde{Y}_1, \dots, \tilde{Y}_{r+1})$$, the message vector $$\textbf{m} = (m_1, \dots, m_r)$$, and the signature $$\sigma = (m', \sigma_1, \sigma_2)$$, the verification algorithm works as follows:
 Check whether $$\sigma_1$$ is the multiplicative identity of $$\mathbb{G}_1$$ and output $$0$$ if yes.
@@ -58,10 +72,11 @@ public class PS18VerifyBenchmark {
 	
     PS18SignatureScheme scheme;
     PlainText plainText;
-    Signature signature;
-    VerificationKey verificationKey;
+    Representation signatureRepr;
+    Representation verifyKeyRepr;
 	
-    // The setup method that creates the signature and verificationKey used by the verify benchmark
+    // The setup method that creates the signature and verification key 
+    //  used by the verify benchmark
 	@Setup(Level.Iteration)
 	public void setup() {
         PSPublicParameters pp = new PSPublicParameters(new MclBilinearGroup());
@@ -78,8 +93,8 @@ public class PS18VerifyBenchmark {
         // Computations in sign and/or key gen may be done non-blocking.
         // To make sure these are not done as part of the verification benchmark, 
         //  we force the remaining computations to be done blocking via getRepresentation()
-        signature.getRepresentation();
-        verificationKey.getRepresentation();
+        signatureRepr = signature.getRepresentation();
+        verifyKeyRepr = verificationKey.getRepresentation();
 	}
 	
 	// The benchmark method. Includes settings for JMH
@@ -94,8 +109,8 @@ public class PS18VerifyBenchmark {
         // To reset these precomputation such that they do not make the verification
         //  algorithm faster than it would be without, we recreate the objects
         //  without precomputations.
-        signature = scheme.restoreSignature(signature.getRepresentation());
-        verificationKey = scheme.restoreVerificationKey(verificationKey.getRepresentation());
+        signature = scheme.restoreSignature(signatureRepr);
+        verificationKey = scheme.restoreVerificationKey(verifyKeyRepr);
         return scheme.verify(plainText, signature, verificationKey);
 	}
 }
@@ -164,15 +179,14 @@ It is also able to track the number of times group elements have been serialized
 ## DebugGroup
 
 The functionality of group operation counting is provided by using a special group, the `DebugGroup`.
-
 By simply using the `DebugGroup` to perform the computations, it automatically counts the operations done within it.
 
-*Note: Keep in mind that `DebugGroup` uses $$\mathbb{Z}_n$$ under the hood, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
+*Note: Keep in mind that `DebugGroup` uses $$\mathbb{Z}_n$$ under the hood and is way faster than any secure group, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
 
 ```java
 import org.cryptimeleon.math.structures.groups.debug.DebugGroup;
 
-// instantiate the debug group with a name and its size
+// Instantiate the debug group with a name and its size
 DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
 
 // Get a random non-neutral element and square it
@@ -240,10 +254,10 @@ As you can see, the "Total group operation data" block has much higher numbers t
 
 ### Lazy Evaluation
 
-`DebugGroup` does use lazy evaluation, meaning that `compute()` calls are necessary before retrieving tracked operation data, else the operation might have not been executed yet.
-However, `compute()` has been changed to behave like `computeSync()` in that it blocks until the computation is done.
-This is because non-blocking computation can lead to race conditions when printing the result of tracking the group operations, i.e. the computation has not been performed yet when the data is printed.
-So make sure to always call `compute()` on every `DebugGroupElement` before accessing any counter data.
+`DebugGroup` does use lazy evaluation, meaning that you need to ensure all lazy computations have finished before retrieving the tracked results.
+One way to do this is to call `computeSync()` on all operations.
+However, for your convenience, `DebugGroup` also overrides `compute()` to behave like `computeSync()` in that it blocks until the computation is done.
+So make sure to always call `compute()` on every involved `DebugGroupElement` before accessing any counter data, or call `getRepresentation()` to serialize any involved objects as this also leads to a blocking computation.
 
 ### Serialization Tracking
 `DebugGroup` not only allows for tracking group operations, it also counts how many calls of `getRepresentation()` have been called on elements of the group. This has the purpose of allowing you to track serializations.
@@ -273,3 +287,7 @@ System.out.println(bilGroup.getNumPairings());
 ```
 1
 ```
+
+# References
+
+[PS18] David Pointcheval and Olivier Sanders. “Reassessing Security of Randomizable Signatures”. In: Topic in Cryptology - CT-RSA 2018. Ed. by Nigel P. Smart. Springer International Publishing, 2018, pp 319-338.
