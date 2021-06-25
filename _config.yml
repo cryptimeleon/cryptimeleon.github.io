@@ -11,6 +11,8 @@ subtitle: Prototyping of Cryptographic Construction
 logo: /assets/logo.png
 repository: cryptimeleon/cryptimeleon.github.io
 locale: en
+atom_feed:
+  hide: true
 description: Documentation page for the Cryptimeleon cryptography libraries.
 defaults:
     # _pages
@@ -38,3 +40,11 @@ exclude:
     - README.md
     - Dockerfile
     - LICENSE
+footer:
+  links:
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/cryptimeleon"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/cryptimeleon"
