@@ -38,3 +38,11 @@ exclude:
     - README.md
     - Dockerfile
     - LICENSE
+footer:
+  links:
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/cryptimeleon"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/cryptimeleon"
