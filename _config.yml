@@ -11,6 +11,8 @@ subtitle: Prototyping of Cryptographic Construction
 logo: /assets/logo.png
 repository: cryptimeleon/cryptimeleon.github.io
 locale: en
+atom_feed:
+  hide: true
 description: Documentation page for the Cryptimeleon cryptography libraries.
 defaults:
     # _pages
