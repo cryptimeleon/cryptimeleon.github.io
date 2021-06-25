@@ -1,10 +1,8 @@
 docs:
 - title: Getting Started
   children:
-    - title: "Libraries Overview"
-      url: /getting-started/libraries.html
-    - title: "Installation"
-      url: /getting-started/installation.html
+    - title: "First Steps"
+      url: /getting-started/first-steps.html
     - title: "5-minute Tutorial"
       url: /getting-started/5-minute-tutorial.html
     - title: "Pairing Tutorial"
@@ -15,6 +13,8 @@ docs:
       url: /getting-started/implement-elgamal.html
 - title: Documentation
   children:
+    - title: "How do I ...?"
+      url: /docs/how-do-I.html
     - title: "Lazy Evaluation"
       url: /docs/lazy-eval.html
     - title: "Bilinear Groups"
@@ -23,6 +23,8 @@ docs:
       url: /docs/representations.html
     - title: "Benchmarking"
       url: /docs/benchmarking.html
+    - title: "Group Signatures"
+      url: /docs/groupsig.html
     - title : "Javadocs"
       url: /docs/javadoc.html
     - title: "Frequently Asked Questions"
@@ -35,5 +37,3 @@ docs:
       url: /contributors/composite-builds.html
     - title: "Contributing"
       url: /contributors/contributing.html
-    - title: "Dependencies"
-      url: /contributors/dependencies.html
