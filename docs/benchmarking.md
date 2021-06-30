@@ -259,6 +259,14 @@ One way to do this is to call `computeSync()` on all operations.
 However, for your convenience, `DebugGroup` also overrides `compute()` to behave like `computeSync()` in that it blocks until the computation is done.
 So make sure to always call `compute()` on every involved `DebugGroupElement` before accessing any counter data, or call `getRepresentation()` to serialize any involved objects as this also leads to a blocking computation.
 
+### Configuring Used (Multi-)exponentiation Algorithm
+
+`DebugGroup` makes use of efficient exponentiation and multi-exponentiation algorithms.
+The exact algorithm used changes the resulting group operation counts.
+To manually configure these algorithms, `DebugGroup` (and `DebugBilinearGroup`) offers setter and getter methods such as `getSelectedMultiExpAlgorithm` and `setSelectedMultiExpAlgorithm`.
+Furthermore, you can configure the precomputation and exponentiation window sizes used for those algorithms.
+These are the same methods as offered by `LazyGroup`.
+
 ### Serialization Tracking
 `DebugGroup` not only allows for tracking group operations, it also counts how many calls of `getRepresentation()` have been called on elements of the group. This has the purpose of allowing you to track serializations.
 The count is accessible via `getNumRetrievedRepresentations()`.
@@ -287,6 +295,7 @@ System.out.println(bilGroup.getNumPairings());
 ```
 1
 ```
+
 
 # References
 
