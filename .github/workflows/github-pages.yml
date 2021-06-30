@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  github-pages:
+  public-current-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -54,3 +54,5 @@ jobs:
         with:
           token: ${{ secrets.JEKYLL_PAT }}
           target_branch: "gh-pages"
+          target_path: /
+          keep_history: true
