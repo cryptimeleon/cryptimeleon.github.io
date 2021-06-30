@@ -66,9 +66,9 @@ We test the verification operation using messages of length one and of length 10
 @State(Scope.Thread)
 public class PS18VerifyBenchmark {
 	
-	// Test with one message and ten
-	@Param({"1", "10"})
-	int numMessages;
+    // Test with one message and ten
+    @Param({"1", "10"})
+    int numMessages;
 	
     PS18SignatureScheme scheme;
     PlainText plainText;
@@ -77,8 +77,8 @@ public class PS18VerifyBenchmark {
 	
     // The setup method that creates the signature and verification key 
     //  used by the verify benchmark
-	@Setup(Level.Iteration)
-	public void setup() {
+    @Setup(Level.Iteration)
+    public void setup() {
         PSPublicParameters pp = new PSPublicParameters(new MclBilinearGroup());
         scheme = new PS18SignatureScheme(pp);
         SignatureKeyPair<? extends PS18VerificationKey, ? extends PS18SigningKey> keyPair =
@@ -95,15 +95,15 @@ public class PS18VerifyBenchmark {
         //  we force the remaining computations to be done blocking via getRepresentation()
         signatureRepr = signature.getRepresentation();
         verifyKeyRepr = verificationKey.getRepresentation();
-	}
+    }
 	
-	// The benchmark method. Includes settings for JMH
-	@Benchmark
-	@BenchmarkMode(Mode.SingleShotTime)
-	@Warmup(iterations = 3, batchSize = 1)
-	@Measurement(iterations = 10, batchSize = 1)
-	@OutputTimeUnit(TimeUnit.MILLISECONDS)
-	public Boolean measureVerify() {
+    // The benchmark method. Includes settings for JMH
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    @Warmup(iterations = 3, batchSize = 1)
+    @Measurement(iterations = 10, batchSize = 1)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public Boolean measureVerify() {
         // Running the signing or key gen algorithms may have done precomputations
         //  for the verification key and/or signature.
         // To reset these precomputation such that they do not make the verification
@@ -112,7 +112,7 @@ public class PS18VerifyBenchmark {
         signature = scheme.restoreSignature(signatureRepr);
         verificationKey = scheme.restoreVerificationKey(verifyKeyRepr);
         return scheme.verify(plainText, signature, verificationKey);
-	}
+    }
 }
 ```
 
