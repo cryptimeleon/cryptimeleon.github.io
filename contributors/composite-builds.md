@@ -17,10 +17,10 @@ To do this, every library that depends on some other Cryptimeleon library includ
 This script clones the dependency to the same directory level as the library being built and includes it as a composite build if possible.
 "If possible" means that the branches should follow some rules. Let `LB` be the name of the branch of the library being built and `DB` be the name of the branch of the dependency library. The composite build will only be enabled if either of the following hold:
 
-- The dependency has no branch called `LB` and `DB == main`. In this case, the `main` branch of the dependency is used for the composite build.
+- The dependency has no branch called `LB` and `DB == develop`. In this case, the `develop` branch of the dependency is used for the composite build.
 - The dependency has a branch called `LB` and `DB = LB`. In this case, the `DB` branch of the dependency is used for the composite build.
 
-To summarize, the build script will always try to use the branch with the same name as `LB` and use `main` if no such branch exists.
+To summarize, the build script will always try to use the branch with the same name as `LB` and use `develop` if no such branch exists.
 Importantly, no automatic checkout of branches is done. 
 This means that if the branches don't match, the build script will complain and fail. 
 You can adjust this behaviour using the **useCurrentBranch** parameter as explained below.
@@ -36,7 +36,7 @@ For examples of how this works see [the examples section](#examples).
 
 - **useCurrentBranch**: If defined (any value) the branch selection checking will be skipped. 
     That means the composite build will be enabled no matter the dependency branches that are currently checked out.
-    This can be useful for when you need a version that is not on `main` but you also do not want to create a new branch.
+    This can be useful for when you need a version that is not on `develop` but you also do not want to create a new branch.
 - **checkoutIfCloned**: If defined (any value), will automatically check out the corresponding
     dependency branch (branch with same name) given that the dependency was freshly cloned.
     Used by the Travis CI to automatically switch to the right dependency branch for the build.
