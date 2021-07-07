@@ -27,8 +27,8 @@ Implementations of various [predicate encryption schemes](https://github.com/cry
 # Starting from scratch
 If you don't have anything right now, it's easiest to get started with our template projects.
 
-- Java: [tbd]
-- Android: [tbd]
+- [Java](https://github.com/cryptimeleon/java-demo)
+- [Android](https://github.com/cryptimeleon/android-demo)
 
 If you want to use Zero-knowledge proofs, you can generate a basic project containing your protocol with [subzero](https://cptml.org/subzero).
 
