@@ -6,7 +6,7 @@ toc: true
 This documents explains the composite build process for snapshot builds.
 Snapshot builds are non-release builds that are still subject to change.
 
-Read about composite builds [here](https://docs.gradle.org/6.4.1/userguide/composite_builds.html).
+Read about composite builds [here](https://docs.gradle.org/current/userguide/composite_builds.html).
 This document assumes you know the basics of how they work.
 
 To make composite builds easier to use, we have implemented a Gradle build script to automate some steps of the process.
