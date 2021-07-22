@@ -40,4 +40,24 @@ Cryptimeleon supports the following features (plus others):
 - 🧙 For everything else, consult this documentation page, follow our [Twitter](https://twitter.com/cryptimeleon), find the code on [GitHub](https://github.com/cryptimeleon), or [contact us](mailto:contactus@cryptimeleon.org).
 
 
+## Publication
+We have a paper on Cryptimeleon and its features published on [eprint](https://eprint.iacr.org/2021/961). The paper also highlights the benefits that Cryptimeleon provides for privacy-preserving cryptography researchers .
+
+### How to cite
+```
+@article{EPRINT:BEHF21,
+  author    = {Jan Bobolz and
+               Fabian Eidens and
+               Raphael Heitjohann and
+               Jeremy Fell},
+  title     = {Cryptimeleon: A Library for Fast Prototyping of Privacy-Preserving Cryptographic Schemes},
+  journal   = {{IACR} Cryptol. ePrint Arch.},
+  volume    = {2021},
+  pages     = {961},
+  year      = {2021},
+  url       = {https://eprint.iacr.org/2021/961},
+}
+```
+
+
 🏫 Cryptimeleon has been developed at Paderborn University (Germany) in the [Codes and Cryptography group](https://cs.uni-paderborn.de/en/cuk).
