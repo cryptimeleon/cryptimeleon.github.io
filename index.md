@@ -5,10 +5,10 @@ mathjax: true
 # Cryptimeleon - prototyping for advanced privacy-preserving constructions
 
 
-Cryptimeleon (pronounced /krɪptimiːliən/, "cryp-tee-meleon") is an open-source Java library primarily aimed at cryptography researchers. 
+Cryptimeleon (pronounced /krɪptimiːliən/, "cryp-tee-meleon") is an open-source Java library primarily aimed at cryptography researchers.
 
-> You want to prototype and benchmark your new kind of anonymous credentials, group signatures, attribute-based encryption, or other construction in the bilinear group setting? 
-> 
+> You want to prototype and benchmark your new kind of anonymous credentials, group signatures, attribute-based encryption, or other construction in the bilinear group setting?
+>
 > Try Cryptimeleon!
 
 ## ✅ What Cryptimeleon offers
@@ -30,7 +30,7 @@ Cryptimeleon supports the following features (plus others):
 
 - Do *not* use Cryptimeleon for production code. It is a research tool only and may not offer the security level required in real applications.
 - Do *not* use Cryptimeleon if you want to implement absurd levels of performance optimization.
-  - We focus more on easy-to-read APIs than performance. 
+  - We focus more on easy-to-read APIs than performance.
   - That said, benchmarks with Cryptimeleon are definitely competitive and we do automatically optimize some things in the background.
 
 ## Getting started
@@ -51,7 +51,7 @@ We have a paper on Cryptimeleon and its features published on [eprint](https://e
                Raphael Heitjohann and
                Jeremy Fell},
   title     = {Cryptimeleon: A Library for Fast Prototyping of Privacy-Preserving Cryptographic Schemes},
-  journal   = {{IACR} Cryptol. ePrint Arch.},
+  journal   = { {IACR} Cryptol. ePrint Arch.},
   volume    = {2021},
   pages     = {961},
   year      = {2021},
