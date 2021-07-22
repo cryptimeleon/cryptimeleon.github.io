@@ -1,5 +1,5 @@
 ---
-title: Benchmarking and Group Operation Counting
+title: Benchmarking and group operation counting
 toc: true
 mathjax: true
 ---
@@ -13,7 +13,7 @@ Both of these types of metrics have their use-cases.
 Counting group operations and pairings has the advantage of being hardware-independent.
 To the layperson and potential user, applied metrics such as CPU time or memory usage can be more meaningful as they demonstrate practicality better than the more abstract group operations metrics.
 
-# Collecting Applied Metrics
+# Collecting applied metrics
 
 Applied metrics, such as runtime or memory usage, can be collected using any existing Java benchmark framework.
 An example of such a framework is the Java Microbenchmarking Harness (JMH). 
@@ -21,37 +21,7 @@ It allows for very accurate measurements and integrates with many existing profi
 Due to these existing options, we have decided against implementing any such capabilities ourselves.
 Therefore, you will need to use one of these existing benchmark frameworks.
 
-## Problems That Can Falsify Your Benchmarks
-
-We now want to look at some potential problems when creating a benchmark.
-We will illustrate these problems using the example of benchmarking the verification algorithm of a signature scheme.
-
-### Lazy Evaluation
-
-While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of Math can create some benchmarking problems if not handled correctly.
-To benchmark your verification algorithm, you will need valid signatures, and these signatures will be provided by executing the signing algorithm.
-Inside the signing algorithm group operations might be executed.
-By default, group operations in Cryptimeleon Math are evaluated lazily, i.e. deferred until needed.
-Therefore, group operations done during signing will only be executed once the result is needed during verification of your signature.
-This will increase the runtime of your verification algorithm and therefore falsify the results.
-By serializing the `Signature` object using the `getRepresentation()` method *before* running verification, you can force all remaining computations involving fields of the `Signature` object to be completed in a blocking manner.
-
-### Mutability
-
-Another problem is the mutability of the `Signature` object.
-When repeatedly verifying the same `Signature` object, it may be possible that executing the verification algorithm leads to certain optimizations that change the runtime of the verification for the succeeding verification runs.
-An example of this problem is the storing of *precomputations*.
-The `Signature` object will most likely contain group elements.
-Those group elements can store precomputations which help to make future exponentiations more efficient.
-The first run of your verification may create such precomputations that can then be used in future invocations of the verification algorithm.
-These latter runs will then run faster than the first one, leading to skewed results.
-
-The underlying problem here is the mutability of the `Signature` object and the reuse of it for multiple runs of the verification algorithm.
-Therefore, the solution is to recreate the `Signature` object for each invocation of the verification algorithm.
-This can be done using our [representation framework]({% link docs/representations.md %}).
-By serializing and then deserializing it for each invocation of the verification algorithm, you obtain a fresh `Signature` object each time with the same state as before serialization.
-
-## JMH Example
+## JMH example
 
 As an example we look at how to use JMH to measure runtime for our implementation of the verification algorithm of the signature scheme from Section 4.2 of Pointcheval and Sanders [PS18].
 Here we will also see how to implement the mitigations for the benchmarking problems discussed in the previous section.
@@ -62,6 +32,11 @@ Lastly, output $$1$$ if $$e(\sigma_1, \tilde{X} \cdot \prod_{j = 1}^r{\tilde{Y}_
 Here $$e$$ denotes the pairing operation.
 
 We test the verification operation using messages of length one and of length 10.
+The below code measures verification as follows:
+For each iteration, a new signature and verification key are generated.
+Then the verification of these is measured once.
+This process makes up one iteration.
+The results of all the iterations are then combined by JMH.
 ```java
 @State(Scope.Thread)
 public class PS18VerifyBenchmark {
@@ -72,11 +47,14 @@ public class PS18VerifyBenchmark {
 	
     PS18SignatureScheme scheme;
     PlainText plainText;
-    Representation signatureRepr;
-    Representation verifyKeyRepr;
+    Signature signature;
+    VerificationKey verificationKey;
 	
     // The setup method that creates the signature and verification key 
-    //  used by the verify benchmark
+    //  used by the verify benchmark.
+    // Level.Iteration tells us that it is run before each new iteration 
+    //  (an iteration consists of a sequence of invocations of the benchmark method; see sample 06 of the 
+    //   JMH samples we link at the end of this section)
     @Setup(Level.Iteration)
     public void setup() {
         PSPublicParameters pp = new PSPublicParameters(new MclBilinearGroup());
@@ -90,41 +68,19 @@ public class PS18VerifyBenchmark {
         plainText = new MessageBlock(messages);
         signature = scheme.sign(plainText, keyPair.getSigningKey());
         verificationKey = keyPair.getVerificationKey();
-        // Computations in sign and/or key gen may be done non-blocking.
-        // To make sure these are not done as part of the verification benchmark, 
-        //  we force the remaining computations to be done blocking via getRepresentation()
-        signatureRepr = signature.getRepresentation();
-        verifyKeyRepr = verificationKey.getRepresentation();
     }
 	
     // The benchmark method. Includes settings for JMH
     @Benchmark
-    @BenchmarkMode(Mode.SingleShotTime)
+    @BenchmarkMode(Mode.SingleShotTime) // method is called once per iteration
     @Warmup(iterations = 3, batchSize = 1)
     @Measurement(iterations = 10, batchSize = 1)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public Boolean measureVerify() {
-        // Running the signing or key gen algorithms may have done precomputations
-        //  for the verification key and/or signature.
-        // To reset these precomputation such that they do not make the verification
-        //  algorithm faster than it would be without, we recreate the objects
-        //  without precomputations.
-        signature = scheme.restoreSignature(signatureRepr);
-        verificationKey = scheme.restoreVerificationKey(verifyKeyRepr);
         return scheme.verify(plainText, signature, verificationKey);
     }
 }
 ```
-
-JMH outputs the following results for the above benchmark (using an i5-4210m on Ubuntu 20.04):
-
-|Benchmark           |               numMessages|  Mode|  Cnt | Score |  Error|  Units |
-|-------------------|---------------------------|--------|----|-------|--------|-------|
-|measureVerify     |         1 |   ss |  50 | 5.263 |$$\pm$$ 0.641 | ms/op |
-|measureVerify     |        10 |   ss |  50|  8.157 |$$\pm$$ 1.506 | ms/op|
-
-The above example is also part of our [Benchmark](https://github.com/cryptimeleon/benchmark) project.
-There you can find more examples like it.
 
 If you want to use JMH, we strongly recommend working through the [JMH Samples](https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/) to make sure you avoid any bad practices that could potentially invalidate your benchmarks.
 
@@ -169,7 +125,112 @@ For example, to execute the previous JMH example (and only it), you would run
 ```
 inside the folder of your Gradle project.
 
-# Group Operation Counting
+## Potential problems with benchmarks
+
+While being the most obvious approach, the verification benchmark we presented previously has some problems.
+We will now discuss these problems and show to apply fixes for them to the example.
+
+### Lazy evaluation
+
+While useful for automatic optimization, the [lazy evaluation]({% link docs/lazy-eval.md %}) features of Math can create some benchmarking problems if not handled correctly.
+To benchmark your verification algorithm, you will need valid signatures, and these signatures will be provided by executing the signing algorithm.
+Inside the signing algorithm group operations might be executed.
+By default, group operations in Cryptimeleon Math are evaluated lazily, i.e. deferred until needed.
+Therefore, group operations done during signing will only be executed once the result is needed during verification of your signature.
+Hence, when measuring runtime of the verification algorithm, we are actually also potentially measuring the deferred operations from the signature algorithm.
+This will increase the runtime of your verification algorithm and therefore falsify the results.
+By serializing the `Signature` object using the `getRepresentation()` method *before* the benchmark method, you can force all remaining computations involving fields of the `Signature` object to be completed in a blocking manner.
+
+See below for how to apply this to our verification example:
+```java
+    @Setup(Level.Iteration)
+    public void setup() {
+        PSPublicParameters pp = new PSPublicParameters(new MclBilinearGroup());
+        scheme = new PS18SignatureScheme(pp);
+        SignatureKeyPair<? extends PS18VerificationKey, ? extends PS18SigningKey> keyPair =
+                scheme.generateKeyPair(numMessages);
+        RingElementPlainText[] messages = new RingElementPlainText[numMessages];
+        for (int i = 0; i < messages.length; i++) {
+            messages[i] = new RingElementPlainText(pp.getZp().getUniformlyRandomElement());
+        }
+        plainText = new MessageBlock(messages);
+        signature = scheme.sign(plainText, keyPair.getSigningKey());
+        verificationKey = keyPair.getVerificationKey();
+        // We force the group elements making up signature and verificationKey to be fully computed
+        //  such that the computation does not spill over into the benchmark method
+        signature.getRepresentation();
+        verificationKey.getRepresentation();
+    }
+```
+
+### Optimizations stored in objects
+
+Another problem is the reuse of the `Signature` object.
+When repeatedly verifying the same `Signature` object, it may be possible that executing the verification algorithm leads to certain optimizations that change the runtime of the verification for the succeeding verification runs.
+An example of this problem is the storing of *precomputations*.
+The `Signature` object will most likely contain group elements.
+Those group elements can store precomputations which help to make future exponentiations more efficient.
+The first run of your verification may create such precomputations that can then be used in future invocations of the verification algorithm.
+These latter runs will then run faster than the first one, leading to skewed results.
+
+We have slightly changed the benchmark method from the JMH example to showcase this problem:
+```java
+    // The benchmark method. Includes settings for JMH
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime) // method is called once per iteration
+    @Warmup(iterations = 3, batchSize = 5)
+    @Measurement(iterations = 10, batchSize = 5)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public Boolean measureVerify() {
+        return scheme.verify(plainText, signature, verificationKey);
+    }
+```
+The `batchSize` inside the `@Warmup` and `@Measurement` annotations has been increased to `5`, meaning that, per iteration, five invocations of `measureVerify` are done.
+In the first iteration, precomputations may be stored inside `signature` which can make the subsequent invocations more efficient.
+
+The underlying problem here is the reuse of the `Signature` object for multiple runs of the verification algorithm.
+Therefore, the solution is to recreate the `Signature` object for each invocation of the verification algorithm.
+This can be done using our [representation framework]({% link docs/representations.md %}).
+By serializing and then deserializing it for each invocation of the verification algorithm, you obtain a fresh `Signature` object each time with the same state as before serialization.
+
+The improved benchmark method then looks as follows:
+```java
+    // New fields
+    Representation signatureRepr;
+    Representation verifyKeyRepr;
+
+    @Setup(Level.Iteration)
+    public void setup() {
+        // ...
+        signatureRepr = signature.getRepresentation();
+        verifyKeyRepr = verificationKey.getRepresentation();
+    }
+
+    // The benchmark method. Includes settings for JMH
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    @Warmup(iterations = 3, batchSize = 5)
+    @Measurement(iterations = 10, batchSize = 5)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public Boolean measureVerify() {
+        // Running the signing or key gen algorithms may have done precomputations
+        //  for the verification key and/or signature.
+        // To reset these precomputation such that they do not make the verification
+        //  algorithm faster than it would be without, we recreate the objects
+        //  without precomputations.
+        signature = scheme.restoreSignature(signatureRepr);
+        verificationKey = scheme.restoreVerificationKey(verifyKeyRepr);
+        return scheme.verify(plainText, signature, verificationKey);
+    }
+```
+
+Notice that we are also serializing and deserializing the verification key in the above example.
+This represents the scenario where we are using a different verification key for each verification.
+In another scenario we may be reusing the verification key, meaning that serializing and deserializing it before every verification would not be representative.
+
+Therefore, make sure that the way you design the benchmark matches the scenario that you actually want to benchmark.
+
+# Group operation counting
 
 The collection of hardware-independent metrics such as group operations is implemented by the Cryptimeleon Math library.
 The main points of interest here are the `DebugBilinearGroup` and `DebugGroup` classes.
@@ -252,12 +313,11 @@ System.out.println(debugGroup.formatCounterData());
 
 As you can see, the "Total group operation data" block has much higher numbers than the block below it, due to counting operations done during the multi-exponentiation and exponentiation.
 
-### Lazy Evaluation
+### Lazy evaluation
 
 `DebugGroup` does use lazy evaluation, meaning that you need to ensure all lazy computations have finished before retrieving the tracked results.
-One way to do this is to call `computeSync()` on all operations.
-However, for your convenience, `DebugGroup` also overrides `compute()` to behave like `computeSync()` in that it blocks until the computation is done.
 So make sure to always call `compute()` on every involved `DebugGroupElement` before accessing any counter data, or call `getRepresentation()` to serialize any involved objects as this also leads to a blocking computation.
+For your convenience, `DebugGroup` also overrides `compute()` to behave like `computeSync()` in that it blocks until the computation is done.
 
 ### Configuring Used (Multi-)exponentiation Algorithm
 
