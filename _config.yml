@@ -28,8 +28,8 @@ kramdown:
     auto_ids: true
     hard_wrap: false
 
-cracoversion: 2.0.0
-mathversion: 2.0.0
+cracoversion: 2.1.0
+mathversion: 2.1.0
 
 # exclude from jekyll site
 exclude:

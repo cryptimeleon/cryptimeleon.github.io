@@ -1,4 +1,4 @@
-FROM openjdk:11.0.3-jdk
+FROM openjdk:11.0.12-jdk-buster
 
 RUN apt-get update
 RUN apt-get install -y python3-pip
@@ -32,5 +32,6 @@ RUN chown -R $NB_UID $HOME
 USER $NB_USER
 
 # Launch the notebook server
+EXPOSE 8888
 WORKDIR $HOME
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
