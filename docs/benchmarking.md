@@ -234,15 +234,10 @@ Therefore, make sure that the way you design the benchmark matches the scenario 
 
 The collection of hardware-independent metrics such as group operations is implemented by the Cryptimeleon Math library.
 The main points of interest here are the `DebugBilinearGroup` and `DebugGroup` classes.
-The former allows for counting pairings, and the latter allows for counting group operations, group squarings (relevant for elliptic curves), group inversions, exponentiations, and multi-exponentiations.
+The former allows for counting pairings, and the latter allows for counting group operations, group squarings (relevant for elliptic curves), group inversions, exponentiations, multi-exponentiations, as well as serializations of group elements via `getRepresentation()`.
 It is also able to track the number of times group elements have been serialized.
 
-## DebugGroup
-
-The functionality of group operation counting is provided by using a special group, the `DebugGroup`.
-By simply using the `DebugGroup` to perform the computations, it automatically counts the operations done within it.
-
-*Note: Keep in mind that `DebugGroup` uses $$\mathbb{Z}_n$$ under the hood and is way faster than any secure group, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
+*Note: Keep in mind that `DebugGroup` and `DebugBilinearGroup` use $$\mathbb{Z}_n$$ under the hood and is way faster than any secure group, and so is only to be used when testing and/or counting group operations, not for other performance benchmarks.*
 
 ```java
 import org.cryptimeleon.math.structures.groups.debug.DebugGroup;
@@ -255,11 +250,39 @@ GroupElement elem = debugGroup.getUniformlyRandomNonNeutral();
 elem.op(elem).compute();
 
 // Print number of squarings in group
-System.out.println(debugGroup.getNumSquaringsTotal());
+System.out.println(debugGroup.getNumSquaringsTotalDefault());
 ```
 ```
 1
 ```
+
+In the above example, we instantiate a `DebugGroup`, compute a squaring within it, and then use the `getNumSquaringsTotalDefault()` method to obtain the number of squarings done from the `DebugGroup` object (in this case one).
+In this case we selected an arbitrary size for the `DebugGroup`, but in practice you should use the same size as the group you are replacing with `DebugGroup`.
+The reason for that is that the number of operations done in exponentiation algorithms depends on the group's size.
+Therefore, if the sizes do not match, the number of counted operations can be incorrect.
+
+`DebugGroup` has a multitude of such getter methods for retrieving various operation statistics.
+Their names all are constructed to the following structure:
+The first part denotes the type of count the getter retrieves, in this case `getNumSquarings` and number of squarings done.
+The second part denotes the *counting mode* (here `Total`) and the third, if present, relates to the bucket system (here `Default`).
+`DebugBilinearGroup` has similar methods for retrieving pairing data.
+
+Instead of using the getter methods, you can also use the provided `formatCounterData` methods which automatically format the count data for printing.
+The `formatCounterData` methods of `DebugBilinearGroup` summarize the pairing data as well as the data of \\(G_1\\), \\(G_2\\) and \\(G_T\\). 
+
+As seen in the previous example, `DebugGroup` does use lazy evaluation, meaning that you need to ensure all lazy computations have finished before retrieving the tracked results.
+So make sure to always call `compute()` on every involved `DebugGroupElement` before accessing any counter data, or call `getRepresentation()` to serialize any involved objects as this also leads to a blocking computation.
+For your convenience, `DebugGroup` also overrides `compute()` to behave like `computeSync()` in that it blocks until the computation is done.
+
+## Do I need to keep reading?
+
+In the following section, we will explain some of the more advanced feature of the counting system.
+If your benchmark uses only a single `DebugGroup` and/or `DebugBilinearGroup` instance (specifically no interactive protocols), you may not need to know about those features.
+In that case you can just use `DebugGroup` and `DebugBilinearGroup`, and then retrieve the data using the `formatCounterDataDefault()` formatting method.
+If you want to use the getter methods with suffix `Default`, you should read at least the following section about counting modes to understand the difference between `Total` and `NoExpMultiExp` getter methods.
+If your application uses multiple `DebugGroup` instances and/or multiple parties, reading the sections about static counting and the bucket system is recommended.
+
+## Counting modes
 
 The counting is done in two modes: The `NoExpMultiExp` mode and the `Total` mode.
 Group operations metrics from the `NoExpMultiExp` mode disregard operations done inside (multi-)exponentiations while the `Total` mode does account for operations inside (multi-)exponentiations.
@@ -273,10 +296,10 @@ As an example we consider the computation of $$g^a \cdot h^b$$.
 The `NoExpMultiExp` mode counts this as a single multi-exponentiation with two terms.
 No group operations are counted since they are all part of the multi-exponentiation.
 The `Total` mode does not consider the multi-exponentiation as its own unit.
-Instead, it counts the group operations, inversions, and squarings that are part of evaluating the multi-exponentiation (using a wNAF-type algorithm).
+Instead, it counts the group operations, inversions, and squarings that are part of evaluating the multi-exponentiation (using a wNAF-type algorithm by default, but the algorithm used can be configured).
 Combining these metrics gives us therefore a more complete picture of the computational costs.
 
-A more detailed (code) example is given below:
+Let's see the difference in action by performing an exponentiation and examining the number of operations done in both counting modes:
 
 ```java
 DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
@@ -285,77 +308,128 @@ GroupElement elem2 = debugGroup.getUniformlyRandomNonNeutral();
 GroupElement elem3 = debugGroup.getUniformlyRandomNonNeutral();
 GroupElement elem4 = debugGroup.getUniformlyRandomNonNeutral();
 
-// Perform a multi-exponentiation with 4 bases
-elem.pow(10).op(elem2.pow(10)).op(elem3.pow(10)).op(elem4.pow(10)).compute();
 // An exponentiation
 elem.pow(10).compute();
-// Squaring, group op and inversion
-elem.op(elem).op(elem2).inv().compute();
 
-// Print summary of all data
-System.out.println(debugGroup.formatCounterData());
+System.out.println("Total ops: " + debugGroup.getNumOpsTotalDefault());
+System.out.println("Ops not done in exp: " + debugGroup.getNumOpsNoExpMultiExpDefault());
 ```
 ```
-------- Operation data for DebugGroup(Lazy DG1;Lazy DG1) -------
------ Total group operation data: -----
-    Number of Group Operations: 34
-    Number of Group Inversions: 1
-    Number of Group Squarings: 9
------ Group operation data without operations done in (multi-)exp algorithms: -----
-    Number of Group Operations: 1
-    Number of Group Inversions: 1
-    Number of Group Squarings: 1
------ Other data: -----
-    Number of exponentiations: 1
-    Number of terms in each multi-exponentiation: [4]
-    Number of retrieved representations (via getRepresentation()): 0
+Total ops: 8
+Ops not done in exp: 0
 ```
 
-As you can see, the "Total group operation data" block has much higher numbers than the block below it, due to counting operations done during the multi-exponentiation and exponentiation.
+As you can see, `debugGroup.getNumOpsNoExpMultiExpDefault()` returns `0`, while `debugGroup.getNumOpsTotalDefault()` returns `8`.
+This is because the only group operations done are inside the exponentiation.
 
-### Lazy evaluation
+## Static counting
 
-`DebugGroup` does use lazy evaluation, meaning that you need to ensure all lazy computations have finished before retrieving the tracked results.
-So make sure to always call `compute()` on every involved `DebugGroupElement` before accessing any counter data, or call `getRepresentation()` to serialize any involved objects as this also leads to a blocking computation.
-For your convenience, `DebugGroup` also overrides `compute()` to behave like `computeSync()` in that it blocks until the computation is done.
+Counting in `DebugGroup` and `DebugBilinearGroup` is done statically, meaning that different instances of `DebugGroup` share their counts.
 
-### Configuring Used (Multi-)exponentiation Algorithm
+This is illustrated by the following example:
+
+```java
+DebugGroup debugGroup1 = new DebugGroup("DG1", 1000000);
+GroupElement elem1 = debugGroup1.getUniformlyRandomNonNeutral();
+DebugGroup debugGroup2 = new DebugGroup("DG2", 1000000);
+
+elem1.op(elem1).compute();
+
+System.out.println("DG1: " + debugGroup1.getNumSquaringsTotalDefault());
+System.out.println("DG2: " + debugGroup2.getNumSquaringsTotalDefault());
+```
+```
+DG1: 1
+DG2: 1
+```
+
+Technically, the only squaring that is done is the one on `elem1` which is an element of `debugGroup1`.
+Due to static counting, however, the squaring is also counted by `debugGroup2`.
+This has the advantage that count data of operations done inside internal `DebugGroup` instances (internal in the sense of hidden inside the application and not accessible to the benchmarker) can be retrieved via any other `DebugGroup` instance.
+
+This sharing of data does *not* apply to the `DebugGroup` instances exposed by `DebugBilinearGroup`'s `getG1()`, `getG2()`, and `getGT()` methods.
+These all have their own shared count data pools.
+Specifically, all instances of `DebugGroup` obtained via `getG1()` share their count data, and similarly for `getG2()` and `getGT()`.
+
+We illustrate this via the following example:
+
+```java
+DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
+GroupElement elem = debugGroup.getUniformlyRandomNonNeutral();
+DebugBilinearGroup debugBilinearGroup = new DebugBilinearGroup(BigInteger.valueOf(1000000), BilinearGroup.Type.TYPE_3);
+DebugGroup bilinearG1 = (DebugGroup) debugBilinearGroup.getG1();
+GroupElement elemG1 = bilinearG1.getUniformlyRandomNonNeutral();
+DebugGroup bilinearG2 = (DebugGroup) debugBilinearGroup.getG2();
+
+elem.op(elem).compute();
+elemG1.op(elemG1).compute();
+elemG1.op(elemG1).compute();
+
+System.out.println("DG1: " + debugGroup.getNumSquaringsTotalDefault());
+System.out.println("Bilinear G1: " + bilinearG1.getNumSquaringsTotalDefault());
+System.out.println("Bilinear G2: " + bilinearG2.getNumSquaringsTotalDefault());
+```
+```
+DG1: 1
+Bilinear G1: 2
+Bilinear G2: 0
+```
+
+As you can see, the squaring computed inside `debugGroup` is not counted by `bilinearG1` or `bilinearG2`.
+The two squarings are only counted by `bilinearG1` and not the others.
+The reason for this is that \\(G_1\\), \\(G_2\\) and \\(G_T\\) can have different costs for operations, and so it makes sense to count them separately.
+
+To summarize: All `DebugGroup` instances obtained by directly instantiating them via the constructors of `DebugGroup` share their count data.
+The `DebugGroup` instances obtained via `getG1()`, `getG2()`, and `getGT()` each have their own count data pools.
+Keep in mind that `DebugGroup` instances obtained via the `getG1()` (or `getG2()` and `getGT()`) methods of different `DebugBilinearGroup` instances also share their count data.
+
+## The bucket system
+
+All the count data getter methods we used so far had the suffix `Default`.
+This is related to the bucket system of `DebugGroup` and `DebugBilinearGroup`.
+Due to the static counting, `DebugGroup` instances share their count data.
+The bucket system allows different `DebugGroup` instances to count separately by using what we call "buckets".
+Each bucket has its own count data tracking.
+Using the `setBucket(String bucketName)` method on a `DebugGroup` instance, one can tell that `DebugGroup` instance to use the bucket with name `bucketName` for counting.
+Any operations done on elements of that `DebugGroup` instance are counted inside the currently activated bucket of that instance.
+This allows different `DebugGroup` instances to track their count data separately. 
+The data of a specific bucket can be obtained using the getter methods that take a `String` argument such as `getNumOpsTotal(String bucketName)`.
+
+After initialization, and before any calls to `setBucket`, a default bucket is used, whose data as we saw already can be obtained using the getter methods ending with the suffix `Default`.
+This default bucket has no name, so you don't need to worry about conflicting names.
+The getter methods ending with the suffix `AllBuckets` summarize the data across all buckets, including the default bucket.
+
+```java
+DebugGroup debugGroup = new DebugGroup("DG1", 1000000);
+GroupElement elem = debugGroup.getUniformlyRandomNonNeutral();
+
+elem.op(elem).compute();
+debugGroup.setBucket("bucket1");
+elem.op(elem).compute();
+
+System.out.println("Default bucket: " + debugGroup.getNumSquaringsTotalDefault());
+System.out.println("bucket1 bucket: " + debugGroup.getNumSquaringsTotal("bucket1"));
+```
+```
+Default bucket: 1
+bucket1 bucket: 1
+```
+In the above example, we do a squaring before calling `setBucket`, meaning that the squaring is counted by the default bucket.
+We then switch `debugGroup` to the bucket `bucket1` which then counts the second squaring.
+The printed results confirm this view, each bucket has one squaring.
+Keep in mind that static counting still holds, so if you use the same bucket name for different `DebugGroup` instances, they will share the count data.
+The bucket system also applies to `DebugBilinearPairing` and its pairing counter.
+
+An example application of the bucket system is benchmarking an interactive protocol.
+By using separate buckets for each of the participating parties, you can count operations per party.
+
+## Configuring used (multi-)exponentiation algorithms
 
 `DebugGroup` makes use of efficient exponentiation and multi-exponentiation algorithms.
 The exact algorithm used changes the resulting group operation counts.
 To manually configure these algorithms, `DebugGroup` (and `DebugBilinearGroup`) offers setter and getter methods such as `getSelectedMultiExpAlgorithm` and `setSelectedMultiExpAlgorithm`.
 Furthermore, you can configure the precomputation and exponentiation window sizes used for those algorithms.
 These are the same methods as offered by `LazyGroup`.
-
-### Serialization Tracking
-`DebugGroup` not only allows for tracking group operations, it also counts how many calls of `getRepresentation()` have been called on elements of the group. This has the purpose of allowing you to track serializations.
-The count is accessible via `getNumRetrievedRepresentations()`.
-
-## DebugBilinearGroup
-
-Cryptimeleon Math also provides a `BilinearGroup` implementation that can be used for counting, the `DebugBilinearGroup` class. 
-It uses a simple (not secure) $$\mathbb{Z}_n$$ pairing.
-
-In addition to the usual group operation counting done by the three `DebugGroup` instances contained in the bilinear group, `DebugBilinearGroup` also allows you to track number of pairings performed.
-
-```java
-DebugBilinearGroup bilGroup = new DebugBilinearGroup(100);
-// Get G1 and G2 of the bilinear group
-DebugGroup groupG1 = (DebugGroup) bilGroup.getG1();
-DebugGroup groupG2 = (DebugGroup) bilGroup.getG2();
-
-GroupElement elemG1 = groupG1.getUniformlyRandomNonNeutral();
-GroupElement elemG2 = groupG2.getUniformlyRandomNonNeutral();
-
-// Compute a paring
-bilGroup.getBilinearMap().apply(elemG1, elemG2).compute();
-
-System.out.println(bilGroup.getNumPairings());
-```
-```
-1
-```
-
 
 # References
 
