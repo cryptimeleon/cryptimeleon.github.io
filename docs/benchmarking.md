@@ -250,7 +250,7 @@ GroupElement elem = debugGroup.getUniformlyRandomNonNeutral();
 elem.op(elem).compute();
 
 // Print number of squarings in group
-System.out.println(debugGroup.getNumSquaringsTotalDefault());
+System.out.println(debugGroup.getNumSquaringsTotal());
 ```
 ```
 1
@@ -264,11 +264,13 @@ Therefore, if the sizes do not match, the number of counted operations can be in
 `DebugGroup` has a multitude of such getter methods for retrieving various operation statistics.
 Their names all are constructed to the following structure:
 The first part denotes the type of count the getter retrieves, in this case `getNumSquarings` and number of squarings done.
-The second part denotes the *counting mode* (here `Total`) and the third, if present, relates to the bucket system (here `Default`).
+The second part denotes the *counting mode* (here `Total`) and the third, in this case not present, relates to the bucket system.
 `DebugBilinearGroup` has similar methods for retrieving pairing data.
-
 Instead of using the getter methods, you can also use the provided `formatCounterData` methods which automatically format the count data for printing.
 The `formatCounterData` methods of `DebugBilinearGroup` summarize the pairing data as well as the data of \\(G_1\\), \\(G_2\\) and \\(G_T\\). 
+
+Additionally, both classes provide reset methods such as `resetCounters()` that can be used to reset the counters.
+If you only want to measure certain procedures, for example you only want to benchmark the verification algorithm and not the signing before, then resetting the counters before the procedure to measure is advised.
 
 As seen in the previous example, `DebugGroup` does use lazy evaluation, meaning that you need to ensure all lazy computations have finished before retrieving the tracked results.
 So make sure to always call `compute()` on every involved `DebugGroupElement` before accessing any counter data, or call `getRepresentation()` to serialize any involved objects as this also leads to a blocking computation.
@@ -278,8 +280,8 @@ For your convenience, `DebugGroup` also overrides `compute()` to behave like `co
 
 In the following section, we will explain some of the more advanced feature of the counting system.
 If your benchmark uses only a single `DebugGroup` and/or `DebugBilinearGroup` instance (specifically no interactive protocols), you may not need to know about those features.
-In that case you can just use `DebugGroup` and `DebugBilinearGroup`, and then retrieve the data using the `formatCounterDataDefault()` formatting method.
-If you want to use the getter methods with suffix `Default`, you should read at least the following section about counting modes to understand the difference between `Total` and `NoExpMultiExp` getter methods.
+In that case you can just use `DebugGroup` and `DebugBilinearGroup`, and then format the data using `formatCounterData()`.
+If you want to use the getter methods, you should read at least the following section about counting modes to understand the difference between `Total` and `NoExpMultiExp` getter methods.
 If your application uses multiple `DebugGroup` instances and/or multiple parties, reading the sections about static counting and the bucket system is recommended.
 
 ## Counting modes
@@ -290,7 +292,6 @@ Group operations metrics from the `NoExpMultiExp` mode disregard operations done
 This is useful if you want to track (multi-)exponentiations only as a single unit and not the underlying group operations.
 
 Exponentiation and multi-exponentiation data can be accessed via the `getNumExps()` and `getMultiExpTermNumbers()` methods, where the latter returns an array containing the number of bases in each multi-exponentiation done.
-Additionally, `resetCounters()` can be used to reset all operation counters, and `formatCounterData()` provides a printable string that summarizes all collected data.
 
 As an example we consider the computation of $$g^a \cdot h^b$$.
 The `NoExpMultiExp` mode counts this as a single multi-exponentiation with two terms.
@@ -311,15 +312,15 @@ GroupElement elem4 = debugGroup.getUniformlyRandomNonNeutral();
 // An exponentiation
 elem.pow(10).compute();
 
-System.out.println("Total ops: " + debugGroup.getNumOpsTotalDefault());
-System.out.println("Ops not done in exp: " + debugGroup.getNumOpsNoExpMultiExpDefault());
+System.out.println("Total ops: " + debugGroup.getNumOpsTotal());
+System.out.println("Ops not done in exp: " + debugGroup.getNumOpsNoExpMultiExp());
 ```
 ```
 Total ops: 8
 Ops not done in exp: 0
 ```
 
-As you can see, `debugGroup.getNumOpsNoExpMultiExpDefault()` returns `0`, while `debugGroup.getNumOpsTotalDefault()` returns `8`.
+As you can see, `debugGroup.getNumOpsNoExpMultiExp()` returns `0`, while `debugGroup.getNumOpsTotal()` returns `8`.
 This is because the only group operations done are inside the exponentiation.
 
 ## Static counting
@@ -335,8 +336,8 @@ DebugGroup debugGroup2 = new DebugGroup("DG2", 1000000);
 
 elem1.op(elem1).compute();
 
-System.out.println("DG1: " + debugGroup1.getNumSquaringsTotalDefault());
-System.out.println("DG2: " + debugGroup2.getNumSquaringsTotalDefault());
+System.out.println("DG1: " + debugGroup1.getNumSquaringsTotal());
+System.out.println("DG2: " + debugGroup2.getNumSquaringsTotal());
 ```
 ```
 DG1: 1
@@ -365,9 +366,9 @@ elem.op(elem).compute();
 elemG1.op(elemG1).compute();
 elemG1.op(elemG1).compute();
 
-System.out.println("DG1: " + debugGroup.getNumSquaringsTotalDefault());
-System.out.println("Bilinear G1: " + bilinearG1.getNumSquaringsTotalDefault());
-System.out.println("Bilinear G2: " + bilinearG2.getNumSquaringsTotalDefault());
+System.out.println("DG1: " + debugGroup.getNumSquaringsTotal());
+System.out.println("Bilinear G1: " + bilinearG1.getNumSquaringsTotal());
+System.out.println("Bilinear G2: " + bilinearG2.getNumSquaringsTotal());
 ```
 ```
 DG1: 1
@@ -385,17 +386,15 @@ Keep in mind that `DebugGroup` instances obtained via the `getG1()` (or `getG2()
 
 ## The bucket system
 
-All the count data getter methods we used so far had the suffix `Default`.
-This is related to the bucket system of `DebugGroup` and `DebugBilinearGroup`.
 Due to the static counting, `DebugGroup` instances share their count data.
-The bucket system allows different `DebugGroup` instances to count separately by using what we call "buckets".
+The bucket system allows different `DebugGroup` (and `DebugBilinearGroup`) instances to count separately by using what we call "buckets".
 Each bucket has its own count data tracking.
 Using the `setBucket(String bucketName)` method on a `DebugGroup` instance, one can tell that `DebugGroup` instance to use the bucket with name `bucketName` for counting.
 Any operations done on elements of that `DebugGroup` instance are counted inside the currently activated bucket of that instance.
 This allows different `DebugGroup` instances to track their count data separately. 
 The data of a specific bucket can be obtained using the getter methods that take a `String` argument such as `getNumOpsTotal(String bucketName)`.
 
-After initialization, and before any calls to `setBucket`, a default bucket is used, whose data as we saw already can be obtained using the getter methods ending with the suffix `Default`.
+After initialization, and before any calls to `setBucket`, a default bucket is used, whose data as we saw already can be obtained using the getter methods that do not take a `String` argument and also do not end with the suffix `AllBuckets`.
 This default bucket has no name, so you don't need to worry about conflicting names.
 The getter methods ending with the suffix `AllBuckets` summarize the data across all buckets, including the default bucket.
 
@@ -407,7 +406,7 @@ elem.op(elem).compute();
 debugGroup.setBucket("bucket1");
 elem.op(elem).compute();
 
-System.out.println("Default bucket: " + debugGroup.getNumSquaringsTotalDefault());
+System.out.println("Default bucket: " + debugGroup.getNumSquaringsTotal());
 System.out.println("bucket1 bucket: " + debugGroup.getNumSquaringsTotal("bucket1"));
 ```
 ```
