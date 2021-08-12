@@ -31,9 +31,7 @@ docs:
       url: /docs/faq.html
 - title: For Contributors
   children:
-    - title: "Project Setup"
-      url: /contributors/setup.html
-    - title: "Snapshot Builds"
+    - title: "How to Contribute"
+      url: /contributors/how-to-contribute.html
+    - title: "Composite Builds"
       url: /contributors/composite-builds.html
-    - title: "Contributing"
-      url: /contributors/contributing.html
