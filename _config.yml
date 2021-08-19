@@ -7,7 +7,7 @@ relative_links:
 theme: minimal-mistakes-jekyll
 minimal_mistakes_skin: "air"
 title: Cryptimeleon
-subtitle: Prototyping of Cryptographic Construction
+subtitle: Prototyping of Cryptographic Constructions
 logo: /assets/logo.png
 repository: cryptimeleon/cryptimeleon.github.io
 locale: en
