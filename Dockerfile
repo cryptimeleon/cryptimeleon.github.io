@@ -1,7 +1,7 @@
 FROM openjdk:11.0.12-jdk-buster
 
 RUN apt-get update
-RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-pip libffi-dev
 
 RUN pip3 install --no-cache-dir jupyter jupyterlab
 
