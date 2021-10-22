@@ -43,12 +43,12 @@ Add these dependencies to your `pom.xml`:
 <dependency>
     <groupId>org.cryptimeleon</groupId>
     <artifactId>math</artifactId>
-    <version>{{site.mathversion}}</version>
+    <version>[{{site.mathmajorversion}}.0,)</version>
 </dependency>
 <dependency>
     <groupId>org.cryptimeleon</groupId>
     <artifactId>craco</artifactId>
-    <version>{{site.cracoversion}}</version>
+    <version>[{{site.cracomajorversion}}.0,)</version>
 </dependency>
 ```
 
@@ -65,8 +65,8 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.cryptimeleon:math:{{site.mathversion}}'
-  implementation 'org.cryptimeleon:craco:{{site.cracoversion}}'
+  implementation 'org.cryptimeleon:math:{{site.mathmajorversion}}.+'
+  implementation 'org.cryptimeleon:craco:{{site.cracomajorversion}}.+'
 }
 ```
 
