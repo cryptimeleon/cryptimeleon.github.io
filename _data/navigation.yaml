@@ -13,8 +13,8 @@ docs:
       url: /getting-started/implement-elgamal.html
 - title: Tools
   children:
-    - title: Subzero ZK Compiler
-    url: https://cryptimeleon.org/subzero      
+    - title: "Subzero ZK Compiler"
+      url: https://cryptimeleon.org/subzero      
 - title: Documentation
   children:
     - title: "How do I ...?"
