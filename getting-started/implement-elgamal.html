@@ -1,0 +1,627 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>ElGamal Implementation Tutorial - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="ElGamal Implementation Tutorial">
+<meta property="og:url" content="/getting-started/implement-elgamal.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/getting-started/implement-elgamal.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html" class="active">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="ElGamal Implementation Tutorial">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">ElGamal Implementation Tutorial
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>In this document, we show to to use the Cryptimeleon Craco and Cryptimeleon Math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
+Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library’s intermediate serialization framework to you along the way.</p>
+
+<p>First, lets review how ElGamal encryption works:</p>
+
+<p>Let \(G\) be a cyclic group of prime order \(q\).</p>
+
+<p><strong>\(\operatorname{KeyGen}\)</strong>:</p>
+
+<ol>
+  <li>Choose integer \(a\) from \(\{0, 1, \dots, q-1\}\) uniformly at random.</li>
+  <li>Choose generator \(g \leftarrow G\) uniformly at random.</li>
+  <li>The secret key is \(sk = (G, g, a, h=g^a)\) and the public key is \(pk = (G, g, h)\).</li>
+</ol>
+
+<p><strong>\(\operatorname{Encryption}(pk, m)\)</strong>:</p>
+
+<ol>
+  <li>Choose \(r\) from \(\{0, 1, \dots, q-1\}\) uniformly at random.</li>
+  <li>The ciphertext is \(c = (c_1, c_2) = (g^r, m \cdot h^r)\).</li>
+</ol>
+
+<p><strong>\(\operatorname{Decryption}(sk, c=(c_1, c_2))\)</strong>:</p>
+
+<ol>
+  <li>The message is \(m = c_2 \cdot c_1^{-1}\).</li>
+</ol>
+
+<h2 id="implementing-the-scheme">Implementing the Scheme</h2>
+
+<p>We assume you have set up a new project in your IDE already, and added Craco as a dependency.
+Craco already includes the math library so you don’t need to add that explicitly.</p>
+
+<p>To represent the different parts of the scheme, we start off by creating some classes.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> class houses the different algorithms that are part of the scheme such as encryption and key generation. Let’s have it implement the existing <code class="language-plaintext highlighter-rouge">AsymmetricEncryptionScheme</code> interface contained in the Craco library:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalEncryptionScheme</span> <span class="kd">implements</span> <span class="nc">AsymmetricEncryptionScheme</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This interface – together with <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> – contains the methods required for an asymmetric encryption scheme already: <code class="language-plaintext highlighter-rouge">generateKeyPair()</code>, <code class="language-plaintext highlighter-rouge">encrypt()</code> and <code class="language-plaintext highlighter-rouge">decrypt()</code>, as well as some methods for working with representations, more on those later.</p>
+
+<p>Next, lets create classses for the secret and public key, <code class="language-plaintext highlighter-rouge">ElgamalSecretKey</code> and <code class="language-plaintext highlighter-rouge">ElgamalPublicKey</code>, implementing the <code class="language-plaintext highlighter-rouge">DecryptionKey</code> and <code class="language-plaintext highlighter-rouge">EncryptionKey</code> interfaces included in Craco, respectively.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalSecretKey.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalSecretKey</span> <span class="kd">implements</span> <span class="nc">DecryptionKey</span> <span class="o">{</span>
+<span class="o">}</span>
+
+<span class="c1">// ElgamalPublicKey.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalPublicKey</span> <span class="kd">implements</span> <span class="nc">EncryptionKey</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Lastly, some classes for the ciphertext and plaintext/message:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalPlainText.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalPlainText</span> <span class="kd">implements</span> <span class="nc">PlainText</span> <span class="o">{</span>
+<span class="o">}</span>
+
+<span class="c1">// ElgamalCipherText.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalCipherText</span> <span class="kd">implements</span> <span class="nc">CipherText</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The plaintext is a group element, so lets add that to the class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalPlainText</span> <span class="kd">implements</span> <span class="nc">PlainText</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">plaintext</span><span class="o">;</span> <span class="c1">// GroupElement class contained in the math library</span>
+    
+    <span class="kd">public</span> <span class="nf">ElGamalPlainText</span><span class="o">(</span><span class="nc">GroupElement</span> <span class="n">plaintext</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">plaintext</span> <span class="o">=</span> <span class="n">plaintext</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="nc">GroupElement</span> <span class="nf">getPlaintext</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">plaintext</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The ciphertext consists of two group elements, \(c_1\) and \(c_2\):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalCipherText.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalCipherText</span> <span class="kd">implements</span> <span class="nc">CipherText</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">c1</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">c2</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ElgamalCipherText</span><span class="o">(</span><span class="nc">GroupElement</span> <span class="n">c1</span><span class="o">,</span> <span class="nc">GroupElement</span> <span class="n">c2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">c1</span> <span class="o">=</span> <span class="n">c1</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">c2</span> <span class="o">=</span> <span class="n">c2</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="nc">GroupElement</span> <span class="nf">getC1</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">c1</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="nc">GroupElement</span> <span class="nf">getC2</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">c2</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Next, the public key, which consists of the group \(G\), the public group element \(h = g^a\), and the generator \(g\):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalPublicKey</span> <span class="kd">implements</span> <span class="nc">EncryptionKey</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Group</span> <span class="n">groupG</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">g</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">h</span><span class="o">;</span>
+
+    <span class="c1">// Insert constructor and getters here.</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>(We leave out constructor and getters for succinctness.)</p>
+
+<p>The secret key consists of the public key and the secret exponent \(a\):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalSecretKey</span> <span class="kd">implements</span> <span class="nc">DecryptionKey</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">ZnElement</span> <span class="n">a</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">ElgamalPublicKey</span> <span class="n">publicKey</span><span class="o">;</span>
+
+    <span class="c1">// Insert constructor and getters here.</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>With these classes, we can start to implement the algorithms in the <code class="language-plaintext highlighter-rouge">ElgamalEncryption</code> class. Its constructor takes in the group to use:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalEncryptionScheme</span> <span class="kd">implements</span> <span class="nc">AsymmetricEncryptionScheme</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Group</span> <span class="n">groupG</span><span class="o">;</span> <span class="c1">// Cyclic group with prime order q</span>
+    
+    <span class="kd">public</span> <span class="nf">ElgamalEncryption</span><span class="o">(</span><span class="nc">Group</span> <span class="n">groupG</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">groupG</span> <span class="o">=</span> <span class="n">groupG</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Key generation may then look like this:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalEncryptionScheme class</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">KeyPair</span> <span class="nf">generateKeyPair</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Zn</span> <span class="n">zn</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Zn</span><span class="o">(</span><span class="n">groupG</span><span class="o">.</span><span class="na">size</span><span class="o">());</span> <span class="c1">// Zn = {0, 1, ..., groupG.size()-1}</span>
+    <span class="c1">// Choose secret exponent a</span>
+    <span class="nc">ZnElement</span> <span class="n">a</span> <span class="o">=</span> <span class="n">zn</span><span class="o">.</span><span class="na">getUniformlyRandomElement</span><span class="o">()</span>
+    <span class="c1">// Get a generator of the group, by prime order all non-neutral elements are generators</span>
+    <span class="nc">GroupElement</span> <span class="n">generator</span> <span class="o">=</span> <span class="n">groupG</span><span class="o">.</span><span class="na">getUniformlyRandomNonNeutral</span><span class="o">().</span><span class="na">compute</span><span class="o">();</span>
+    <span class="c1">// Compute h = g^a, </span>
+    <span class="nc">GroupElement</span> <span class="n">h</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">a</span><span class="o">).</span><span class="na">compute</span><span class="o">();</span>
+    
+    <span class="c1">// Create secret key</span>
+    <span class="nc">ElgamalSecretKey</span> <span class="n">secretKey</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ElgamalSecretKey</span><span class="o">(</span><span class="n">groupG</span><span class="o">,</span> <span class="n">generator</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">g</span><span class="o">);</span>
+    <span class="c1">// Get public key from secret key</span>
+    <span class="nc">ElgamalPublicKey</span> <span class="n">publicKey</span> <span class="o">=</span> <span class="n">secretKey</span><span class="o">.</span><span class="na">getPublicKey</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">KeyPair</span><span class="o">(</span><span class="n">publicKey</span><span class="o">,</span> <span class="n">privateKey</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>As you can see, we make use of a number of different classes provided by the Math library such
+as <code class="language-plaintext highlighter-rouge">Group</code>, <code class="language-plaintext highlighter-rouge">GroupElement</code>, or <code class="language-plaintext highlighter-rouge">Zn</code> who provide many typical methods such as group operations or efficient exponentiation, meaning we only have to concern ourselves with the scheme itself.</p>
+
+<p>Encryption is next:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalEncryptionScheme class</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">CipherText</span> <span class="nf">encrypt</span><span class="o">(</span><span class="nc">PlainText</span> <span class="n">plainText</span><span class="o">,</span> <span class="nc">EncryptionKey</span> <span class="n">publicKey</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!(</span><span class="n">publicKey</span> <span class="k">instanceof</span> <span class="nc">ElgamalPublicKey</span><span class="o">))</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"The specified public key is not an Elgamal key."</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!(</span><span class="n">plainText</span> <span class="k">instanceof</span> <span class="nc">ElgamalPlainText</span><span class="o">))</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"The specified plaintext is not an Elgamal key."</span><span class="o">);</span>
+
+    <span class="nc">GroupElement</span> <span class="n">groupElementPlaintext</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ElgamalPlainText</span><span class="o">)</span> <span class="n">plainText</span><span class="o">).</span><span class="na">getPlaintext</span><span class="o">();</span>
+    <span class="nc">GroupElement</span> <span class="n">g</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ElgamalPublicKey</span><span class="o">)</span> <span class="n">publicKey</span><span class="o">).</span><span class="na">getG</span><span class="o">();</span>
+    <span class="nc">GroupElement</span> <span class="n">h</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ElgamalPublicKey</span><span class="o">)</span> <span class="n">publicKey</span><span class="o">).</span><span class="na">getH</span><span class="o">();</span>
+
+    <span class="nc">Zn</span> <span class="n">zn</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Zn</span><span class="o">(</span><span class="n">groupG</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="nc">ZnElement</span> <span class="n">r</span> <span class="o">=</span> <span class="n">zn</span><span class="o">.</span><span class="na">getUniformlyRandomElement</span><span class="o">();</span>
+
+    <span class="c1">//c1 = g^r</span>
+    <span class="nc">GroupElement</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">random</span><span class="o">);</span>
+
+    <span class="c1">//c2 = h^r * plaintext</span>
+    <span class="nc">GroupElement</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">random</span><span class="o">).</span><span class="na">op</span><span class="o">(</span><span class="n">groupElementPlaintext</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">ElgamalCipherText</span><span class="o">(</span><span class="n">c1</span><span class="o">.</span><span class="na">compute</span><span class="o">(),</span> <span class="n">c2</span><span class="o">.</span><span class="na">compute</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>There are a number of type checks and type casts in this method. This is because the <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> interface we implement by implementing <code class="language-plaintext highlighter-rouge">AsymmetricEncryptionScheme</code> does not know about our specific classes, instead it uses the general <code class="language-plaintext highlighter-rouge">PlainText</code>, <code class="language-plaintext highlighter-rouge">CipherText</code>, and <code class="language-plaintext highlighter-rouge">EncryptionKey</code> classes.</p>
+
+<p>Decryption works similarly:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalEncryptionScheme class</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">PlainText</span> <span class="nf">decrypt</span><span class="o">(</span><span class="nc">CipherText</span> <span class="n">cipherText</span><span class="o">,</span> <span class="nc">DecryptionKey</span> <span class="n">privateKey</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!(</span><span class="n">cipherText</span> <span class="k">instanceof</span> <span class="nc">ElgamalCipherText</span><span class="o">))</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"The specified ciphertext is invalid."</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!(</span><span class="n">privateKey</span> <span class="k">instanceof</span> <span class="nc">ElgamalPrivateKey</span><span class="o">))</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"The specified private key is invalid."</span><span class="o">);</span>
+
+    <span class="nc">ElgamalCipherText</span> <span class="n">cpCipherText</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ElgamalCipherText</span><span class="o">)</span> <span class="n">cipherText</span><span class="o">;</span>
+    <span class="nc">ZnElement</span> <span class="n">a</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ElgamalPrivateKey</span><span class="o">)</span> <span class="n">privateKey</span><span class="o">).</span><span class="na">getA</span><span class="o">();</span>
+    <span class="nc">GroupElement</span> <span class="n">u</span> <span class="o">=</span> <span class="n">cpCipherText</span><span class="o">.</span><span class="na">getC1</span><span class="o">().</span><span class="na">pow</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+    <span class="nc">GroupElement</span> <span class="n">m</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="na">inv</span><span class="o">().</span><span class="na">op</span><span class="o">(</span><span class="n">cpCipherText</span><span class="o">.</span><span class="na">getC2</span><span class="o">());</span> <span class="c1">// m = c_2 * c_1^a</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">ElgamalPlainText</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">compute</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="representation">Representation</h2>
+
+<p>You might have noticed that the <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> requires more than just the methods implemented so far.
+These methods, e.g. <code class="language-plaintext highlighter-rouge">restorePlainText()</code> all take a <code class="language-plaintext highlighter-rouge">Representation</code> object as argument. Representations act as an intermediate format between the actual object and java serialization. Once you have created a representation of an object, you can use one of the converter classes to serialize it to, for example, JSON or binary.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">restorePlainText()</code> takes a representation of a plaintext and should return the corresponding plaintext. The other methods work similarly. Before we can implement these, however, we need to add representation support to the Elgamal classes created earlier.</p>
+
+<p>We don’t give a detailed walkthrough for that here, the <a href="/docs/representations.html">representations documentation</a> should allow you to implement it on your own for the four classes that require it: <code class="language-plaintext highlighter-rouge">ElgamalPublicKey</code>, <code class="language-plaintext highlighter-rouge">ElgamalSecretKey</code>, <code class="language-plaintext highlighter-rouge">ElgamalPlainText</code>, and <code class="language-plaintext highlighter-rouge">ElgamalCipherText</code>.</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">ElgamalCipherText</code>, it may look as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalCipherText</span> <span class="kd">implements</span> <span class="nc">CipherText</span> <span class="o">{</span>
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"G"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">c1</span><span class="o">;</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"G"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">c2</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ElgamalCipherText</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">representation</span><span class="o">,</span> <span class="nc">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">group</span><span class="o">,</span> <span class="s">"G"</span><span class="o">),</span> <span class="n">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// other methods we added previously</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>With this, implementing e.g. the aforementioned <code class="language-plaintext highlighter-rouge">restoreCipherText</code> method is simple:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ElgamalEncryptionScheme class</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">ElgamalCipherText</span> <span class="nf">restoreCipherText</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">ElgamalCipherText</span><span class="o">(</span><span class="n">repr</span><span class="o">,</span> <span class="n">groupG</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now, only one thing is missing: The <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> class implements <code class="language-plaintext highlighter-rouge">AsymmetricEncryptionScheme</code> which indirectly extends the <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> interface. So we need to add a constructor taking a <code class="language-plaintext highlighter-rouge">Representation</code> object and instantiates a <code class="language-plaintext highlighter-rouge">ElgamalEncryptionScheme</code> object with the correct group (more on <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> in the <a href="/docs/representations.html">representations documentation</a>.</p>
+
+<p>Thankfully, this is easy:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElgamalEncryptionScheme</span> <span class="kd">implements</span> <span class="nc">AsymmetricEncryptionScheme</span> <span class="o">{</span>
+    <span class="nd">@Represented</span>
+    <span class="kd">private</span> <span class="nc">Group</span> <span class="n">groupG</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ElgamalEncryptionScheme</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// other methods we added previously</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">Group</code> class is itself a <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>, so we just delegate the representation to it.</p>
+
+<p>The only thing missing now is implementing <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">hashCode()</code> methods. We sketch our usual approach:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="c1">// Now convert "other" to the right type and check attribute equality via "Objects.equals()"</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// Use "Objects.hash()" for simplicity</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Using <code class="language-plaintext highlighter-rouge">Objects.equals()</code> and <code class="language-plaintext highlighter-rouge">Objects.hash()</code> is the easiest way to do this. The class check if-condition in the <code class="language-plaintext highlighter-rouge">equals()</code> method (instead of an <code class="language-plaintext highlighter-rouge">instanceof</code>) is important since it ensures symmetry of the equals relation in case you ever implement a subclass.</p>
+
+<h1 id="references">References</h1>
+
+<p>[Elg85] T. Elgamal, “A public key cryptosystem and a signature scheme based on discrete logarithms,” in <em>IEEE Transactions on Information Theory</em>, vol. 31, no. 4, pp. 469-472, July 1985.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

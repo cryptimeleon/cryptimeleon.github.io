@@ -1,0 +1,999 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Representations - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="Representations">
+<meta property="og:url" content="/docs/representations.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/docs/representations.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html" class="active">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Representations">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Representations
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#the-basic-serialization-and-deserialization-processes">The Basic Serialization and Deserialization Processes</a><ul><li><a href="#serialization">Serialization</a></li><li><a href="#deserialization">Deserialization</a></li></ul></li><li><a href="#our-philosophy-of-serialization">Our Philosophy of Serialization</a><ul><li><a href="#a-quick-journey-into-use-cases">A Quick Journey into Use-Cases</a></li><li><a href="#the-security-pitfalls-of-serialization">The Security Pitfalls of Serialization</a></li></ul></li><li><a href="#tutorial-making-a-class-representable">Tutorial: Making a Class Representable</a><ul><li><a href="#manual-serialization-and-deserialization">Manual Serialization and Deserialization</a><ul><li><a href="#manual-serialization">Manual Serialization</a></li><li><a href="#manual-deserialization">Manual Deserialization</a></li></ul></li><li><a href="#serialization-and-deserialization-via-reprutil">Serialization And Deserialization Via ReprUtil</a><ul><li><a href="#implementing-serialization">Implementing Serialization</a></li><li><a href="#implementing-deserialization">Implementing Deserialization</a></li></ul></li></ul></li><li><a href="#conversion-to-a-sendable-format">Conversion To A Sendable Format</a></li><li><a href="#representation-restorers">Representation Restorers</a></li><li><a href="#reprutil-restorer-notation">ReprUtil: Restorer Notation</a><ul><li><a href="#composite-types">Composite Types</a></li><li><a href="#primitive-types-and-standalonerepresentable">Primitive Types and StandaloneRepresentable</a><ul><li><a href="#combination-with-composite-types">Combination With Composite Types</a></li></ul></li><li><a href="#restorer-fields">Restorer Fields</a><ul><li><a href="#methods">Methods</a></li></ul></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>Eventually, when writing anything useful, you will be forced to convert Java objects (e.g., a public key) into a format that you can transmit over a network or store on a disk. 
+What you need in these cases is <em>serialization</em>.</p>
+
+<h1 id="the-basic-serialization-and-deserialization-processes">The Basic Serialization and Deserialization Processes</h1>
+
+<p>For serialization and deserialization, we introduce an intermediate format, the <code class="language-plaintext highlighter-rouge">Representation</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Java object &lt;-&gt; Representation &lt;-&gt; Serialized format (String/byte[])
+</code></pre></div></div>
+
+<p>The intermediate format <code class="language-plaintext highlighter-rouge">Representation</code> makes it easier for classes to implement serialization.
+The serialization formats in our libraries are generally not based on standards, but rather flexible ad hoc formats.</p>
+
+<p><em>Note: In this document we will sometimes refer to creating the representation of an object as serialization, not to be confused with java’s inbuilt serialization.</em></p>
+
+<h2 id="serialization">Serialization</h2>
+<p>Because of the intermediate format, serialization is a two-step process.</p>
+<ol>
+  <li>Any object in our library that implements the <code class="language-plaintext highlighter-rouge">Representable</code> interface, for example an encryption key, needs to be able to represent itself as a <code class="language-plaintext highlighter-rouge">Representation</code>.</li>
+  <li>A <code class="language-plaintext highlighter-rouge">Representation</code> can then be converted into a serialized format by a <code class="language-plaintext highlighter-rouge">Converter</code>.
+    <ul>
+      <li>The <code class="language-plaintext highlighter-rouge">JSONConverter</code> converts a <code class="language-plaintext highlighter-rouge">Representation</code> into a JSON <code class="language-plaintext highlighter-rouge">String</code></li>
+      <li>The <code class="language-plaintext highlighter-rouge">BinaryFormatConverter</code> converts a <code class="language-plaintext highlighter-rouge">Representation</code> into a less readable but more compact <code class="language-plaintext highlighter-rouge">byte[]</code> format.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>After step 2, you are responsible for how to send/store the resulting (<code class="language-plaintext highlighter-rouge">String</code>/<code class="language-plaintext highlighter-rouge">byte[]</code>) data.</p>
+
+<h2 id="deserialization">Deserialization</h2>
+<p>For deserialization, we invert the steps above.</p>
+
+<ol>
+  <li>Use the <code class="language-plaintext highlighter-rouge">Converter</code> to get back from the serialized format to a <code class="language-plaintext highlighter-rouge">Representation</code>.</li>
+  <li>Then use that <code class="language-plaintext highlighter-rouge">Representation</code> to instantiate the Java object (e.g., an encryption key).</li>
+</ol>
+
+<p>The second step is non-generic and depends heavily on what kind of object you want to instantiate. For example, if you want to instantiate a encryption key, you would call <code class="language-plaintext highlighter-rouge">restoreEncryptionKey(representation)</code> on an <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> object.</p>
+
+<h1 id="our-philosophy-of-serialization">Our Philosophy of Serialization</h1>
+<p>First of all, we distinguish two types of representable objects:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> and</li>
+  <li>(just) <code class="language-plaintext highlighter-rouge">Representable</code>.</li>
+</ol>
+
+<p>Both implement a <code class="language-plaintext highlighter-rouge">getRepresentation()</code> method which returns a <code class="language-plaintext highlighter-rouge">Representation</code> object.</p>
+
+<p>A <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>’s representation contains the complete set of data required to restore the object from scratch. By contract, <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> classes have a constructor with a single <code class="language-plaintext highlighter-rouge">Representation</code> parameter such that <code class="language-plaintext highlighter-rouge">foo.equals(new Foo(foo.getRepresentation()))</code>. 
+For example, a <code class="language-plaintext highlighter-rouge">Group</code> is <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>. Its <code class="language-plaintext highlighter-rouge">Representation</code> contains all necessary parameters to describe itself (e.g., elliptic curve parameters) and one can easily create a group from some <code class="language-plaintext highlighter-rouge">representation</code> using <code class="language-plaintext highlighter-rouge">new MyGroup(representation)</code>.</p>
+
+<p>In contrast, a <code class="language-plaintext highlighter-rouge">Representable</code>’s representation is not necessarily complete and help may be needed to restore such an object from <code class="language-plaintext highlighter-rouge">Representation</code>. 
+For example, a <code class="language-plaintext highlighter-rouge">GroupElement</code> object’s representation (e.g., coordinates of an elliptic curve point, but no description of the curve parameters) is usually insufficient to restore the full object. As a result, a <code class="language-plaintext highlighter-rouge">GroupElement</code> needs help from its <code class="language-plaintext highlighter-rouge">Group</code> to be restored from <code class="language-plaintext highlighter-rouge">Representation</code> (the pattern is <code class="language-plaintext highlighter-rouge">groupElement = group.restoreElement(representationOfGroupElement)</code>).</p>
+
+<p>While it may seem at first like <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> objects are strictly superior (and more convenient), normal <code class="language-plaintext highlighter-rouge">Representable</code> objects are actually more common because of (1) generally smaller size of representation and (2) security aspects (as described next).</p>
+
+<h2 id="a-quick-journey-into-use-cases">A Quick Journey into Use-Cases</h2>
+<p>There are generally two use-cases for serialization:</p>
+
+<ol>
+  <li>Serialize trusted data that needs to survive JVM shutdown (but never really leaves a trust zone)
+    <ul>
+      <li>Public parameters (such as specific elliptic curve parameters or a hash function key) - usually hardcoded into an application or part of a config file.</li>
+      <li>Secret keys - usually stored on hard disk, ideally in a OS-protected key chain</li>
+    </ul>
+  </li>
+  <li>Serialize data to send to or receive from other (untrusted) devices.
+    <ul>
+      <li>Public keys</li>
+      <li>Ciphertexts</li>
+      <li>Messages in the context of an interactive protocol</li>
+    </ul>
+  </li>
+</ol>
+
+<p>For the first use-case, external mechanisms must ensure that our serialized data is not manipulated. Otherwise, for example, someone could replace elliptic curve parameters with weak ones. Because of this, there is less burden on the serialization and deserialization processes - we can assume that deserialization is fed exactly the value that serialization generated. If the serialized value is changed, security is compromised anyway.</p>
+
+<p>As a rule of thumb, for the second use-case, you almost never want objects to be <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>. See the next section for details.</p>
+
+<h2 id="the-security-pitfalls-of-serialization">The Security Pitfalls of Serialization</h2>
+<p>The idea of having a helper to restore an object from representation actually serves a security purpose.</p>
+
+<p>For example, suppose you have a <code class="language-plaintext highlighter-rouge">Group</code> object <code class="language-plaintext highlighter-rouge">group</code>, which you trust (e.g., something that is hardcoded into the program or was loaded from a trusted file). 
+Now if someone sends you the representation <code class="language-plaintext highlighter-rouge">repr</code> of a group element, this is a value that you do not (and should not) trust.</p>
+
+<p>In this case, <code class="language-plaintext highlighter-rouge">group</code> acts as a trust anchor. The statement <code class="language-plaintext highlighter-rouge">g = group.restoreElement(repr)</code> should be read as “hey, trusted group, please interpret <code class="language-plaintext highlighter-rouge">repr</code> as a valid element”. The resulting group element <code class="language-plaintext highlighter-rouge">g</code> can again be trusted (in the sense that it is a valid group element of <code class="language-plaintext highlighter-rouge">group</code> with all the expected properties that go along with that). 
+This approach solves a big set of possible issues such as</p>
+<ul>
+  <li>subgroup attacks: someone may try to send a representation that syntactically looks like a valid group element but that actually has different mathematical properties (belonging to a different subgroup) than valid group elements.</li>
+  <li>class substitution: someone may try to send a serialization of a completely different class that uses the wrong group operations (for example <code class="language-plaintext highlighter-rouge">g.pow(x)</code> may just return <code class="language-plaintext highlighter-rouge">x</code>, leaking a secret). This would potentially be possible with Java’s inbuilt serialization (where deserialization generally reads what class to instantiate from the untrusted data).</li>
+  <li>group substitution: someone may try to send a serialization that contains data for a different group parameterization than the trusted parameters. The resulting group element may then lie in a completely different (insecure) group.</li>
+</ul>
+
+<p>For this reason, one should, in cases where a <code class="language-plaintext highlighter-rouge">Representation</code> may have been sent from an untrusted source, have some trusted object deserialize it. 
+For example, this holds for group elements, ciphertexts, signatures, which are deserialized by a <code class="language-plaintext highlighter-rouge">Group</code>, an <code class="language-plaintext highlighter-rouge">EncryptionScheme</code>, or a <code class="language-plaintext highlighter-rouge">SignatureScheme</code>, respectively.</p>
+
+<p>For classes whose <code class="language-plaintext highlighter-rouge">Representation</code>s will usually come from a trusted source (such as Use-Case 1 above), you can choose to make that class <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> (usually things such as <code class="language-plaintext highlighter-rouge">Group</code>s, <code class="language-plaintext highlighter-rouge">EncryptionScheme</code>s, or <code class="language-plaintext highlighter-rouge">SignatureScheme</code>s, which encode trusted public parameters).</p>
+
+<h1 id="tutorial-making-a-class-representable">Tutorial: Making a Class Representable</h1>
+
+<p>Now we want to show you how to take a class you have created, and implement serialization and deserialization for it.</p>
+
+<p>There are two options for converting your Java objects to and from their representation: via <code class="language-plaintext highlighter-rouge">ReprUtil</code> or manually without using <code class="language-plaintext highlighter-rouge">ReprUtil</code>.
+The <code class="language-plaintext highlighter-rouge">ReprUtil</code> approach has the advantage of requiring less code.
+Classes we have implemented, for example as part of Craco, usually use it for that reason.
+However, the manual conversion may be easier to understand.
+Therefore, we will present the manual approach first via a small toy example.
+After that, we do the same for <code class="language-plaintext highlighter-rouge">ReprUtil</code>.</p>
+
+<p>Both approaches are usable, but we generally recommend usage of <code class="language-plaintext highlighter-rouge">ReprUtil</code> over the manual approach.</p>
+
+<p>You can skip to the <code class="language-plaintext highlighter-rouge">ReprUtil</code> tutorial via <a href="#serialization-and-deserialization-via-reprutil">this link</a>.</p>
+
+<h2 id="manual-serialization-and-deserialization">Manual Serialization and Deserialization</h2>
+
+<p>We will now walk you through implementing manual serialization and deserialization for the following simple class:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="o">{</span>
+
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">someInt</span><span class="o">,</span> <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">someInt</span> <span class="o">=</span> <span class="n">someInt</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">exponentX</span> <span class="o">=</span> <span class="n">exponentX</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="manual-serialization">Manual Serialization</h3>
+
+<p>To implement serialization, we can either have <code class="language-plaintext highlighter-rouge">SomeClass</code> implement the <code class="language-plaintext highlighter-rouge">Representable</code> or the <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> interface.
+In this case, <code class="language-plaintext highlighter-rouge">Representable</code> is the only choice.
+We will see why in the section on deserialization.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Representable</code> (and <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>) requires implementation of a <code class="language-plaintext highlighter-rouge">getRepresentation</code> method that returns a <code class="language-plaintext highlighter-rouge">Representation</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert regular constructor here</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// empty body so far</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>To create a <code class="language-plaintext highlighter-rouge">Representation</code> object that can later be deserialized again, we now need to decide which fields of <code class="language-plaintext highlighter-rouge">SomeClass</code> are required to restore the original object.
+In this case all fields are required.
+Hence, we need to create a <code class="language-plaintext highlighter-rouge">Representation</code> object that contains the values of fields <code class="language-plaintext highlighter-rouge">someInt</code> and <code class="language-plaintext highlighter-rouge">exponentX</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">serialization</code> package in the Math library provides a number of different <code class="language-plaintext highlighter-rouge">Representation</code> subclasses that implement representations for different kind of values:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">BigIntegerRepresentation</code> for storing all kinds of integers</li>
+  <li><code class="language-plaintext highlighter-rouge">ByteArrayRepresentation</code> for storing <code class="language-plaintext highlighter-rouge">byte[]</code> objects</li>
+  <li><code class="language-plaintext highlighter-rouge">ListRepresentation</code> for storing arrays, lists and sets cointaining <code class="language-plaintext highlighter-rouge">Representation</code> objects</li>
+  <li><code class="language-plaintext highlighter-rouge">MapRepresentation</code> for storing maps from <code class="language-plaintext highlighter-rouge">Representation</code> to <code class="language-plaintext highlighter-rouge">Representation</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ObjectRepresentation</code> for storing an arbitrary object via a map from <code class="language-plaintext highlighter-rouge">String</code> to <code class="language-plaintext highlighter-rouge">Representation</code></li>
+  <li><code class="language-plaintext highlighter-rouge">StringRepresentation</code> for storing <code class="language-plaintext highlighter-rouge">String</code> objects</li>
+</ul>
+
+<p>Using these classes, we can implement <code class="language-plaintext highlighter-rouge">getRepresentation</code> as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert regular constructor here</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">ObjectRepresentation</span> <span class="n">objRepr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ObjectRepresentation</span><span class="o">();</span>
+            <span class="n">objRepr</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"someInt"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BigIntegerRepresentation</span><span class="o">(</span><span class="n">someInt</span><span class="o">));</span>
+            <span class="n">objRepr</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"exponentX"</span><span class="o">,</span> <span class="n">exponentX</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">());</span>
+            <span class="k">return</span> <span class="n">objRepr</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>To represent a <code class="language-plaintext highlighter-rouge">SomeClass</code> object, we use a <code class="language-plaintext highlighter-rouge">ObjectRepresentation</code> in which we then store the fields <code class="language-plaintext highlighter-rouge">someInt</code> and <code class="language-plaintext highlighter-rouge">exponentX</code>.
+The <code class="language-plaintext highlighter-rouge">put</code> method of <code class="language-plaintext highlighter-rouge">ObjectRepresentation</code> allows storing representations via a String identifier.
+We have chosen to use each variable’s name as the identifier in this example, but that is not strictly necessary.
+Since <code class="language-plaintext highlighter-rouge">put</code> expects to be given a <code class="language-plaintext highlighter-rouge">Representation</code>, we need to wrap <code class="language-plaintext highlighter-rouge">someInt</code> into a <code class="language-plaintext highlighter-rouge">Representation</code> object. 
+This can be done via <code class="language-plaintext highlighter-rouge">BigIntegerRepresentation</code>.
+The <code class="language-plaintext highlighter-rouge">ZpElement</code> class already implements <code class="language-plaintext highlighter-rouge">Representable</code>.
+Therefore, it already implements a <code class="language-plaintext highlighter-rouge">getRepresentation</code> method which we use to obtain a representation of <code class="language-plaintext highlighter-rouge">exponentX</code>.</p>
+
+<p>Once we are done with constructing the <code class="language-plaintext highlighter-rouge">ObjectRepresentation</code>, we just return it.</p>
+
+<p>You will not always need to use an <code class="language-plaintext highlighter-rouge">ObjectRepresentation</code> for serialization.
+If your class only consists of a single field, or a single field suffices to restore the original object, you can just return a representation of that single field instead.
+For example, if our class only consisted of <code class="language-plaintext highlighter-rouge">exponentX</code>, we could implement <code class="language-plaintext highlighter-rouge">getRepresentation</code> by just returning the return value of <code class="language-plaintext highlighter-rouge">exponentX.getRepresentation()</code>.
+This would be enough for deserialization.</p>
+
+<h3 id="manual-deserialization">Manual Deserialization</h3>
+
+<p>To deserialize a given <code class="language-plaintext highlighter-rouge">Representation</code>, we need to create a new <code class="language-plaintext highlighter-rouge">SomeClass</code> object, extract the field values from the <code class="language-plaintext highlighter-rouge">Representation</code>, and then fill the <code class="language-plaintext highlighter-rouge">SomeClass</code> object with the extracted values.</p>
+
+<p>The standard approach in the Cryptimeleon libraries is via a new constructor that takes in at minimum a <code class="language-plaintext highlighter-rouge">Representation</code> object and restores the original object from that.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert regular constructor here</span>
+
+        <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">,</span> <span class="nc">Zp</span> <span class="n">zp</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">ObjectRepresentation</span> <span class="n">objRepr</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ObjectRepresentation</span><span class="o">)</span> <span class="n">repr</span><span class="o">;</span>
+            <span class="n">someInt</span> <span class="o">=</span> <span class="n">objRepr</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"someInt"</span><span class="o">).</span><span class="na">bigInt</span><span class="o">().</span><span class="na">getInt</span><span class="o">();</span>
+            <span class="n">exponentX</span> <span class="o">=</span> <span class="n">zp</span><span class="o">.</span><span class="na">restoreElement</span><span class="o">(</span><span class="n">objRepr</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"exponentX"</span><span class="o">));</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">ObjectRepresentation</span> <span class="n">objRepr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ObjectRepresentation</span><span class="o">();</span>
+            <span class="n">objRepr</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"someInt"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BigIntegerRepresentation</span><span class="o">(</span><span class="n">someInt</span><span class="o">));</span>
+            <span class="n">objRepr</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"exponentX"</span><span class="o">,</span> <span class="n">exponentX</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">());</span>
+            <span class="k">return</span> <span class="n">objRepr</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we have already implemented the new constructor.
+In addition to the representation we want to deserialize, we have provided the <code class="language-plaintext highlighter-rouge">Zp</code> instance to which the <code class="language-plaintext highlighter-rouge">exponentX</code> element belongs.
+This is necessary as <code class="language-plaintext highlighter-rouge">ZpElement</code> instances cannot be deserialized just from their representation alone; deserialization must be done using their <code class="language-plaintext highlighter-rouge">Zp</code> instance. 
+This is the reason why we had <code class="language-plaintext highlighter-rouge">SomeClass</code> implement <code class="language-plaintext highlighter-rouge">Representable</code> and not <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> as the latter requires the existence of a deserialization constructor with just a single <code class="language-plaintext highlighter-rouge">Representation</code> argument.
+Hence, we also need to provide the <code class="language-plaintext highlighter-rouge">Zp</code> instance.</p>
+
+<p>We first typecast the <code class="language-plaintext highlighter-rouge">repr</code> object to a <code class="language-plaintext highlighter-rouge">ObjectRepresentation</code> to gain access to the methods of <code class="language-plaintext highlighter-rouge">ObjectRepresentation</code>.</p>
+
+<p>Next, we extract the <code class="language-plaintext highlighter-rouge">someInt</code> value.
+We use <code class="language-plaintext highlighter-rouge">get</code> to obtain the <code class="language-plaintext highlighter-rouge">Representation</code> used to store <code class="language-plaintext highlighter-rouge">someInt</code>.
+Remember to use the same String identifier as you used for <code class="language-plaintext highlighter-rouge">put</code> during serialization, otherwise this will not work.
+Since <code class="language-plaintext highlighter-rouge">get</code> returns a <code class="language-plaintext highlighter-rouge">Representation</code> object, we use the <code class="language-plaintext highlighter-rouge">bigInt</code> method to typecast it to a <code class="language-plaintext highlighter-rouge">BigIntegerRepresentation</code>. The <code class="language-plaintext highlighter-rouge">Representation</code> object contains such typecasting methods for each of its subclasses.
+Finally, we call <code class="language-plaintext highlighter-rouge">getInt</code> to retrieve the <code class="language-plaintext highlighter-rouge">Integer</code> object that was stored inside the <code class="language-plaintext highlighter-rouge">BigIntegerRepresentation</code>.</p>
+
+<p>To complete deserialization, we need to restore <code class="language-plaintext highlighter-rouge">exponentX</code>.
+To do this, we use the <code class="language-plaintext highlighter-rouge">restoreElement</code> method of <code class="language-plaintext highlighter-rouge">Zp</code>.
+This method takes in a <code class="language-plaintext highlighter-rouge">Representation</code> and, if possible, restores the corresponding <code class="language-plaintext highlighter-rouge">ZpElement</code> from it.</p>
+
+<p><code class="language-plaintext highlighter-rouge">restoreElement</code> is a method specific to <code class="language-plaintext highlighter-rouge">Zp</code> used to deserialize <code class="language-plaintext highlighter-rouge">ZpElement</code> instances.
+Other classes that can deserialize <code class="language-plaintext highlighter-rouge">Representation</code> objects usually have similarly named methods, for example <code class="language-plaintext highlighter-rouge">restoreEncryptionKey</code> for the <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> interface that is part of Craco.</p>
+
+<p>We have now completed the implementation of manual serialization and deserialization.
+To actually send the object over the wire, you will need to convert the representation to some format that can be sent.
+Refer to the <a href="#conversion-to-a-sendable-format">section on conversion to a sendable format</a> for more information on this topic.</p>
+
+<h2 id="serialization-and-deserialization-via-reprutil">Serialization And Deserialization Via ReprUtil</h2>
+
+<p>We will now look at how to implement support for conversion to and from representation via the <code class="language-plaintext highlighter-rouge">ReprUtil</code> class.
+To illustrate this process, we create a small example class which we want to be able to serialize and deserialize:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="o">{</span>
+
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">someInt</span><span class="o">,</span> <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">someInt</span> <span class="o">=</span> <span class="n">someInt</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">exponentX</span> <span class="o">=</span> <span class="n">exponentX</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>Let’s start with looking at how we can implement serialization.</p>
+
+<h3 id="implementing-serialization">Implementing Serialization</h3>
+
+<p>As we discussed previously, there are two interfaces one can implement to enable serialization: <code class="language-plaintext highlighter-rouge">Representable</code> and <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>.
+In this case, <code class="language-plaintext highlighter-rouge">Representable</code> is the right choice due to the <code class="language-plaintext highlighter-rouge">ZpElement</code> fields of class <code class="language-plaintext highlighter-rouge">SomeClass</code>.
+<code class="language-plaintext highlighter-rouge">ZpElement</code> objects do not contain enough information to be deserialized on their own; therefore, <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> cannot be used.</p>
+
+<p>We therefore make <code class="language-plaintext highlighter-rouge">SomeClass</code> implement the <code class="language-plaintext highlighter-rouge">Representable</code> interface which requires implementation of a <code class="language-plaintext highlighter-rouge">getRepresentation</code> method.
+Let’s add that:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert constructor here</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we have added a <code class="language-plaintext highlighter-rouge">getRepresentation</code> method that returns a <code class="language-plaintext highlighter-rouge">Representation</code> object.
+We have also already implemented the method body by returning the result of <code class="language-plaintext highlighter-rouge">ReprUtil.serialize(this)</code>.
+The static <code class="language-plaintext highlighter-rouge">ReprUtil.serialize</code> method takes in an <code class="language-plaintext highlighter-rouge">Object</code> as argument and creates a <code class="language-plaintext highlighter-rouge">Representation</code> object corresponding to the given argument.</p>
+
+<p>However, if you actually execute <code class="language-plaintext highlighter-rouge">getRepresentation</code> on a <code class="language-plaintext highlighter-rouge">SomeClass</code> instance and convert the result to a String, you will get <code class="language-plaintext highlighter-rouge">{"__type":"OBJ"}</code>.
+There is no information about the original object in the <code class="language-plaintext highlighter-rouge">Representation</code>!</p>
+
+<p>The reason for this is that <code class="language-plaintext highlighter-rouge">ReprUtil</code> only serializes field values for fields that are marked with the annotation <code class="language-plaintext highlighter-rouge">@Represented</code>.
+All fields that are not annotated this way are simply ignored by <code class="language-plaintext highlighter-rouge">ReprUtil</code>.
+This server the purpose of allowing you to choose exactly which fields are necessary to fully represent your Object, i.e. what you actually need to later deserialize correctly.
+Your class may have fields whose values are implied by other field values.
+Serializing such fields would therefore not be strictly neccessary for correct deserialization.</p>
+
+<p>Anyways, in this case we need all the field values, so let’s add <code class="language-plaintext highlighter-rouge">@Represented</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert constructor here</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>If you now convert the result of <code class="language-plaintext highlighter-rouge">getRepresentation</code> to a String, you will see that the <code class="language-plaintext highlighter-rouge">Representation</code> object contains the field values for every field that has been annotated using <code class="language-plaintext highlighter-rouge">@Represented</code>.</p>
+
+<p>This concludes the process of adding serializability to class <code class="language-plaintext highlighter-rouge">SomeClass</code>. 
+However, we are not done yet. 
+We still need to add a way to deserialize the representation and get back our original <code class="language-plaintext highlighter-rouge">SomeClass</code> instance.</p>
+
+<h3 id="implementing-deserialization">Implementing Deserialization</h3>
+
+<p>The standard way of implementing deserialization is via a constructor that takes in a <code class="language-plaintext highlighter-rouge">Representation</code>, and then deserializes the represented object from that.
+For a <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> this constructor should take in exactly one <code class="language-plaintext highlighter-rouge">Representation</code> argument. For <code class="language-plaintext highlighter-rouge">Representable</code>, the constructor may also take in other arguments that help with deserialization.</p>
+
+<p>To perform the deserialization, we can once again make use of <code class="language-plaintext highlighter-rouge">ReprUtil</code>, resulting in the following:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert regular constructor here</span>
+
+        <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">new ReprUtil(this).deserialize(repr)</code> call does the following: It deserializes the field values stored within <code class="language-plaintext highlighter-rouge">repr</code> and stores them in the new <code class="language-plaintext highlighter-rouge">SomeClass</code> instance given by <code class="language-plaintext highlighter-rouge">this</code>. 
+It only overwrites the fields of <code class="language-plaintext highlighter-rouge">this</code> that have not been initialized yet, i.e. which are set to <code class="language-plaintext highlighter-rouge">null</code>.
+In the above example, it will restore all fields since <code class="language-plaintext highlighter-rouge">this</code>’s fields have not been initialized at that point in the constructor.</p>
+
+<p>The code above does not work as is, however.
+As we discussed previously, <code class="language-plaintext highlighter-rouge">ZpElement</code> instances do require some additional information for deserialization; namely, the <code class="language-plaintext highlighter-rouge">Zp</code> instance which they belong to.
+Therefore, we need to additionally provide <code class="language-plaintext highlighter-rouge">ReprUtil</code> with the <code class="language-plaintext highlighter-rouge">Zp</code> instance.
+This is also the reason we cannot make <code class="language-plaintext highlighter-rouge">SomeClass</code> a <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> as that requires the constructor to only take in a <code class="language-plaintext highlighter-rouge">Representation</code> and no extra information such as <code class="language-plaintext highlighter-rouge">Zp</code>.</p>
+
+<p>To add such extra information, <code class="language-plaintext highlighter-rouge">ReprUtil</code> provides a <code class="language-plaintext highlighter-rouge">register</code> method that takes in a <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> instance and a String.
+A <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> can be used to deserialize objects that require additional external information for deserialization.
+An example of a representation restorer is the class <code class="language-plaintext highlighter-rouge">Zp</code>.
+It can be used to deserialize a <code class="language-plaintext highlighter-rouge">ZpElement</code> that belongs to that <code class="language-plaintext highlighter-rouge">Zp</code> instance.
+The String argument of <code class="language-plaintext highlighter-rouge">register</code> is an identifier used by <code class="language-plaintext highlighter-rouge">ReprUtil</code> to refer to that specific <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code>.</p>
+
+<p>So let’s register our <code class="language-plaintext highlighter-rouge">Zp</code> restorer. This needs to be done <em>before</em> calling <code class="language-plaintext highlighter-rouge">deserialize</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert regular constructor here</span>
+
+        <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">,</span> <span class="nc">Zp</span> <span class="n">zp</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="nc">Zp</span><span class="o">,</span> <span class="s">"zp"</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now we are almost done.
+The only thing left to do now is to indicate to <code class="language-plaintext highlighter-rouge">ReprUtil</code> which <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> it should be using for our <code class="language-plaintext highlighter-rouge">exponentX</code> field.
+This is important since a class may have multiple <code class="language-plaintext highlighter-rouge">ZpElement</code> fields that belong to different <code class="language-plaintext highlighter-rouge">Zp</code> instances.
+Therefore, we need to tell <code class="language-plaintext highlighter-rouge">ReprUtil</code> which <code class="language-plaintext highlighter-rouge">Zp</code> to use to restore which <code class="language-plaintext highlighter-rouge">ZpElement</code>.</p>
+
+<p>This is where the <code class="language-plaintext highlighter-rouge">"zp"</code> restorer identifier that we passed to <code class="language-plaintext highlighter-rouge">register</code> comes in.
+The <code class="language-plaintext highlighter-rouge">@Represented</code> annotation takes in an optional argument, <code class="language-plaintext highlighter-rouge">restorer</code>.
+This argument should be assigned the identifier used to register the <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+        <span class="nd">@Represented</span>
+        <span class="nc">Integer</span> <span class="n">someInt</span><span class="o">;</span>
+
+        <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"zp"</span><span class="o">)</span>
+        <span class="nc">ZpElement</span> <span class="n">exponentX</span><span class="o">;</span>
+
+        <span class="c1">// insert regular constructor here</span>
+
+        <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">,</span> <span class="nc">Zp</span> <span class="n">zp</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="nc">Zp</span><span class="o">,</span> <span class="s">"zp"</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we have provided the <code class="language-plaintext highlighter-rouge">"zp"</code> restorer to the annotation above <code class="language-plaintext highlighter-rouge">exponentX</code>.
+<code class="language-plaintext highlighter-rouge">ReprUtil</code> can now use the <code class="language-plaintext highlighter-rouge">Zp</code> instance we registered to restore our <code class="language-plaintext highlighter-rouge">exponentX</code> field.</p>
+
+<p>We now have successfully implemented serialization and deserialization for our <code class="language-plaintext highlighter-rouge">SomeClass</code> class.</p>
+
+<p>This covers the very basics of implementing conversion from and to a <code class="language-plaintext highlighter-rouge">Representation</code> object via <code class="language-plaintext highlighter-rouge">ReprUtil</code>.
+<code class="language-plaintext highlighter-rouge">ReprUtil</code> and <code class="language-plaintext highlighter-rouge">@Represented</code> also support more complex data types and method references. 
+For more information on this topic, see the <a href="#reprutil-restorer-notation">restorer notation section</a>.</p>
+
+<h1 id="conversion-to-a-sendable-format">Conversion To A Sendable Format</h1>
+
+<p>Implementing conversion to and from the representation format is not enough to actually send your object over a channel.
+You also need to convert the representation to a format that can actually be sent, such as a String or a binary format.</p>
+
+<p>To enable this, we have implemented some different <code class="language-plaintext highlighter-rouge">Converter</code> classes.
+The <code class="language-plaintext highlighter-rouge">Converter</code> interface, part of the <code class="language-plaintext highlighter-rouge">serialization.converter</code> package in Math, enforces implementation of two methods: <code class="language-plaintext highlighter-rouge">serialize</code> and <code class="language-plaintext highlighter-rouge">deserialize</code>.
+The <code class="language-plaintext highlighter-rouge">serialize</code> method is responsible for converting the given <code class="language-plaintext highlighter-rouge">Representation</code> object to some format that can then be sent over the channel.
+The <code class="language-plaintext highlighter-rouge">deserialize</code> method does the opposite: It converts the received data back to a <code class="language-plaintext highlighter-rouge">Representation</code>.</p>
+
+<p>As part of Math, we provide converters to two different channel formats: JSON and a binary format.
+The JSON format is provided via the <code class="language-plaintext highlighter-rouge">JSONConverter</code> class and the binary format via the <code class="language-plaintext highlighter-rouge">BinaryFormatConverter</code> class.
+The <code class="language-plaintext highlighter-rouge">JSONPrettyConverter</code> creates a JSON String better suited for reading by human eyes, but it also wastes a lot of space due to the inserted white spaces.
+Of course you can also implement your own <code class="language-plaintext highlighter-rouge">Converter</code> if needed.</p>
+
+<h1 id="representation-restorers">Representation Restorers</h1>
+
+<p>Objects that implement <code class="language-plaintext highlighter-rouge">Representable</code> and not <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> generally require external help to be deserialized correctly.
+This help is given by a <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code>.
+<code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> is an interface for classes that can deserialize representations containing specific types of objects back to the original object.
+An example is the <code class="language-plaintext highlighter-rouge">Zp</code> class in Cryptimeleon Math.
+It can deserialize <code class="language-plaintext highlighter-rouge">ZpElement</code> instances that belong to the corresponding \(\mathbb{Z}_p\) field.</p>
+
+<p>Generally, elements of some algebraic structure that are not <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> can be restored by the class representing the structure itself.
+For example, the <code class="language-plaintext highlighter-rouge">Group</code> class can restore <code class="language-plaintext highlighter-rouge">GroupElement</code> objects via its <code class="language-plaintext highlighter-rouge">restoreElement</code> method.</p>
+
+<p>For cryptographic scheme such as an encryption scheme, usually the scheme itself acts as the restorer. 
+It can restore ciphertexts, encryption keys, plaintexts, and ciphertexts.
+This is because the scheme instance generally contains the public parameters which have information about the algebraic structures needed for restoration.
+For example, the <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> class offers methods <code class="language-plaintext highlighter-rouge">restorePlainText</code>, <code class="language-plaintext highlighter-rouge">restoreCipherText</code>, <code class="language-plaintext highlighter-rouge">restoreEncryptionKey</code>, and <code class="language-plaintext highlighter-rouge">restoreDecryptionKey</code> to restore the corresponding objects from their representation.
+When implementing a new encryption scheme, you can implement those methods and then use the <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> object as the restorer.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">ElgamalCipherText</span> <span class="nf">restoreCipherText</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ElgamalCipherText</span><span class="o">(</span><span class="n">repr</span><span class="o">,</span> <span class="n">groupG</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>The above is an example taken from our ElGamal encryption implementation.
+The <code class="language-plaintext highlighter-rouge">restoreCipherText</code> method calls the deserialization constructor of <code class="language-plaintext highlighter-rouge">ElGamalCipherText</code> to restore the object from the given representation.
+As an ElGamal ciphertext contains a group element, you also need to provide the group that contains that group element.
+This is possible since the scheme has information about that group as given by the <code class="language-plaintext highlighter-rouge">groupG</code> field variable.</p>
+
+<p>If you are ever unsure what types of object a <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> can restore, consult its <code class="language-plaintext highlighter-rouge">restoreFromRepresentable</code> method.
+This method is used by <code class="language-plaintext highlighter-rouge">ReprUtil</code> to perform the restoration and usually contains a number of if-conditions which tell you which types are supported.
+The <code class="language-plaintext highlighter-rouge">restoreFromRepresentable</code> in <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> looks as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">default</span> <span class="nc">Object</span> <span class="nf">restoreFromRepresentation</span><span class="o">(</span><span class="nc">Type</span> <span class="n">type</span><span class="o">,</span> <span class="nc">Representation</span> <span class="n">repr</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="k">instanceof</span> <span class="nc">Class</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="nc">EncryptionKey</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">((</span><span class="nc">Class</span><span class="o">)</span> <span class="n">type</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">restoreEncryptionKey</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="nc">DecryptionKey</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">((</span><span class="nc">Class</span><span class="o">)</span> <span class="n">type</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">restoreDecryptionKey</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="nc">CipherText</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">((</span><span class="nc">Class</span><span class="o">)</span> <span class="n">type</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">restoreCipherText</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="nc">PlainText</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">((</span><span class="nc">Class</span><span class="o">)</span> <span class="n">type</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">restorePlainText</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Cannot restore object of type: "</span> <span class="o">+</span> <span class="n">type</span><span class="o">.</span><span class="na">getTypeName</span><span class="o">());</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>From this method, you can see that <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> can be used to restore objects of type <code class="language-plaintext highlighter-rouge">EncryptionKey</code>, <code class="language-plaintext highlighter-rouge">DecryptionKey</code>, <code class="language-plaintext highlighter-rouge">CipherText</code>, and <code class="language-plaintext highlighter-rouge">PlainText</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">restoreFromRepresentation</code> method is <em>not</em> meant to be used manually in your code.
+It should be used as a reference for which kind of objects are supported, or, if you are manually serializing and deserializing, to find out which methods to use for deserialization.
+For example, the <code class="language-plaintext highlighter-rouge">restoreFromRepresentation</code> method of <code class="language-plaintext highlighter-rouge">EncryptionScheme</code> indicates the use of <code class="language-plaintext highlighter-rouge">restoreEncryptionKey</code> for restoring <code class="language-plaintext highlighter-rouge">EncryptionKey</code> objects.</p>
+
+<h1 id="reprutil-restorer-notation">ReprUtil: Restorer Notation</h1>
+
+<p>The <code class="language-plaintext highlighter-rouge">@Represented</code> annotation, used to indicate which fields should be serialized as part of the <code class="language-plaintext highlighter-rouge">Representation</code> by <code class="language-plaintext highlighter-rouge">ReprUtil</code>, takes a String argument: <code class="language-plaintext highlighter-rouge">restorer</code>.
+This can be used to reference the <code class="language-plaintext highlighter-rouge">RepresentationRestorer</code> that should be used by <code class="language-plaintext highlighter-rouge">ReprUtil</code> to restore the field’s value from its representation.</p>
+
+<p>The annotation supports special syntax for enabling more use cases.
+We explain these in this section.</p>
+
+<h2 id="composite-types">Composite Types</h2>
+
+<p>The restorer attribute of the <code class="language-plaintext highlighter-rouge">@Represented</code> annotation supports syntax to make declaring restorers for composite data types such as arrays easier. Let’s look at an example showcasing some of these:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NotationExample</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"[zp]"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Zp</span><span class="o">.</span><span class="na">ZpElement</span><span class="o">[]</span> <span class="n">exponentsXi</span><span class="o">;</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"zp -&gt; G"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">Zp</span><span class="o">.</span><span class="na">ZpElement</span><span class="o">,</span> <span class="nc">GroupElement</span><span class="o">&gt;</span> <span class="n">exponentsToGs</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">PS18SigningKey</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">,</span> <span class="nc">Zp</span> <span class="n">zp</span><span class="o">,</span> <span class="nc">Group</span> <span class="n">groupG</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">zp</span><span class="o">,</span> <span class="s">"zp"</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">groupG</span><span class="o">,</span> <span class="s">"G"</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The square bracket notation (<code class="language-plaintext highlighter-rouge">[]</code>) is used to indicate arrays, lists and sets.
+The entry type restorer string is written between the square brackets.
+In our example, the entries are of type <code class="language-plaintext highlighter-rouge">ZpElement</code> which can be restored using the restorer registered under the <code class="language-plaintext highlighter-rouge">zp</code> identifier.
+Therefore, to indicate an array of <code class="language-plaintext highlighter-rouge">ZpElement</code>s, we use a <code class="language-plaintext highlighter-rouge">"[zp]"</code> restorer string.</p>
+
+<p>For maps, you can use the arrow notation <code class="language-plaintext highlighter-rouge">-&gt;</code>. 
+For example, <code class="language-plaintext highlighter-rouge">"zp -&gt; G"</code> for a map from <code class="language-plaintext highlighter-rouge">Zp</code> elements to group elements (given that you registered the <code class="language-plaintext highlighter-rouge">RepresentationRestorers</code> for <code class="language-plaintext highlighter-rouge">zp</code> and group <code class="language-plaintext highlighter-rouge">G</code> before calling <code class="language-plaintext highlighter-rouge">deserialize()</code>). 
+You can combine these, e.g. <code class="language-plaintext highlighter-rouge">"G1 -&gt; [[G2]]"</code> for a map from elements of <code class="language-plaintext highlighter-rouge">G1</code> to lists of lists of elements of <code class="language-plaintext highlighter-rouge">G2</code>.</p>
+
+<p>Precedence is given by parentheses, for example, <code class="language-plaintext highlighter-rouge">"(G1 -&gt; G2) -&gt; G3"</code> is a map whose keys are themselves maps, while <code class="language-plaintext highlighter-rouge">"G1 -&gt; (G2 -&gt; G3)"</code> has maps as values.</p>
+
+<h2 id="primitive-types-and-standalonerepresentable">Primitive Types and StandaloneRepresentable</h2>
+
+<p>For boxed types such as <code class="language-plaintext highlighter-rouge">BigInteger</code>, <code class="language-plaintext highlighter-rouge">Integer</code>, <code class="language-plaintext highlighter-rouge">String</code>, <code class="language-plaintext highlighter-rouge">Boolean</code>, or <code class="language-plaintext highlighter-rouge">byte[]</code>, you do not need to specify a restorer. 
+These types contain enough information on their own to be serialized and deserialized.</p>
+
+<p>However, the non-boxed primitive counterparts, for example <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">long</code> or <code class="language-plaintext highlighter-rouge">bool</code>, cannot be serialized or deserialized using <code class="language-plaintext highlighter-rouge">ReprUtil</code>.
+This is due to implementation details of <code class="language-plaintext highlighter-rouge">ReprUtil</code> (primitive types cannot be assigned a <code class="language-plaintext highlighter-rouge">null</code> value).</p>
+
+<p>For fields that are of a type that implements <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code>, you also do not need to give a restorer.
+This is because <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> objects can always be restored without external information as they must implement a constructor that only takes in a <code class="language-plaintext highlighter-rouge">Representation</code>.</p>
+
+<h3 id="combination-with-composite-types">Combination With Composite Types</h3>
+
+<p>For fields of some composite type, but where the entries of the data structure are of some primitive type or <code class="language-plaintext highlighter-rouge">StandaloneRepresentable</code> (such that usually no restorer would be necessary), you will need to give a restorer to indicate the composite type.</p>
+
+<p>Let’s look at, for example, an array of <code class="language-plaintext highlighter-rouge">Integer</code>s. The <code class="language-plaintext highlighter-rouge">Integer</code> entries do not require a restorer, but you need to use <code class="language-plaintext highlighter-rouge">[]</code> to indicate the array type.
+In this case, you can use a placeholder restorer string to indicate the <code class="language-plaintext highlighter-rouge">Integer</code> entry. 
+In the case of an array of <code class="language-plaintext highlighter-rouge">Integer</code>s, this may look like <code class="language-plaintext highlighter-rouge">@Represented(restorer = "[foo]")</code>.
+You do not need to give a restorer corresponding to the <code class="language-plaintext highlighter-rouge">foo</code> identifier; <code class="language-plaintext highlighter-rouge">ReprUtil</code> will recognise that no restorer is necessary during deserialization and ignore the <code class="language-plaintext highlighter-rouge">foo</code>.</p>
+
+<h2 id="restorer-fields">Restorer Fields</h2>
+
+<p>Alternatively to giving the object responsible for restoring in the constructor parameters, you can also add it as a class attribute so that it can be serialized together with the rest of the instance.
+You then won’t need to explicitly provide it during deserialization.</p>
+
+<p>For example, you might have a class that contains a <code class="language-plaintext highlighter-rouge">GroupElement</code>.
+Usually, you would need to supply the corresponding <code class="language-plaintext highlighter-rouge">Group</code> instance to allow for deserialization of the <code class="language-plaintext highlighter-rouge">GroupElement</code>.
+If you want to avoid this, you can also add the <code class="language-plaintext highlighter-rouge">Group</code> itself to your class and then tell <code class="language-plaintext highlighter-rouge">ReprUtil</code> to use that group to restore your group element.</p>
+
+<p>See the example below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SingleGroupElement</span> <span class="kd">implements</span> <span class="nc">Representable</span> <span class="o">{</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"groupG"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">GroupElement</span> <span class="n">g</span><span class="o">;</span>
+
+    <span class="nd">@Represented</span><span class="o">()</span>
+    <span class="kd">private</span> <span class="nc">Group</span> <span class="n">groupG</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">PS18SigningKey</span><span class="o">(</span><span class="nc">Representation</span> <span class="n">repr</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">ReprUtil</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">deserialize</span><span class="o">(</span><span class="n">repr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Representation</span> <span class="nf">getRepresentation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ReprUtil</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Here, the group element <code class="language-plaintext highlighter-rouge">g</code>’s <code class="language-plaintext highlighter-rouge">@Represented</code> annotation uses <code class="language-plaintext highlighter-rouge">groupG</code> as its restorer.
+When deserializing, <code class="language-plaintext highlighter-rouge">ReprUtil</code> will look for a field with the name <code class="language-plaintext highlighter-rouge">groupG</code> and, if found, use it to restore <code class="language-plaintext highlighter-rouge">g</code>.</p>
+
+<p>Keep in mind that <code class="language-plaintext highlighter-rouge">ReprUtil</code> first checks for restorers registered via the <code class="language-plaintext highlighter-rouge">register</code> method.
+If you were to additionally register a <code class="language-plaintext highlighter-rouge">Group</code> with identifier <code class="language-plaintext highlighter-rouge">groupG</code>, that one would be prefered as a restorer over the <code class="language-plaintext highlighter-rouge">groupG</code> field.</p>
+
+<h3 id="methods">Methods</h3>
+
+<p>The restorer string also supports a method notation. An example is given below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MethodNotationExample</span> <span class="o">{</span>
+
+    <span class="nd">@Represented</span>
+    <span class="kd">protected</span> <span class="nc">BilinearGroup</span> <span class="n">bilinearGroup</span><span class="o">;</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"bilinearGroup::getG1"</span><span class="o">)</span>
+    <span class="kd">protected</span> <span class="nc">GroupElement</span> <span class="n">g1</span><span class="o">;</span> <span class="c1">// in G_1</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"bilinearGroup::getG2"</span><span class="o">)</span>
+    <span class="kd">protected</span> <span class="nc">GroupElement</span> <span class="n">g2</span><span class="o">;</span> <span class="c1">// in G_2</span>
+
+    <span class="nd">@Represented</span><span class="o">(</span><span class="n">restorer</span> <span class="o">=</span> <span class="s">"bilinearGroup::getGT"</span><span class="o">)</span>
+    <span class="kd">protected</span> <span class="nc">GroupElement</span> <span class="n">gT</span><span class="o">;</span> <span class="c1">// in G_T</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we have one group element from each of the groups making up the bilinear group.
+Therefore, each group element needs the corresponding group as a restorer.</p>
+
+<p>In the example on restorer fields, we stored the group directly and could therefore refer to it in the restorer string.
+Here, the groups are stored within the bilinear group and accessible via the <code class="language-plaintext highlighter-rouge">getGX()</code> methods provided by the <code class="language-plaintext highlighter-rouge">BilinearGroup</code> interface.
+To make it easier to access these, the restorer string supports a method notation which gives a method for the <code class="language-plaintext highlighter-rouge">ReprUtil</code> class to call during deserialization.</p>
+
+<p>In the example above, <code class="language-plaintext highlighter-rouge">ReprUtil</code> first deserializes the bilinear group and then uses its <code class="language-plaintext highlighter-rouge">getGX()</code> method to obtain the corresponding groups which can restore each group element.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,552 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>5 Minute Tutorial - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="5 Minute Tutorial">
+<meta property="og:url" content="/getting-started/5-minute-tutorial.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/getting-started/5-minute-tutorial.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html" class="active">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="5 Minute Tutorial">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">5 Minute Tutorial
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#5-minute-tutorial-cryptimeleon-math">5-minute-tutorial: Cryptimeleon Math</a><ul><li><a href="#setup-">Setup 🔨</a><ul><li><a href="#groupelements-are-lazy-">GroupElements are lazy 😴</a></li><li><a href="#precomputation-">Precomputation 🔮</a></li></ul></li><li><a href="#committing-">Committing 😱</a><ul><li><a href="#choosing-a-message-">Choosing a message 📝</a></li><li><a href="#computing-the-commitment-">Computing the commitment 🎲</a></li><li><a href="#on-automatic-multiexponentiation-">On automatic multiexponentiation 🤖</a></li></ul></li><li><a href="#verifying-the-commitment-️">Verifying the commitment 🕵️</a></li><li><a href="#bonus-parallelizing-">Bonus: Parallelizing 🦑</a></li></ul></li><li><a href="#-whats-next-">… what’s next? 🎉</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="5-minute-tutorial-cryptimeleon-math">5-minute-tutorial: Cryptimeleon Math</h1>
+
+<p>Cryptimeleon Math is a library supplying the mathematical basics for cryptography (usually elliptic curve/pairing-based).</p>
+
+<p>To give you some insight into the library, let’s implement the well-known Pedersen commitment scheme over an elliptic curve as an example.</p>
+
+<hr />
+<p><em>Note:</em>
+You can also check this page out in an
+interactive Jupyter notebook by clicking the badge below:</p>
+
+<p><a href="https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/main?filepath=getting-started%2F5-minute-tutorial.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+
+<hr />
+
+<h2 id="setup-">Setup 🔨</h2>
+
+<p>Let’s include the Cryptimeleon Math library and set up the secp256k1 elliptic curve group.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">maven</span> <span class="n">org</span><span class="o">.</span><span class="na">cryptimeleon</span><span class="o">:</span><span class="nl">math:</span><span class="mf">3.0</span><span class="o">.</span><span class="mi">1</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.groups.elliptic.nopairing.Secp256k1</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.groups.lazy.LazyGroup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.groups.*</span><span class="o">;</span>
+
+<span class="nc">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Secp256k1</span><span class="o">();</span> <span class="c1">//this is a LazyGroup which evaluates group operations lazily (see later)</span>
+</code></pre></div></div>
+
+<p>A <code class="language-plaintext highlighter-rouge">Group</code> plays the role of the set \(\mathbb{G}\). It has a <code class="language-plaintext highlighter-rouge">size()</code> and a bunch of useful methods to instantiate its <code class="language-plaintext highlighter-rouge">GroupElement</code>s.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">n</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"group size() = "</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>group size() = 115792089237316195423570985008687907852837564279074904382605163141518161494337
+</code></pre></div></div>
+
+<p>Now let’s set up the public parameters for the Pedersen commitment: two random group elements \(g,h\in\mathbb{G}\).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">g</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomNonNeutral</span><span class="o">();</span> 
+<span class="kt">var</span> <span class="n">h</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomNonNeutral</span><span class="o">();</span> 
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">g</code> and <code class="language-plaintext highlighter-rouge">h</code> are <code class="language-plaintext highlighter-rouge">GroupElement</code>s. Their most important methods are <code class="language-plaintext highlighter-rouge">op(...)</code> (for the group operation) and <code class="language-plaintext highlighter-rouge">pow(...)</code> (for exponentiation/scalar multiplication).</p>
+
+<h3 id="groupelements-are-lazy-"><code class="language-plaintext highlighter-rouge">GroupElement</code>s are lazy 😴</h3>
+<p>Let’s look at the group elements:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">g</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">h</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LazyGroupElement{computationState=NOTHING}
+LazyGroupElement{computationState=NOTHING}
+</code></pre></div></div>
+
+<p>Most operations concerning group elements in Math are lazy, i.e. they are only evaluated when necessary (and we consider <code class="language-plaintext highlighter-rouge">toString()</code> not to be necessary but rather a debugging tool). This has a bunch of advantages that we’ll get to later. When working with <code class="language-plaintext highlighter-rouge">g</code> and <code class="language-plaintext highlighter-rouge">h</code>, this doesn’t really change anything - though their values are not yet known, you can pretend that they are (when they are needed, they will be computed transparently).</p>
+
+<h3 id="precomputation-">Precomputation 🔮</h3>
+<p><code class="language-plaintext highlighter-rouge">g</code> and <code class="language-plaintext highlighter-rouge">h</code> are fixed and publicly known and we’ll later compute lots of expressions of the form \(C = g^m\cdot h^r\). To speed that up, we can invest some time and memory to do some precomputation <em>now</em>. 
+Thankfully, this is very easy to do:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">g</span><span class="o">.</span><span class="na">precomputePow</span><span class="o">();</span>
+<span class="n">h</span><span class="o">.</span><span class="na">precomputePow</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Precomputation done."</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Precomputation done.
+</code></pre></div></div>
+
+<p>Future computations <code class="language-plaintext highlighter-rouge">g.pow(...)</code> and <code class="language-plaintext highlighter-rouge">h.pow(...)</code> will benefit from precomputation.</p>
+
+<p><small><em>As a side-effect, the values of <code class="language-plaintext highlighter-rouge">g</code> and <code class="language-plaintext highlighter-rouge">h</code> have been explicitly computed and can now be printed by <code class="language-plaintext highlighter-rouge">println()</code> above. You can now see that they indeed look like elliptic curve points.</em></small></p>
+
+<h2 id="committing-">Committing 😱</h2>
+
+<h3 id="choosing-a-message-">Choosing a message 📝</h3>
+<p>Now let’s commit to a message \(m\). For Pedersen commitments, \(m\) lives in \(\mathbb{Z}_n\) (because exponents are to be interpreted modulo the group order \(n\)). We can get the appropriate \(\mathbb{Z}_n\) object from the group:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">zn</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getZn</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>Similar to how a <code class="language-plaintext highlighter-rouge">Group</code> is a structure that has <code class="language-plaintext highlighter-rouge">GroupElement</code>s, <code class="language-plaintext highlighter-rouge">zp</code> is a structure that contains <code class="language-plaintext highlighter-rouge">ZnElement</code>s.</p>
+
+<p>We can now instantiate our message \(m\), which will be a <code class="language-plaintext highlighter-rouge">ZnElement</code>, in any of the following ways:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">m</span> <span class="o">=</span> <span class="n">zn</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">23</span><span class="o">).</span><span class="na">mul</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span> <span class="c1">//simply the number 23*42 (mod p)</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>966
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">m</span> <span class="o">=</span> <span class="n">zn</span><span class="o">.</span><span class="na">getUniformlyRandomElement</span><span class="o">();</span> <span class="c1">//a random number in Zn</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>74948345846974320490763316249648584830782156290098896568209975540535119184699
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.rings.zn.HashIntoZn</span><span class="o">;</span>
+
+<span class="kt">var</span> <span class="n">m</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashIntoZn</span><span class="o">(</span><span class="n">zn</span><span class="o">).</span><span class="na">hash</span><span class="o">(</span><span class="s">"We attack at midnight! ⚔️"</span><span class="o">);</span> <span class="c1">//the hash of the given String into Zn</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>810052306909394450800266714096184223616907450636387903217280471689702165748
+</code></pre></div></div>
+
+<h3 id="computing-the-commitment-">Computing the commitment 🎲</h3>
+
+<p>Now that we have \(m\), let’s compute the Pedersen commitment, which is</p>
+
+\[C = g^m\cdot h^r\]
+
+<p>for a random \(r\in\mathbb{Z}_n\).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">r</span> <span class="o">=</span> <span class="n">zn</span><span class="o">.</span><span class="na">getUniformlyRandomElement</span><span class="o">();</span>
+<span class="kt">var</span> <span class="no">C</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">m</span><span class="o">).</span><span class="na">op</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">r</span><span class="o">));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">C</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LazyGroupElement{computationState=NOTHING}
+</code></pre></div></div>
+
+<h3 id="on-automatic-multiexponentiation-">On automatic multiexponentiation 🤖</h3>
+
+<p>One advantage of the <code class="language-plaintext highlighter-rouge">LazyGroup</code> approach is that after calling <code class="language-plaintext highlighter-rouge">g.pow(m)</code>, that value is not immediately computed. This allows us to compute \(C\) as a multiexponentiation behind the scenes, i.e. more efficiently than computing \(g^m\) and \(h^r\) separately and then multiplying them.</p>
+
+<p>This is done automatically when the value of \(C\) is needed. We can force computation of \(C\) by calling <code class="language-plaintext highlighter-rouge">computeSync()</code> for the sake of illustration.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="o">.</span><span class="na">computeSync</span><span class="o">()</span> <span class="c1">//computes the value of C and blocks the caller until it's done.</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(66508462627355013898374813240406496046102850432307031507880809647088421550160,61352151096694226280487899680885379306425114386083399369883416543304794344743)
+</code></pre></div></div>
+
+<p>The committer can now transmit \(C\) to the verifier, who won’t learn anything from it (\(C\) is uniformly random in \(\mathbb{G}\)) but will be assured that we cannot later change our mind about \(m\).</p>
+
+<p>For this transmission, we’d have to talk about serialization. Very roughly: every <code class="language-plaintext highlighter-rouge">GroupElement</code> is able to represent itself as a <code class="language-plaintext highlighter-rouge">Representation</code>, which is safe to send, and its corresponding <code class="language-plaintext highlighter-rouge">Group</code> is able to undo this process.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"__type":"OBJ","x":"INT:930a74b280621e105901ec5533ef4a3251f832a1b5a2801cc22469dcc06bb850","y":"INT:87a416420ec0590c1f627712a0a5b697dba70c970797499f11f9e623ad618d27","z":"INT:1"}
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">group</span><span class="o">.</span><span class="na">restoreElement</span><span class="o">(</span><span class="no">C</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">()).</span><span class="na">equals</span><span class="o">(</span><span class="no">C</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>true
+</code></pre></div></div>
+
+<p>For more information on serialization, see <a href="https://cryptimeleon.org/docs/representations.html">our documentation regarding <code class="language-plaintext highlighter-rouge">Representation</code>s</a>.</p>
+
+<h2 id="verifying-the-commitment-️">Verifying the commitment 🕵️</h2>
+
+<p>When we’ve additionally given \(m,r\) to the verifier, they can now check whether \(m,r\) is a valid opening for \(C\) by checking the following equation:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">m</span><span class="o">).</span><span class="na">op</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">r</span><span class="o">)).</span><span class="na">equals</span><span class="o">(</span><span class="no">C</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>true
+</code></pre></div></div>
+
+<p>Note that here, \(g^m\cdot h^r\) is also automatically computed as multiexponentiation.</p>
+
+<p>… and that’s already it for implementing the Pedersen commitment scheme.</p>
+
+<h2 id="bonus-parallelizing-">Bonus: Parallelizing 🦑</h2>
+
+<p>Another advantage of the <code class="language-plaintext highlighter-rouge">LazyGroup</code> approach is that it makes group computations easily parallelizable. Consider the following code snippet where we’ll compute a whole bunch of commitments:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">GroupElement</span><span class="o">&gt;</span> <span class="n">commitments</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">500</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">commitment</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">op</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">zn</span><span class="o">.</span><span class="na">getUniformlyRandomElement</span><span class="o">())).</span><span class="na">compute</span><span class="o">();</span>
+        <span class="c1">//compute() returns immediately but starts computing the concrete value on a background thread.</span>
+    <span class="n">commitments</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">commitment</span><span class="o">);</span> <span class="c1">//what we add to the list here could technically be compared to a Future&lt;GroupElement&gt;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>As a result, the code above doesn’t really run a any group computations itself and hence returns very quickly. 
+All the commitments will be computed on other threads concurrently in the background, utilizing all your CPU cores.</p>
+
+<p>You can go on working with all the commitments as you wish (no need to consider whether they’re done computing yet). Calls that require the result of the internal computations above may block until the result is there.</p>
+
+<p>Conceptually, calling <code class="language-plaintext highlighter-rouge">compute()</code> or <code class="language-plaintext highlighter-rouge">computeSync()</code> doesn’t have any effect semantically, so for the sake of writing <em>correct</em> code, you’ll never have to use them (semantically they are <code class="language-plaintext highlighter-rouge">return this;</code> operations). But if you want to write <em>fast</em> code, calling <code class="language-plaintext highlighter-rouge">compute()</code> on some values may enable concurrency and speed things up.</p>
+
+<h1 id="-whats-next-">… what’s next? 🎉</h1>
+
+<p>If you’re still curious about the library, consider our <a href="https://cryptimeleon.org/getting-started/pairing-tutorial.html">pairing tutorial</a>, where we go through some advanced examples for the library.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

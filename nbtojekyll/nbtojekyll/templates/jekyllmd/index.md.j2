@@ -1,0 +1,13 @@
+{% extends 'markdown/index.md.j2' %}
+
+{% block header -%}
+---
+{% for key, value in resources['metadata']['jekyll'].items() %}
+{{ key }}: {{ value }}
+{% endfor %}
+---
+{% endblock header %}
+
+{% block markdowncell scoped %}
+{{ cell.source }}
+{% endblock markdowncell %}

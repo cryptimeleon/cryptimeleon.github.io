@@ -1,0 +1,440 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Group Signatures - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="Group Signatures">
+<meta property="og:url" content="/docs/groupsig.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/docs/groupsig.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html" class="active">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Group Signatures">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Group Signatures
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#the-groupsig-library">The Groupsig Library</a></li><li><a href="#implementing-your-group-signature">Implementing Your Group Signature</a><ul><li><a href="#join-protocol">Join Protocol</a></li><li><a href="#data-classes">Data Classes</a></li><li><a href="#testing-your-scheme">Testing Your Scheme</a></li></ul></li><li><a href="#references">References</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="the-groupsig-library">The Groupsig Library</h2>
+
+<p>The <a href="https://github.com/cryptimeleon/groupsig">Groupsig</a> library offers interfaces and tests useful for implementing group signatures.
+These interfaces are based on the work of Diaz, Arroyo and Rodriguez [JAD15] and aim to be flexible to allow for implementing many different types of group signatures.
+The groupsig library also provides an example implementation: the group signature of Choi, Park and Yung [CPY06].</p>
+
+<p>Groupsig makes use of other Cryptimeleon libraries: Math for mathematical fundamentals and Craco for cryptographic building blocks and protocol facilities.
+They are included in the Groupsig library and can be used without needing to include them as a dependency.
+The protocol facilities of Craco are especially relevant, as they include a Schnorr protocol that enables quick and easy implementation of proof of knowledges.
+These are for example useful in issue/join protocols.</p>
+
+<h2 id="implementing-your-group-signature">Implementing Your Group Signature</h2>
+
+<p>To implement a group signature, you will need to implement the <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> interface found in the <code class="language-plaintext highlighter-rouge">org.cryptimeleon.groupsig.common</code> package.
+That package contains all the relevant interfaces.
+The <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> interface contains methods for all the group signature algorithms except the setup algorithm.
+Setup is usually delegated to another class, and then the generated public parameters are used to instantiate the <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> class.</p>
+
+<p>As the <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> interface aims to accomodate many different kinds of group signature schemes, you might not want to implement all its methods.
+For example, your scheme might not support the <code class="language-plaintext highlighter-rouge">trace</code> algorithm.
+Then you would just have that method throw an <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>.</p>
+
+<h3 id="join-protocol">Join Protocol</h3>
+
+<p>Usually, the join protocol is given in the form of an interactive protocol.
+The <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> allows you to implement this via its <code class="language-plaintext highlighter-rouge">joinMember</code> and <code class="language-plaintext highlighter-rouge">joinIssuer</code> methods.
+The networking is intended to be realized via the <code class="language-plaintext highlighter-rouge">BlockingQueue</code> parameters, aside from this you are free to implement the networking as you like.</p>
+
+<p>To implement the protocol itself, you can make use of Craco’s protocol facilities.
+To get an idea of how these work, we recommend you take a look at our <a href="/getting-started/protocols-tutorial.html">protocol tutorial</a> and then our <a href="https://github.com/cryptimeleon/groupsig/tree/develop/src/main/java/org/cryptimeleon/groupsig/cpy06">example implementation</a> of [CPY06].</p>
+
+<h3 id="data-classes">Data Classes</h3>
+
+<p>The other interfaces are mostly for data modelling.
+<code class="language-plaintext highlighter-rouge">GroupMembershipList</code> contains information about each group member in the form of <code class="language-plaintext highlighter-rouge">GMLEntry</code> instances. These entries are usually generated when the join protocol is complete. 
+The issuer then updates the group membership list with the new entry.
+<code class="language-plaintext highlighter-rouge">RevocationList</code> contains information about the group members that had their membership revoked in the form of <code class="language-plaintext highlighter-rouge">RevocationListEntry</code> instances.
+Adding these entries is handled by the <code class="language-plaintext highlighter-rouge">reveal</code> method of the <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> interface.</p>
+
+<h3 id="testing-your-scheme">Testing Your Scheme</h3>
+
+<p>Groupsig offers some generic testing classes useful for testing <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> implementations.
+To use them, you will need to include the <code class="language-plaintext highlighter-rouge">tests</code> feature variant of the Groupsig library.
+In Gradle this can be done by including the following in the dependency section of your <code class="language-plaintext highlighter-rouge">build.gradle</code> file:</p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">testImplementation</span><span class="o">(</span><span class="nl">group:</span> <span class="s1">'org.cryptimeleon'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'groupsig'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s2">"insertGroupsigVersionHere"</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">capabilities</span> <span class="o">{</span>
+        <span class="n">requireCapability</span><span class="o">(</span><span class="s2">"org.cryptimeleon:groupsig-tests"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Included in this dependency is the <code class="language-plaintext highlighter-rouge">GroupSignatureTester</code> class which is responsible for running the tests.
+To run your own test, you will need to create a subclass of <code class="language-plaintext highlighter-rouge">GroupSignatureTester</code>.
+Then implement a method with the signature <code class="language-plaintext highlighter-rouge">public static Stream&lt;GroupSignatureTestParam&gt; getGroupSignatureTestParams()</code>.
+This method collects the parameters used for the test and returns them in the form of a <code class="language-plaintext highlighter-rouge">Stream</code>.</p>
+
+<p>You also need to implement a <code class="language-plaintext highlighter-rouge">GroupSignatureTestParam</code> subclass for your group signature implementation.
+This contains the parameters used for the test.</p>
+
+<p>For our [CPY06] group signature, the <code class="language-plaintext highlighter-rouge">GroupSignatureTester</code> subclass may look as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GroupSignatureTesterCPY06</span> <span class="kd">extends</span> <span class="nc">GroupSignatureTester</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">GroupSignatureTestParam</span><span class="o">&gt;</span> <span class="nf">getGroupSignatureTestParams</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">GroupSignatureTestParam</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">params</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">CPY06TestParams</span><span class="o">().</span><span class="na">get</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">params</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>You can now run the tests.
+Any methods of <code class="language-plaintext highlighter-rouge">GroupSignatureScheme</code> that throw <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> will lead to the corresponding test being ignored.</p>
+
+<h2 id="references">References</h2>
+<p>[DAR15] Jesus Diaz and David Arroyo and Francisco B. Rodriguez (2015). 
+“libgroupsig: An extensible C library for group signatures”. https://eprint.iacr.org/2015/1146</p>
+
+<p>[CPY06] Seung Geol Choi, Kunsoo Park, and Moti Yung (2006). “Short Traceable Signatures Based on Bilinear Pairings”. 
+In Advances in Information and Computer Security (pp. 88–103). Springer Berlin Heidelberg.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

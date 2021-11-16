@@ -1,0 +1,441 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>How to contribute to the Cryptimeleon libraries - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="How to contribute to the Cryptimeleon libraries">
+<meta property="og:url" content="/contributors/how-to-contribute.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/contributors/how-to-contribute.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html" class="active">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="How to contribute to the Cryptimeleon libraries">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">How to contribute to the Cryptimeleon libraries
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#overview">Overview</a></li><li><a href="#project-setup">Project setup</a><ul><li><a href="#forking-the-repo">Forking the repo</a></li><li><a href="#setting-up-a-project-in-intellij-idea">Setting up a project in IntelliJ IDEA</a></li><li><a href="#setting-up-a-project-in-eclipse">Setting up a project in Eclipse</a></li><li><a href="#testing-changes">Testing changes</a><ul><li><a href="#composite-builds">Composite builds</a></li><li><a href="#local-installation">Local installation</a></li></ul></li></ul></li><li><a href="#making-changes">Making changes</a></li><li><a href="#contributing-your-changes">Contributing your changes</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>We are glad you are interested in contributing to Cryptimeleon.
+This page will give you an overview of our contribution/developer guidelines and will point you to further information.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>The Cryptimeleon libraries consist of a number of related cryptographic libraries united under the Cryptimeleon name.
+If you want to contribute, you therefore first need to decide on a specific library.
+Then you can check out that library’s issue tracker (we use the Github issue tracker) to find something to work on.</p>
+
+<p>Cryptimeleon’s <a href="https://github.com/cryptimeleon">Github page</a> contains a list of those libraries.</p>
+
+<h2 id="project-setup">Project setup</h2>
+
+<p>Once you have decided on a library, you will need to clone it and create a project in your favourite IDE.
+All the Cryptimeleon libraries use the <a href="https://gradle.org/">Gradle</a> build tool. 
+In this guide, we show you how to set up a project in your integrated development environment of choice. 
+This guide is intended for development of the library itself.</p>
+
+<p>If you have problems with building any of the projects, make sure you use the newest version of the Java SDK 8.
+Not all versions of Java 8 are supported.</p>
+
+<h3 id="forking-the-repo">Forking the repo</h3>
+
+<p>If you don’t have write access to the repository, you will need to <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/working-with-forks">fork</a> the repository of the library you want to modify.
+Then you can apply your changes to that repository.</p>
+
+<p>After this is done, we continue by creating a new project in your favorite IDE.</p>
+
+<h3 id="setting-up-a-project-in-intellij-idea">Setting up a project in IntelliJ IDEA</h3>
+
+<p><em>Note: This was written for IntelliJ IDEA Version 2019.2.4</em></p>
+
+<p>Start up IntelliJ IDEA such that the “Welcome to IntelliJ IDEA” appears. 
+In case you already have another project open, clicking <strong>File → Close Project</strong> will take you to it.</p>
+
+<p>Next, click <strong>Import Project</strong>. 
+Now browse to the path where you cloned the library repository. 
+The repository contains a <code class="language-plaintext highlighter-rouge">build.gradle</code> file. 
+Select it and click <strong>OK</strong>. Once the import process is done, the project is ready for use.</p>
+
+<h3 id="setting-up-a-project-in-eclipse">Setting up a project in Eclipse</h3>
+
+<p><em>Note: This was written for Eclipse 2020-03 (4.15.0).</em></p>
+
+<p>Open up Eclipse. Select <strong>File → Import…</strong>. 
+As import wizard select <strong>Gradle → Existing Gradle Project</strong>.
+Click <strong>Next</strong> on the introductory information page that pops up.
+A window will open up asking you to select the project root directory.
+Browse to the location where you cloned the repository to and select the repository folder.
+For example, <code class="language-plaintext highlighter-rouge">/home/username/code/craco</code>. 
+Click <strong>Finish</strong> to finish setup. You can also click <strong>Next</strong> if you want to, for example, select a specific Java SDK.</p>
+
+<h3 id="testing-changes">Testing changes</h3>
+
+<p>Once you have done some changes to a library, you might want to test the effect of these changes on the other libraries.
+For example, as Craco relies on Math, changes to the Math library should be followed by testing the craco library with the new changes.</p>
+
+<p>To do this, there are two options: Local installation and composite builds.</p>
+
+<h4 id="composite-builds">Composite builds</h4>
+
+<p>Composite builds have the advantage of not requiring you to manually install the project each time you want to test its changes. 
+Instead, the dependencies will automatically be newly built when required.
+Furthermore, IDEs such as IntelliJ IDEA have special support for composite builds, allowing you to view the sources for any dependencies included in the composite build.</p>
+
+<p>We recommend using composite builds over the local installation approach. More info on this <a href="/contributors/composite-builds.html">here</a>.</p>
+
+<h4 id="local-installation">Local installation</h4>
+
+<p>For any of the libraries you can use the command <code class="language-plaintext highlighter-rouge">publishToMavenLocal</code> in the project root directory to install the library to the local repository (remember to build the newest version via <code class="language-plaintext highlighter-rouge">gradle build</code> before this). 
+To make sure that other libraries actually use local builds and not remote, you need to make sure that local builds are preferred compared to remote builds.
+Hence, <code class="language-plaintext highlighter-rouge">mavenLocal()</code> should be listed at the top of the <code class="language-plaintext highlighter-rouge">repositories</code> section in the <code class="language-plaintext highlighter-rouge">build.gradle</code> file.</p>
+
+<h2 id="making-changes">Making changes</h2>
+
+<p>When making changes to the code, remember the following things:</p>
+<ul>
+  <li>Stick to the existing code style</li>
+  <li>Add Javadoc whenever necessary</li>
+  <li>Add your changes to the <code class="language-plaintext highlighter-rouge">CHANGELOG.md</code> file in the root directory</li>
+</ul>
+
+<h2 id="contributing-your-changes">Contributing your changes</h2>
+
+<p>Once you have tested your changes locally, you will want to integrate them into the upstream repository.
+You can do this by <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork">creating a pull request from your fork</a>.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

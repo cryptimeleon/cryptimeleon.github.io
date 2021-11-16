@@ -1,0 +1,427 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>First Steps - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="First Steps">
+<meta property="og:url" content="/getting-started/first-steps.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/getting-started/first-steps.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html" class="active">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="First Steps">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">First Steps
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#project-structure-overview">Project structure overview</a><ul><li><a href="#base-libraries">Base libraries</a><ul><li><a href="#math">Math</a></li><li><a href="#craco">Craco</a></li><li><a href="#mclwrap">Mclwrap</a></li><li><a href="#predenc-groupsig">Predenc, Groupsig</a></li></ul></li></ul></li><li><a href="#starting-from-scratch">Starting from scratch</a></li><li><a href="#including-our-libraries-into-your-existing-project">Including our libraries into your existing project</a><ul><li><a href="#maven">Maven</a></li><li><a href="#gradle">Gradle</a></li></ul></li><li><a href="#mclwrap-installation">Mclwrap Installation</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="project-structure-overview">Project structure overview</h1>
+<p>Cryptimeleon is composed of several libraries.
+<img src="/assets/cryptimeleon_overview_parts.png" alt="Overview of Cryptimeleon libraries" /></p>
+
+<h2 id="base-libraries">Base libraries</h2>
+<h3 id="math">Math</h3>
+<p>The <a href="https://github.com/cryptimeleon/math">Math</a> library contains all the basics like bilinear groups, hashing, randomness generation, and serialization. 
+It is the basis for every other Cryptimeleon library.</p>
+
+<h3 id="craco">Craco</h3>
+<p><a href="https://github.com/cryptimeleon/craco">Craco</a> (the name has historical reasons) implements various cryptographic primitives and low-level constructions. This includes reusable primitives such as accumulators, commitment schemes, signature and encryption schemes, Sigma protocols, and many more.</p>
+
+<p>The goal of Craco is to provide common cryptographic schemes for use in more high-level protocols.</p>
+
+<h3 id="mclwrap">Mclwrap</h3>
+<p><a href="https://github.com/cryptimeleon/mclwrap">Mclwrap</a> provides an efficient BN-254 bilinear group implementation (powered by <a href="https://github.com/herumi/mcl">MCL</a>). 
+You should definitely use this if you want to run timing benchmarks.</p>
+
+<h3 id="predenc-groupsig">Predenc, Groupsig</h3>
+<p>Implementations of various <a href="https://github.com/cryptimeleon/predenc">predicate encryption schemes</a> and <a href="https://github.com/cryptimeleon/groupsig">group signature schemes</a>.</p>
+
+<h1 id="starting-from-scratch">Starting from scratch</h1>
+<p>If you don’t have anything right now, it’s easiest to get started with our template projects.</p>
+
+<ul>
+  <li><a href="https://github.com/cryptimeleon/java-demo">Java</a></li>
+  <li><a href="https://github.com/cryptimeleon/android-demo">Android</a></li>
+</ul>
+
+<p>If you want to use Zero-knowledge proofs, you can generate a basic project containing your protocol with <a href="https://cptml.org/subzero">subzero</a>.</p>
+
+<h1 id="including-our-libraries-into-your-existing-project">Including our libraries into your existing project</h1>
+<p>Our libraries are hosted on Maven Central. 
+For the sake of this, we assume you want to import Math and Craco (which is usually what you need).</p>
+
+<h2 id="maven">Maven</h2>
+<p>Add these dependencies to your <code class="language-plaintext highlighter-rouge">pom.xml</code>:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.cryptimeleon<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>math<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>[3.0,)<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.cryptimeleon<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>craco<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>[3.0,)<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h2 id="gradle">Gradle</h2>
+<p>Add these entries to your <code class="language-plaintext highlighter-rouge">build.gradle</code>.</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plugins</span> <span class="o">{</span>
+  <span class="n">id</span> <span class="s1">'java-library'</span>
+<span class="o">}</span>
+
+<span class="k">repositories</span> <span class="o">{</span>
+  <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="k">dependencies</span> <span class="o">{</span>
+  <span class="n">implementation</span> <span class="s1">'org.cryptimeleon:math:3.+'</span>
+  <span class="n">implementation</span> <span class="s1">'org.cryptimeleon:craco:3.+'</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="mclwrap-installation">Mclwrap Installation</h1>
+<p>Eventually, you should probably install <a href="https://github.com/herumi/mcl">mclwrap</a> because it is a <em>much</em> more efficient bilinear group than <a href="/docs/bilinear-groups.html">what is available</a> in the Math library by default.</p>
+
+<p>To use MCL in your project, you need to (1) compile and install MCL, and then (2) add the dependency to our the Java bindings.
+This process is explained <a href="https://github.com/cryptimeleon/mclwrap/blob/main/README.md">here</a>.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

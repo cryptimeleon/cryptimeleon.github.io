@@ -1,0 +1,3 @@
+include nbtojekyll/templates/jekyllmd/*
+include LICENSE
+include README.md

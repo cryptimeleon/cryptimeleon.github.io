@@ -1,0 +1,619 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Protocols Tutorial - Cryptimeleon</title>
+<meta name="description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Cryptimeleon">
+<meta property="og:title" content="Protocols Tutorial">
+<meta property="og:url" content="/getting-started/protocols-tutorial.html">
+
+
+  <meta property="og:description" content="Documentation page for the Cryptimeleon cryptography libraries.">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="/getting-started/protocols-tutorial.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#eeeeee">
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Cryptimeleon
+          <span class="site-subtitle">Prototyping of Cryptographic Constructions</span>
+        </a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Getting Started</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/getting-started/first-steps.html">First Steps</a></li>
+          
+            <li><a href="/getting-started/5-minute-tutorial.html">5-minute Tutorial</a></li>
+          
+            <li><a href="/getting-started/pairing-tutorial.html">Pairing Tutorial</a></li>
+          
+            <li><a href="/getting-started/protocols-tutorial.html" class="active">Protocol Tutorial</a></li>
+          
+            <li><a href="/getting-started/implement-elgamal.html">ElGamal Tutorial</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Tools</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="https://cryptimeleon.org/subzero">Subzero ZK Compiler</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Documentation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/docs/how-do-I.html">How do I ...?</a></li>
+          
+            <li><a href="/docs/lazy-eval.html">Lazy Evaluation</a></li>
+          
+            <li><a href="/docs/bilinear-groups.html">Bilinear Groups</a></li>
+          
+            <li><a href="/docs/representations.html">Representations</a></li>
+          
+            <li><a href="/docs/benchmarking.html">Benchmarking</a></li>
+          
+            <li><a href="/docs/groupsig.html">Group Signatures</a></li>
+          
+            <li><a href="/docs/javadoc.html">Javadocs</a></li>
+          
+            <li><a href="/docs/faq.html">Frequently Asked Questions</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">For Contributors</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/contributors/how-to-contribute.html">How to Contribute</a></li>
+          
+            <li><a href="/contributors/composite-builds.html">Composite Builds</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Protocols Tutorial">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Protocols Tutorial
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#example-verifiable-oblivious-pseudorandom-function-voprf">Example: Verifiable oblivious pseudorandom function (VOPRF)</a><ul><li><a href="#-the-basic-setup">🗒 The basic setup</a></li><li><a href="#-how-to-obliviously-retrieve-function-values">🥸 How to obliviously retrieve function values</a></li><li><a href="#-implementation---setup">📡 Implementation - Setup</a></li><li><a href="#️-implementation---zero-knowledge-proof">↔️ Implementation - Zero-knowledge proof</a></li><li><a href="#-implementing-the-rest">🛠 Implementing the rest</a><ul><li><a href="#-clients-request">🙋 Client’s request</a></li><li><a href="#-servers-response">💁 Server’s response</a></li><li><a href="#-client-unblinding-and-proof-check">🧑‍🎓 Client unblinding and proof check</a></li></ul></li><li><a href="#-done">✅ Done.</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="example-verifiable-oblivious-pseudorandom-function-voprf">Example: Verifiable oblivious pseudorandom function (VOPRF)</h1>
+
+<p>In this notebook, we’ll take a look at how to implement a simple protocol: <a href="https://datatracker.ietf.org/doc/draft-irtf-cfrg-voprf/">VOPRFs</a> (based on this <a href="https://eprint.iacr.org/2014/650">paper</a>).</p>
+
+<h2 id="-the-basic-setup">🗒 The basic setup</h2>
+<p>A VOPRF is, first and foremost, a PRF. The secret key \(k\) for the PRF is a random scalar and we’ll call \(h = g^k\) the “public key”. 
+The values of the \(\mathrm{PRF}_k: \{0,1\}^* \rightarrow \{0,1\}^n\) are</p>
+
+\[\mathrm{PRF}_k(x) = H_2(h, x, H_1(x)^k)\]
+
+<p>where \(H_1:\{0,1\}^*\rightarrow \mathbb{G}\), \(H_2:\{0,1\}^* \rightarrow \{0,1\}^n\) are hash functions modeled as random oracles.</p>
+
+<p>This is a PRF because under appropriate (Diffie-Hellman-type) assumptions (essentially the only way to distinguish a PRF-value \(\mathrm{PRF}_k(x)\) from random is to compute \(H_1(x)^k\) without knowing \(k\)).</p>
+
+<h2 id="-how-to-obliviously-retrieve-function-values">🥸 How to obliviously retrieve function values</h2>
+
+<p>Now in an <em>oblivious</em> PRF, there is a protocol between two parties: the <em>issuer</em> and the <em>user</em>. The issuer holds a PRF key \(k\) and publishes the public key \(h = g^k\). The user wants to retrieve \(\mathrm{PRF}(x)\) for some bit string \(x\in\{0,1\}^*\) from the issuer without revealing \(x\). In our case, this protocol works as follows:</p>
+
+<ul>
+  <li>The user chooses a random scalar \(r\) and sends \(a = H_1(x)^r\) to the issuer.</li>
+  <li>The issuer replies with \(a^k\) and a zero-knowledge proof that he has used the right \(k\) to compute \(a^k\).</li>
+</ul>
+
+<p>Note that in this protocol, the user only sends a random value \(a\) that holds no information about \(x\), so the issuer cannot learn \(x\). The zero-knowledge proof ensures that the issuer cannot send incorrect responses (which he might otherwise do to “tag” requests).</p>
+
+<hr />
+<p><em>Note:</em>
+You can also check this page out in an
+interactive Jupyter notebook by clicking the badge below:</p>
+
+<p><a href="https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/main?filepath=getting-started%2Fprotocols-tutorial.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+
+<hr />
+
+<h2 id="-implementation---setup">📡 Implementation - Setup</h2>
+
+<p>So let’s implement this using our library. First, let’s do the basic setup.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">maven</span> <span class="n">org</span><span class="o">.</span><span class="na">cryptimeleon</span><span class="o">:</span><span class="nl">math:</span><span class="mi">3</span><span class="o">.+</span>
+<span class="o">%</span><span class="n">maven</span> <span class="n">org</span><span class="o">.</span><span class="na">cryptimeleon</span><span class="o">:</span><span class="nl">craco:</span><span class="mi">3</span><span class="o">.+</span>
+
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.groups.elliptic.nopairing.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.groups.lazy.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.hash.impl.SHA256HashFunction</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.rings.zn.Zn</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.hash.impl.ByteArrayAccumulator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.groups.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.math.serialization.converter.JSONPrettyConverter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.craco.protocols.arguments.sigma.schnorr.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.craco.protocols.arguments.sigma.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.craco.protocols.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.cryptimeleon.craco.protocols.arguments.fiatshamir.FiatShamirProofSystem</span><span class="o">;</span>
+
+<span class="c1">//Set up group and generate key</span>
+<span class="kt">var</span> <span class="n">group</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Secp256k1</span><span class="o">();</span> 
+<span class="kt">var</span> <span class="no">H1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashIntoSecp256k1</span><span class="o">();</span>
+<span class="kt">var</span> <span class="no">H2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SHA256HashFunction</span><span class="o">();</span>
+<span class="kt">var</span> <span class="n">jsonConverter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JSONPrettyConverter</span><span class="o">();</span> <span class="c1">//for serialization later</span>
+
+<span class="kt">var</span> <span class="n">g</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getGenerator</span><span class="o">();</span>
+<span class="kt">var</span> <span class="n">k</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomNonzeroExponent</span><span class="o">();</span> <span class="c1">//secret key</span>
+<span class="kt">var</span> <span class="n">h</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">k</span><span class="o">).</span><span class="na">precomputePow</span><span class="o">();</span> <span class="c1">//public key</span>
+</code></pre></div></div>
+
+<p>With this setup, we can naively (without hiding x) evaluate \(\mathrm{PRF}_k(x) = H_2(h, x, H_1(x)^k)\) as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">byte</span><span class="o">[]</span> <span class="nf">evaluatePRF</span><span class="o">(</span><span class="nc">Zn</span><span class="o">.</span><span class="na">ZnElement</span> <span class="n">k</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">h2Preimage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayAccumulator</span><span class="o">();</span>
+    <span class="n">h2Preimage</span><span class="o">.</span><span class="na">escapeAndSeparate</span><span class="o">(</span><span class="n">h</span><span class="o">);</span>
+    <span class="n">h2Preimage</span><span class="o">.</span><span class="na">escapeAndSeparate</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="n">h2Preimage</span><span class="o">.</span><span class="na">escapeAndAppend</span><span class="o">(</span><span class="no">H1</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="na">pow</span><span class="o">(</span><span class="n">k</span><span class="o">));</span>
+    
+    <span class="k">return</span> <span class="no">H2</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">h2Preimage</span><span class="o">.</span><span class="na">extractBytes</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">result</span> <span class="o">=</span> <span class="n">evaluatePRF</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[]</span> <span class="o">{</span><span class="mi">4</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">16</span><span class="o">,</span> <span class="mi">23</span><span class="o">,</span> <span class="mi">42</span><span class="o">});</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[-104, -59, 40, -20, 111, -27, 55, -40, -1, 23, 96, 10, -15, 72, -88, 17, 74, -104, 8, -79, -38, 62, 53, -76, 77, -69, 88, -18, -47, -73, -111, 64]
+</code></pre></div></div>
+
+<h2 id="️-implementation---zero-knowledge-proof">↔️ Implementation - Zero-knowledge proof</h2>
+
+<p>To implement the oblivious evaluation protocol, we start with the subprotocol to prove that the issuer’s response is valid. 
+Specifically, when the issuer gets \(a\) and replies with \(b = a^k\), he needs to <em>prove knowledge of \(k\) such that \(b = a^k \land h = g^k\)</em>, i.e. \(a\) was exponentiated with the correct secret key belonging to public key \(h\). In Camenisch-Stadler notation:</p>
+
+\[\mathrm{ZKPoK}\{(k) :\ b = a^k \land h = g^k\}\]
+
+<p>For this, we implement our own Schnorr-style protocol. Within the protocol framework of our library, we think of Schnorr-style protocols as being composed of “fragments”. In our case, the protocol will consist of two fragments, one that handes the \(b = a^k\) part, one that handles the \(h = g^k\) part (in general, fragments can also handle more complicated statements, such as “\(z \leq 100\)”, but those are not needed in this example).</p>
+
+<p>Essentially, what we want is a <code class="language-plaintext highlighter-rouge">DelegateProtocol</code>, i.e. one that delegates its functionality to two sub-“fragments”. For this protocol, we need to define mostly two things:</p>
+
+<ol>
+  <li>which variables/witnesses are proven knowledge of and which subprotocols (fragments) shall be instantiated? (we call this the <em>subprotocol spec</em>)</li>
+  <li>which value(s) for the witness(es) shall the prover use? (we call this the <em>prover spec</em>)</li>
+</ol>
+
+<p>With this defined, composing this into a Schnorr-style protocol is done automatically behind the scenes.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">ProofCommonInput</span> <span class="kd">implements</span> <span class="nc">CommonInput</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="nc">GroupElement</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">ProofCommonInput</span><span class="o">(</span><span class="nc">GroupElement</span> <span class="n">a</span><span class="o">,</span> <span class="nc">GroupElement</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">ProofWitnessInput</span> <span class="kd">implements</span> <span class="nc">SecretInput</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="nc">Zn</span><span class="o">.</span><span class="na">ZnElement</span> <span class="n">k</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">ProofWitnessInput</span><span class="o">(</span><span class="nc">Zn</span><span class="o">.</span><span class="na">ZnElement</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">ReplyCorrectnessProof</span> <span class="kd">extends</span> <span class="nc">DelegateProtocol</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="nc">SendThenDelegateFragment</span><span class="o">.</span><span class="na">SubprotocolSpec</span> <span class="nf">provideSubprotocolSpec</span><span class="o">(</span><span class="nc">CommonInput</span> <span class="n">commonInput</span><span class="o">,</span> <span class="nc">SendThenDelegateFragment</span><span class="o">.</span><span class="na">SubprotocolSpecBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//In this method, we define (for prover and verifier alike) what the proof parameters shall be.</span>
+        <span class="c1">//We want to prove knowledge of a single variable, namely k. So we register "k" of type Zp with the builder.</span>
+        <span class="kt">var</span> <span class="n">kVar</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">addZnVariable</span><span class="o">(</span><span class="s">"k"</span><span class="o">,</span> <span class="n">group</span><span class="o">.</span><span class="na">getZn</span><span class="o">());</span>
+        <span class="c1">//the result is a variable kVar that we will reference in the following.</span>
+        
+        <span class="c1">//Now we need to define what shall be proven. For this, we reference the knowledge variable created above.</span>
+
+        <span class="c1">//statementToBeProven is an Expression "a^k = b" with variable k (not something that's computed here and now)</span>
+        <span class="kt">var</span> <span class="n">statementToBeProven</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ProofCommonInput</span><span class="o">)</span> <span class="n">commonInput</span><span class="o">).</span><span class="na">a</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">kVar</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(((</span><span class="nc">ProofCommonInput</span><span class="o">)</span> <span class="n">commonInput</span><span class="o">).</span><span class="na">b</span><span class="o">);</span> 
+        
+        <span class="c1">//With this expression format we tell the framework to add the fragment for "a^k = b" to the proof</span>
+        <span class="n">builder</span><span class="o">.</span><span class="na">addSubprotocol</span><span class="o">(</span><span class="s">"replyCorrect"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LinearStatementFragment</span><span class="o">(</span><span class="n">statementToBeProven</span><span class="o">));</span>
+
+        <span class="c1">//Similarly, we handle the other fragment</span>
+        <span class="n">builder</span><span class="o">.</span><span class="na">addSubprotocol</span><span class="o">(</span><span class="s">"publicKeyCorrect"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LinearStatementFragment</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">kVar</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">h</span><span class="o">)));</span>
+
+        <span class="c1">//Aaaand that's it :) - We have defined to prove knowledge of k such that a^k = b and g^k = h.</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="nc">SendThenDelegateFragment</span><span class="o">.</span><span class="na">ProverSpec</span> <span class="nf">provideProverSpecWithNoSendFirst</span><span class="o">(</span><span class="nc">CommonInput</span> <span class="n">commonInput</span><span class="o">,</span> <span class="nc">SecretInput</span> <span class="n">secretInput</span><span class="o">,</span> <span class="nc">SendThenDelegateFragment</span><span class="o">.</span><span class="na">ProverSpecBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//Here, we need to set up which witnesses the issuer shall use, i.e. their secret key.</span>
+        <span class="c1">//For every builder.addZnVariable() above, we must set the witness here (usually from secretInput)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="na">putWitnessValue</span><span class="o">(</span><span class="s">"k"</span><span class="o">,</span> <span class="o">((</span><span class="nc">ProofWitnessInput</span><span class="o">)</span> <span class="n">secretInput</span><span class="o">).</span><span class="na">k</span><span class="o">);</span>
+        
+        <span class="c1">//That's it already, that's all the additional info the prover needs.</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">ZnChallengeSpace</span> <span class="nf">getChallengeSpace</span><span class="o">(</span><span class="nc">CommonInput</span> <span class="n">commonInput</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ZnChallengeSpace</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getZn</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//Wrap the sigma protocol into a Fiat-Shamir proof system</span>
+<span class="kt">var</span> <span class="n">fiatShamirProofSystem</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FiatShamirProofSystem</span><span class="o">(</span><span class="k">new</span> <span class="nc">ReplyCorrectnessProof</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h2 id="-implementing-the-rest">🛠 Implementing the rest</h2>
+
+<p>We’re now ready to implement the rest of the protocol.</p>
+
+<h3 id="-clients-request">🙋 Client’s request</h3>
+<p>Let’s start with the user’s first message \(a = H_1(x)^r\).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//User's perspective</span>
+
+<span class="kt">byte</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[]</span> <span class="o">{</span><span class="mi">4</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">16</span><span class="o">,</span> <span class="mi">23</span><span class="o">,</span> <span class="mi">42</span><span class="o">};</span> <span class="c1">//want PRF(x)</span>
+
+<span class="kt">var</span> <span class="n">r</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomExponent</span><span class="o">();</span>
+<span class="nc">GroupElement</span> <span class="n">a</span> <span class="o">=</span> <span class="no">H1</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="na">pow</span><span class="o">(</span><span class="n">r</span><span class="o">);</span>
+
+<span class="c1">//Send (serialized) group element</span>
+<span class="nc">String</span> <span class="n">messageOverTheWire</span> <span class="o">=</span> <span class="n">jsonConverter</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">());</span>
+<span class="n">messageOverTheWire</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+   "__type":"OBJ",
+   "x":"INT:ed100ea30cbff7e212a492d69c1671d64d70e613e4aa6345040b68aabc2707f9",
+   "y":"INT:433ddf8247dba0f35c2f4a7b1898e0101b30c3d948e1332604732779c2ed9143",
+   "z":"INT:1"
+}
+</code></pre></div></div>
+
+<h3 id="-servers-response">💁 Server’s response</h3>
+
+<p>Now the server responds with \(b = a^k\) as well as a proof of correctness.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Server's perspective</span>
+
+<span class="c1">//Deserialize the request (also ensures the request is a valid group element)</span>
+<span class="nc">GroupElement</span> <span class="n">aServer</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">restoreElement</span><span class="o">(</span><span class="n">jsonConverter</span><span class="o">.</span><span class="na">deserialize</span><span class="o">(</span><span class="n">messageOverTheWire</span><span class="o">));</span>
+
+<span class="c1">//Compute the response</span>
+<span class="kt">var</span> <span class="n">bServer</span> <span class="o">=</span> <span class="n">aServer</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">k</span><span class="o">);</span>
+
+<span class="c1">//Compute the proof</span>
+<span class="kt">var</span> <span class="n">proofServer</span> <span class="o">=</span> <span class="n">fiatShamirProofSystem</span><span class="o">.</span><span class="na">createProof</span><span class="o">(</span><span class="k">new</span> <span class="nc">ProofCommonInput</span><span class="o">(</span><span class="n">aServer</span><span class="o">,</span><span class="n">bServer</span><span class="o">),</span> <span class="k">new</span> <span class="nc">ProofWitnessInput</span><span class="o">(</span><span class="n">k</span><span class="o">));</span>
+
+<span class="c1">//Send response</span>
+<span class="kt">var</span> <span class="n">responseRepresentation</span> <span class="o">=</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">cryptimeleon</span><span class="o">.</span><span class="na">math</span><span class="o">.</span><span class="na">serialization</span><span class="o">.</span><span class="na">ListRepresentation</span><span class="o">(</span><span class="n">bServer</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">(),</span> <span class="n">proofServer</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">());</span>
+<span class="kt">var</span> <span class="n">responseOverTheWire</span> <span class="o">=</span> <span class="n">jsonConverter</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="n">responseRepresentation</span><span class="o">);</span>
+<span class="n">responseOverTheWire</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
+   {
+      "__type":"OBJ",
+      "x":"INT:a712058cf6e04ba2340c0a8af32ee39156ddd2f7a7f91183f9f131adb21dd125",
+      "y":"INT:a8e03c236bd395127748d1a11e51da11c81e3e17cbdd44e65738bd92da222fcf",
+      "z":"INT:1"
+   },
+   {
+      "__type":"OBJ",
+      "challenge":"INT:11539062111ef680f1ec9d1c7dab73fc45601bfceffc2278ed20cbe91549966",
+      "transcript":[
+         null,
+         [
+            "INT:9fba2730282014aeb265abc6803b39e2015cdde913a2cbba95366a88df13e557"
+         ],
+         null,
+         null
+      ]
+   }
+]
+</code></pre></div></div>
+
+<h3 id="-client-unblinding-and-proof-check">🧑‍🎓 Client unblinding and proof check</h3>
+
+<p>Now the client checks the proof and unblinds \(b\) as \(b^{1/r}\), getting \(H_1(x)^k\) and computing the PRF value from that.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Deserialize stuff</span>
+<span class="kt">var</span> <span class="n">deserializedResponse</span> <span class="o">=</span> <span class="n">jsonConverter</span><span class="o">.</span><span class="na">deserialize</span><span class="o">(</span><span class="n">responseOverTheWire</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">b</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">restoreElement</span><span class="o">(</span><span class="n">deserializedResponse</span><span class="o">.</span><span class="na">list</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+
+<span class="c1">//Check proof</span>
+<span class="kt">var</span> <span class="n">commonInput</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ProofCommonInput</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">);</span> <span class="c1">//set common input for proof</span>
+<span class="kt">var</span> <span class="n">proof</span> <span class="o">=</span> <span class="n">fiatShamirProofSystem</span><span class="o">.</span><span class="na">restoreProof</span><span class="o">(</span><span class="n">commonInput</span><span class="o">,</span> <span class="n">deserializedResponse</span><span class="o">.</span><span class="na">list</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span> <span class="c1">//deserialize proof</span>
+<span class="k">assert</span> <span class="n">fiatShamirProofSystem</span><span class="o">.</span><span class="na">checkProof</span><span class="o">(</span><span class="n">commonInput</span><span class="o">,</span> <span class="n">proof</span><span class="o">);</span> <span class="c1">//check proof</span>
+
+<span class="c1">//Unblind b and compute PRF value</span>
+<span class="kt">var</span> <span class="n">h2Preimage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayAccumulator</span><span class="o">();</span>
+<span class="n">h2Preimage</span><span class="o">.</span><span class="na">escapeAndSeparate</span><span class="o">(</span><span class="n">h</span><span class="o">);</span>
+<span class="n">h2Preimage</span><span class="o">.</span><span class="na">escapeAndSeparate</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+<span class="n">h2Preimage</span><span class="o">.</span><span class="na">escapeAndAppend</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">inv</span><span class="o">()));</span>
+
+<span class="kt">var</span> <span class="n">result</span> <span class="o">=</span> <span class="no">H2</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">h2Preimage</span><span class="o">.</span><span class="na">extractBytes</span><span class="o">());</span>
+<span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[-104, -59, 40, -20, 111, -27, 55, -40, -1, 23, 96, 10, -15, 72, -88, 17, 74, -104, 8, -79, -38, 62, 53, -76, 77, -69, 88, -18, -47, -73, -111, 64]
+</code></pre></div></div>
+
+<h2 id="-done">✅ Done.</h2>
+
+<p>Thanks for looking at this tutorial 🙂</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/cryptimeleon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
