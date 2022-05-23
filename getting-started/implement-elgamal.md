@@ -5,28 +5,84 @@ tpc: true
 ---
 
 In this document, we show to to use the Cryptimeleon Craco and Cryptimeleon Math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
-Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library's intermediate serialization framework to you along the way.
+Compared to the other tutorials, we also aim to showcase the class structure for a full implementatio (as opposed to "just" a toy implementation).
 
-First, lets review how ElGamal encryption works:
+First, let's review how ElGamal encryption works:
 
 Let \\(G\\) be a cyclic group of prime order \\(q\\).
 
-**\\(\operatorname{KeyGen}\\)**: 
+**\\(\\operatorname{Setup}\\)**: 
+The public parameters for this scheme consist of (1) a cyclic group \\(G\\) of prime order \\(p\\), and (2) a random generator \\(g\\leftarrow G\\setminus\\{1\\}\\).
 
-1. Choose integer \\(a\\) from \\(\\{0, 1, \dots, q-1\\}\\) uniformly at random.
-2. Choose generator \\(g \\leftarrow G\\) uniformly at random.
-3. The secret key is \\(sk = (G, g, a, h=g^a)\\) and the public key is \\(pk = (G, g, h)\\).
+**\\(\\operatorname{KeyGen}\\)**: 
 
-**\\(\operatorname{Encryption}(pk, m)\\)**: 
+1. Choose a random secret key \\(sk \\leftarrow \\{0, 1, \dots, p-1\\}\\).
+2. Compute the corresponding public key \\(pk = g^{sk}\\)
 
-1. Choose \\(r\\) from \\(\\{0, 1, \dots, q-1\\}\\) uniformly at random.
-2. The ciphertext is \\(c = (c_1, c_2) = (g^r, m \cdot h^r)\\).
+**\\(\\operatorname{Encryption}(pk, m)\\)**: 
 
-**\\(\operatorname{Decryption}(sk, c=(c_1, c_2))\\)**:
+1. Choose a random exponent \\(r \\leftarrow\\{0, 1, \dots, p-1\\}\\).
+2. The ciphertext is \\(c = (c_1, c_2) = (g^r, {pk}^r\\cdot m)\\).
 
-1. The message is \\(m = c_2 \cdot c_1^{-1}\\).
+**\\(\\operatorname{Decryption}(sk, c=(c_1, c_2))\\)**:
 
-## Implementing the Scheme
+1. Decryption computes \\(m = c_2 \\cdot c_1^{-sk}\\).
+
+Decryption works because \\(c_1^{-sk} = (g^r)^{-sk} = (g^{sk})^{-r} = (pk)^{-r}\\) cancels out the \\(pk^r\\) term in \\(c_2\\).
+
+## Basic implementation of ElGamal
+The operations outlined above can be quite directly transferred into Cryptimeleon.
+
+```java
+public class ElGamalEncryptionScheme {
+    protected Group group;
+    protected GroupElement g;
+
+    public ElGamalEncryptionScheme(Group group) {
+        this.group = group;
+        this.g = group.getUniformlyRandomNonNeutral();
+    }
+
+    public Zn.ZnElement generateSecretKey() {
+        return group.getUniformlyRandomExponent();
+    }
+
+    public GroupElement computePublicKey(Zn.ZnElement secretKey) {
+        return g.pow(secretKey);
+    }
+
+    public GroupElementVector encrypt(GroupElement plaintext, GroupElement publicKey) {
+        var r = group.getUniformlyRandomExponent();
+        return Vector.of(g.pow(r), publicKey.pow(r).op(plaintext));
+    }
+
+    public GroupElement decrypt(GroupElementVector ciphertext, Zn.ZnElement secretKey) {
+        return ciphertext.get(0).pow(secretKey.neg()).op(ciphertext.get(1));
+    }
+}
+```
+
+The whole scheme can then be tested as follows:
+```java
+public static void main(String[] args) {
+    Group group = new Secp256k1();
+    var scheme = new ElGamalEncryptionScheme(group);
+    var secretKey = scheme.generateSecretKey();
+    var publicKey = scheme.computePublicKey(secretKey);
+    var plaintext = group.getUniformlyRandomElement();
+    var ciphertext = scheme.encrypt(plaintext, publicKey);
+    var plaintextRestored = scheme.decrypt(ciphertext, secretKey);
+    if (plaintextRestored.equals(plaintext))
+        System.out.println("Correctly decrypted plaintext "+plaintext);
+}
+```
+
+To follow along, check out [https://github.com/cryptimeleon/java-demo](our Java demo project) and create a new class `ElGamalEncryptionScheme` as outlined above.
+
+## Implementing the Scheme fully with data classes and interfaces
+Even though the implementation above can be considered complete, you may want to properly encapsulate the artifacts (keys, ciphertexts, etc.) into corresponding data classes. 
+For a simple construction such as ElGamal, this is a somewhat useless exercise. However, for larger constructions with more complicated key structures, this step makes a lot of sense.
+For this reason, we showcase this step here.
 
 We assume you have set up a new project in your IDE already, and added Craco as a dependency.
 Craco already includes the math library so you don't need to add that explicitly.
