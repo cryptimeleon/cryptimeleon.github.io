@@ -3,4 +3,3 @@ jupyter-nbtojekyll = nbtojekyll.nbtojekyll:NBToJekyll.launch_instance
 
 [nbconvert.exporters]
 jekyllmd = nbtojekyll:JekyllExporter
-

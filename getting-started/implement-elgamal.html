@@ -277,34 +277,88 @@
       <section class="page__content" itemprop="text">
         
         <p>In this document, we show to to use the Cryptimeleon Craco and Cryptimeleon Math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
-Compared to the other tutorials, we also aim to showcase a possible class structure that could be used as well as introduce the library’s intermediate serialization framework to you along the way.</p>
+Compared to the other tutorials, we also aim to showcase the class structure for a full implementatio (as opposed to “just” a toy implementation).</p>
 
-<p>First, lets review how ElGamal encryption works:</p>
+<p>First, let’s review how ElGamal encryption works:</p>
 
 <p>Let \(G\) be a cyclic group of prime order \(q\).</p>
+
+<p><strong>\(\operatorname{Setup}\)</strong>: 
+The public parameters for this scheme consist of (1) a cyclic group \(G\) of prime order \(p\), and (2) a random generator \(g\leftarrow G\setminus\{1\}\).</p>
 
 <p><strong>\(\operatorname{KeyGen}\)</strong>:</p>
 
 <ol>
-  <li>Choose integer \(a\) from \(\{0, 1, \dots, q-1\}\) uniformly at random.</li>
-  <li>Choose generator \(g \leftarrow G\) uniformly at random.</li>
-  <li>The secret key is \(sk = (G, g, a, h=g^a)\) and the public key is \(pk = (G, g, h)\).</li>
+  <li>Choose a random secret key \(sk \leftarrow \{0, 1, \dots, p-1\}\).</li>
+  <li>Compute the corresponding public key \(pk = g^{sk}\)</li>
 </ol>
 
 <p><strong>\(\operatorname{Encryption}(pk, m)\)</strong>:</p>
 
 <ol>
-  <li>Choose \(r\) from \(\{0, 1, \dots, q-1\}\) uniformly at random.</li>
-  <li>The ciphertext is \(c = (c_1, c_2) = (g^r, m \cdot h^r)\).</li>
+  <li>Choose a random exponent \(r \leftarrow\{0, 1, \dots, p-1\}\).</li>
+  <li>The ciphertext is \(c = (c_1, c_2) = (g^r, {pk}^r\cdot m)\).</li>
 </ol>
 
 <p><strong>\(\operatorname{Decryption}(sk, c=(c_1, c_2))\)</strong>:</p>
 
 <ol>
-  <li>The message is \(m = c_2 \cdot c_1^{-1}\).</li>
+  <li>Decryption computes \(m = c_2 \cdot c_1^{-sk}\).</li>
 </ol>
 
-<h2 id="implementing-the-scheme">Implementing the Scheme</h2>
+<p>Decryption works because \(c_1^{-sk} = (g^r)^{-sk} = (g^{sk})^{-r} = (pk)^{-r}\) cancels out the \(pk^r\) term in \(c_2\).</p>
+
+<h2 id="basic-implementation-of-elgamal">Basic implementation of ElGamal</h2>
+<p>The operations outlined above can be quite directly transferred into Cryptimeleon.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElGamalEncryptionScheme</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="nc">Group</span> <span class="n">group</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="nc">GroupElement</span> <span class="n">g</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ElGamalEncryptionScheme</span><span class="o">(</span><span class="nc">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">g</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomNonNeutral</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Zn</span><span class="o">.</span><span class="na">ZnElement</span> <span class="nf">generateSecretKey</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomExponent</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">GroupElement</span> <span class="nf">computePublicKey</span><span class="o">(</span><span class="nc">Zn</span><span class="o">.</span><span class="na">ZnElement</span> <span class="n">secretKey</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">secretKey</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">GroupElementVector</span> <span class="nf">encrypt</span><span class="o">(</span><span class="nc">GroupElement</span> <span class="n">plaintext</span><span class="o">,</span> <span class="nc">GroupElement</span> <span class="n">publicKey</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">r</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomExponent</span><span class="o">();</span>
+        <span class="k">return</span> <span class="nc">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">r</span><span class="o">),</span> <span class="n">publicKey</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">r</span><span class="o">).</span><span class="na">op</span><span class="o">(</span><span class="n">plaintext</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">GroupElement</span> <span class="nf">decrypt</span><span class="o">(</span><span class="nc">GroupElementVector</span> <span class="n">ciphertext</span><span class="o">,</span> <span class="nc">Zn</span><span class="o">.</span><span class="na">ZnElement</span> <span class="n">secretKey</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">ciphertext</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">pow</span><span class="o">(</span><span class="n">secretKey</span><span class="o">.</span><span class="na">neg</span><span class="o">()).</span><span class="na">op</span><span class="o">(</span><span class="n">ciphertext</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The whole scheme can then be tested as follows:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Secp256k1</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">scheme</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ElGamalEncryptionScheme</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">secretKey</span> <span class="o">=</span> <span class="n">scheme</span><span class="o">.</span><span class="na">generateSecretKey</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">publicKey</span> <span class="o">=</span> <span class="n">scheme</span><span class="o">.</span><span class="na">computePublicKey</span><span class="o">(</span><span class="n">secretKey</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">plaintext</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="na">getUniformlyRandomElement</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">scheme</span><span class="o">.</span><span class="na">encrypt</span><span class="o">(</span><span class="n">plaintext</span><span class="o">,</span> <span class="n">publicKey</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">plaintextRestored</span> <span class="o">=</span> <span class="n">scheme</span><span class="o">.</span><span class="na">decrypt</span><span class="o">(</span><span class="n">ciphertext</span><span class="o">,</span> <span class="n">secretKey</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">plaintextRestored</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">plaintext</span><span class="o">))</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Correctly decrypted plaintext "</span><span class="o">+</span><span class="n">plaintext</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>To follow along, check out <a href="our Java demo project">https://github.com/cryptimeleon/java-demo</a> and create a new class <code class="language-plaintext highlighter-rouge">ElGamalEncryptionScheme</code> as outlined above.</p>
+
+<h2 id="implementing-the-scheme-fully-with-data-classes-and-interfaces">Implementing the Scheme fully with data classes and interfaces</h2>
+<p>Even though the implementation above can be considered complete, you may want to properly encapsulate the artifacts (keys, ciphertexts, etc.) into corresponding data classes. 
+For a simple construction such as ElGamal, this is a somewhat useless exercise. However, for larger constructions with more complicated key structures, this step makes a lot of sense.
+For this reason, we showcase this step here.</p>
 
 <p>We assume you have set up a new project in your IDE already, and added Craco as a dependency.
 Craco already includes the math library so you don’t need to add that explicitly.</p>
@@ -606,7 +660,7 @@ These methods, e.g. <code class="language-plaintext highlighter-rouge">restorePl
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2021 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2022 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

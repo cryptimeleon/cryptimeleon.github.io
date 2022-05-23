@@ -4,10 +4,5 @@ Version: 0.0.1
 Summary: Converts Jupyter Java Notebooks to Markdown renderable in Jekyll and with Mathjax support
 Home-page: https://github.com/rheitjoh/nbtojekyll
 Author: Raphael Heitjohann
-License: UNKNOWN
-Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 License-File: LICENSE
-
-UNKNOWN
-
