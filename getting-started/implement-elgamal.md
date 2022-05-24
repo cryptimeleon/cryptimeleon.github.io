@@ -9,8 +9,6 @@ Compared to the other tutorials, we also aim to showcase the class structure for
 
 First, let's review how ElGamal encryption works:
 
-Let \\(G\\) be a cyclic group of prime order \\(q\\).
-
 **\\(\\operatorname{Setup}\\)**: 
 The public parameters for this scheme consist of (1) a cyclic group \\(G\\) of prime order \\(p\\), and (2) a random generator \\(g\\leftarrow G\\setminus\\{1\\}\\).
 
