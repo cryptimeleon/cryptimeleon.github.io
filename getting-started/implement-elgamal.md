@@ -4,8 +4,8 @@ mathjax: true
 tpc: true
 ---
 
-In this document, we show to to use the Cryptimeleon Craco and Cryptimeleon Math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
-Compared to the other tutorials, we also aim to showcase the class structure for a full implementatio (as opposed to "just" a toy implementation).
+In this document, we show how to use the Cryptimeleon Craco and Cryptimeleon Math library to implement an example scheme, the Elgamal encryption scheme [Elg85].
+Compared to the other tutorials, we also aim to showcase the class structure for a full implementation (as opposed to "just" a toy implementation).
 
 First, let's review how ElGamal encryption works:
 
@@ -75,15 +75,12 @@ public static void main(String[] args) {
 }
 ```
 
-To follow along, check out [https://github.com/cryptimeleon/java-demo](our Java demo project) and create a new class `ElGamalEncryptionScheme` as outlined above.
-
 ## Implementing the Scheme fully with data classes and interfaces
 Even though the implementation above can be considered complete, you may want to properly encapsulate the artifacts (keys, ciphertexts, etc.) into corresponding data classes. 
 For a simple construction such as ElGamal, this is a somewhat useless exercise. However, for larger constructions with more complicated key structures, this step makes a lot of sense.
 For this reason, we showcase this step here.
 
-We assume you have set up a new project in your IDE already, and added Craco as a dependency.
-Craco already includes the math library so you don't need to add that explicitly.
+To follow along, check out [our Java demo project](https://github.com/cryptimeleon/java-demo) and create a new class `ElGamalEncryptionScheme` as outlined above. 
 
 To represent the different parts of the scheme, we start off by creating some classes.
 
