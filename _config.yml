@@ -28,7 +28,7 @@ kramdown:
     auto_ids: true
     hard_wrap: false
 
-cracomajorversion: 3
+cracomajorversion: 4
 mathmajorversion: 3
 
 # exclude from jekyll site
