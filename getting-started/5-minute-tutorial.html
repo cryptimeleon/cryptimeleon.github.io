@@ -382,7 +382,7 @@ Thankfully, this is very easy to do:</p>
 <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>19457600761663953352742173217425692387194143634281008481999501467578866894699
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>80921535848199994344592864922430004753931516654426136278301284456515753980684
 </code></pre></div></div>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.cryptimeleon.math.structures.rings.zn.HashIntoZn</span><span class="o">;</span>
@@ -419,7 +419,7 @@ Thankfully, this is very easy to do:</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="o">.</span><span class="na">computeSync</span><span class="o">()</span> <span class="c1">//computes the value of C and blocks the caller until it's done.</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(41903203408838611693869129344204075288293704188536211278680976677699864797368,48716841691195699168286997442254178897151858346348716385230251039148110006993)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(20336804698173558498890214751907009122700687292710258439549857511068820099776,73576645111452015959820546852054106298422581565100470101575645636698163655231)
 </code></pre></div></div>
 
 <p>The committer can now transmit \(C\) to the verifier, who won’t learn anything from it (\(C\) is uniformly random in \(\mathbb{G}\)) but will be assured that we cannot later change our mind about \(m\).</p>
@@ -429,7 +429,7 @@ Thankfully, this is very easy to do:</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"__type":"OBJ","x":"INT:5ca45f662cfadf5a071d7a5a97fc76961e390f37f8cecc7d138a017e56dca0b8","y":"INT:6bb4c1586e3441a776d48abc1d04a5e30e4d102f6307afedff62b53ace484ad1","z":"INT:1"}
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"__type":"OBJ","x":"INT:2cf6393ab7cb0decd7dc1d15a69a41ff6a9cdb454d55249e501f378b87d0d2c0","y":"INT:a2aae7c5f184e6132399edeff3a6f747a07ed07f4ff9d922db8dc4df44bc323f","z":"INT:1"}
 </code></pre></div></div>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">group</span><span class="o">.</span><span class="na">restoreElement</span><span class="o">(</span><span class="no">C</span><span class="o">.</span><span class="na">getRepresentation</span><span class="o">()).</span><span class="na">equals</span><span class="o">(</span><span class="no">C</span><span class="o">)</span>
@@ -531,7 +531,7 @@ All the commitments will be computed on other threads concurrently in the backgr
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2022 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2023 Cryptimeleon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
