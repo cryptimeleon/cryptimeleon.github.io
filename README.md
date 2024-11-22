@@ -4,4 +4,4 @@ You can view the rendered page [here](https://cryptimeleon.github.io).
 
 ## How to Build This Site Locally
 
-To render the documentation locally, follow the instructions in our [DEVELOPER.md](https://github.com/cryptimeleon/cryptimeleon.github.io/blob/develop/DEVELOPER.md) file.
+To render the documentation locally, follow the instructions in our [DEVELOPER.md](https://github.com/cryptimeleon/cryptimeleon.github.io/blob/main/DEVELOPER.md) file.
