@@ -42,14 +42,6 @@ jobs:
           jupyter nbtojekyll getting-started/protocols-tutorial.ipynb --output getting-started/protocols-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/main\?filepath\=getting-started%2Fprotocols-tutorial.ipynb --md-title "Protocols Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax --execute
           jupyter nbtojekyll getting-started/5-minute-tutorial.ipynb --output getting-started/5-minute-tutorial.md --binder-link https://mybinder.org/v2/gh/cryptimeleon/cryptimeleon.github.io/main\?filepath\=getting-started%2F5-minute-tutorial.ipynb --md-title "5 Minute Tutorial" --binder-link-cell 0 --enable-toc --enable-mathjax --execute
 
-      # Use GitHub Actions' cache to shorten build times and decrease load on servers
-      - uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
       - uses: helaili/jekyll-action@v2
         with:
           token: ${{ secrets.JEKYLL_PAT }}
